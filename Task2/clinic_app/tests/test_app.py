@@ -4,9 +4,22 @@ from app import create_app
 
 
 @pytest.fixture()
-def client():
-    app = create_app({"TESTING": True})
+def client(tmp_path):
+    app = create_app(
+        {
+            "TESTING": True,
+            "DATA_FILE": tmp_path / "appointments.json",
+            "OPENWEATHER_API_KEY": "",
+        }
+    )
     return app.test_client()
+
+
+def login(client, username="doctor", password="doctor123"):
+    return client.post(
+        "/api/auth/login",
+        json={"username": username, "password": password},
+    )
 
 
 def create_valid_appointment(client, **overrides):
@@ -28,18 +41,32 @@ def test_health_endpoint(client):
     assert response.get_json()["status"] == "ok"
 
 
+def test_login_returns_role_redirect(client):
+    response = login(client, "doctor", "doctor123")
+    data = response.get_json()
+    assert response.status_code == 200
+    assert data["user"]["role"] == "doctor"
+    assert data["redirect"] == "/staff"
+
+
 def test_create_appointment_validates_required_fields(client):
     response = client.post("/api/appointments", json={"patient_name": "Alex"})
     assert response.status_code == 400
     assert "Missing required field" in response.get_json()["error"]
 
 
-def test_create_appointment_success(client):
-    response = create_valid_appointment(client)
-    data = response.get_json()
-    assert response.status_code == 201
-    assert data["appointment"]["status"] == "Pending Review"
-    assert data["appointment"]["conflict"] is False
+def test_patient_request_is_visible_to_staff_queue(client):
+    login(client, "patient", "patient123")
+    created = create_valid_appointment(client).get_json()["appointment"]
+    patient_view = client.get("/api/appointments").get_json()
+    assert patient_view["count"] == 1
+    assert patient_view["items"][0]["id"] == created["id"]
+
+    client.post("/api/auth/logout")
+    login(client, "doctor", "doctor123")
+    staff_view = client.get("/api/appointments").get_json()
+    assert staff_view["count"] == 1
+    assert staff_view["items"][0]["created_by"] == "patient"
 
 
 def test_conflict_detection(client):
@@ -50,8 +77,20 @@ def test_conflict_detection(client):
     assert second.get_json()["appointment"]["conflict"] is True
 
 
-def test_review_endpoint_updates_status(client):
+def test_review_endpoint_requires_staff_role(client):
+    login(client, "patient", "patient123")
     created = create_valid_appointment(client).get_json()["appointment"]
+    response = client.patch(
+        f"/api/appointments/{created['id']}/review",
+        json={"status": "Confirmed", "review_note": "Slot is available."},
+    )
+    assert response.status_code == 403
+    assert "staff permission" in response.get_json()["error"]
+
+
+def test_review_endpoint_updates_status_for_staff(client):
+    created = create_valid_appointment(client).get_json()["appointment"]
+    login(client, "doctor", "doctor123")
     response = client.patch(
         f"/api/appointments/{created['id']}/review",
         json={"status": "Confirmed", "review_note": "Slot is available."},
@@ -60,6 +99,7 @@ def test_review_endpoint_updates_status(client):
     assert response.status_code == 200
     assert data["appointment"]["status"] == "Confirmed"
     assert data["appointment"]["review_note"] == "Slot is available."
+    assert data["appointment"]["reviewed_role"] == "doctor"
 
 
 def test_summary_is_non_diagnostic(client):
@@ -75,3 +115,11 @@ def test_rejects_diagnosis_or_treatment_requests(client):
     response = create_valid_appointment(client, reason="Please diagnose my illness")
     assert response.status_code == 400
     assert "appointment administration" in response.get_json()["error"]
+
+
+def test_weather_endpoint_has_safe_fallback_without_key(client):
+    response = client.get("/api/clinic/weather?city=Suzhou")
+    data = response.get_json()
+    assert response.status_code == 200
+    assert data["available"] is False
+    assert "not medical advice" in data["safe_use"]
