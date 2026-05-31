@@ -1,9 +1,12 @@
 # Generated Validation Checklist
 
-- [x] Requirements align with clinic appointment administration.
-- [x] User stories include acceptance criteria.
-- [x] UML source is generated.
-- [x] Flask API supports appointment request, list, review, and summary.
-- [x] Website displays generated image and appointment status.
-- [x] Safety boundary excludes diagnosis, treatment advice, and real patient records.
-- [x] Tests and CI/CD workflow are included.
+- [x] Requirements artefact generated.
+- [x] User stories generated.
+- [x] UML source generated.
+- [x] Flask API generated.
+- [x] Role-based website generated.
+- [x] Generated clinic image included.
+- [x] Safety boundary documented.
+- [x] Optional API hooks use environment variables.
+- [x] Tests generated for API behaviour and role permissions.
+- [x] CI/CD and Render deployment files included.

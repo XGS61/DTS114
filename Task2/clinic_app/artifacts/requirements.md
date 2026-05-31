@@ -1,62 +1,57 @@
-# Clinic Appointment Administration Requirements
+# Generated Requirements: Clinic Appointment System
 
 ## Business Problem
 
-A small clinic needs a safe appointment administration prototype that can collect appointment requests, flag time-slot conflicts, and keep receptionist human review before any appointment is confirmed.
-
-## Methodology
-
-The project uses an AI-DLC-informed iterative methodology:
-
-- Inception: define clinic problem, actors, requirements, and safety boundary.
-- Construction: generate requirements, UML, Flask API, website, image, and validation checklist.
-- Operations: use Git, tests, CI/CD, and deployment evidence.
+Clinic staff need a safe prototype that separates patient appointment booking from doctor/admin review while keeping one shared appointment workflow.
 
 ## Scope
 
-In scope:
-
-- Appointment request collection.
-- Appointment list and status display.
-- Conflict flag for same date/time requests.
-- Receptionist review with confirm/cancel decision.
-- Non-diagnostic administrative summary.
-
-Out of scope:
-
-- Diagnosis.
-- Treatment advice.
-- Prescriptions.
-- Real patient records.
-- Production clinic scheduling.
+The system supports appointment administration only. It must not provide diagnosis, treatment advice, prescriptions, or storage of real patient records.
 
 ## Actors
 
-- Patient: submits an appointment request.
-- Receptionist: reviews, confirms, or cancels requests.
-- Clinic System: validates requests, flags conflicts, stores prototype records, and exposes API responses.
+- Patient: submits appointment requests and tracks status.
+- Doctor: reviews appointment requests and confirms or cancels bookings.
+- Admin Staff: manages the shared appointment queue.
+- Clinic System: stores appointment data, flags conflicts, and produces non-diagnostic summaries.
 
 ## Functional Requirements
 
-1. The website shall display a clinic appointment request form.
-2. The system shall create new requests with `Pending Review` status.
-3. The system shall flag conflicts when a new request uses a date/time already used by an active request.
-4. The receptionist shall be able to confirm or cancel an appointment request.
-5. The system shall provide a non-diagnostic administrative summary for each request.
-6. The system shall expose JSON API endpoints for appointment creation, listing, review, summary, and project metadata.
-7. The website shall display a generated clinic image.
+| ID | Requirement |
+|---|---|
+| FR-01 | The system shall provide a demo login screen with patient, doctor, and admin roles. |
+| FR-02 | The system shall route patients to a patient booking dashboard. |
+| FR-03 | The system shall route doctor/admin users to a staff review dashboard. |
+| FR-04 | The patient dashboard shall create appointment requests with patient name, date, time, type, and administrative reason. |
+| FR-05 | New appointment requests shall start with `Pending Review` status. |
+| FR-06 | The shared backend shall store appointment requests in a JSON data file for prototype persistence. |
+| FR-07 | The system shall flag active appointment requests that use the same date and time. |
+| FR-08 | Doctor/admin users shall confirm, cancel, or reopen appointment requests. |
+| FR-09 | The system shall provide a non-diagnostic administrative summary for each request. |
+| FR-10 | The system shall expose REST-style API endpoints for health, authentication, appointments, review, summary, weather context, and metadata. |
+| FR-11 | The website shall display a generated clinic appointment image. |
+| FR-12 | The system shall provide optional OpenWeather support for non-medical travel context and fallback safely when no key is configured. |
 
 ## Non-Functional Requirements
 
-1. The project shall be runnable locally with Python and Flask.
-2. The project shall include tests for core API behaviour.
-3. The project shall include a GitHub Actions CI workflow.
-4. The project shall include deployment-ready Render configuration.
-5. The project shall avoid hard-coded API keys and real patient data.
+| ID | Requirement |
+|---|---|
+| NFR-01 | All user-visible text shall be in English. |
+| NFR-02 | API keys shall be read from environment variables and must not be committed. |
+| NFR-03 | The application shall include automated tests for core API behaviour. |
+| NFR-04 | The repository shall include GitHub Actions CI configuration. |
+| NFR-05 | The repository shall include Render deployment configuration. |
+| NFR-06 | The project shall provide clear Git commit history for coursework evidence. |
 
-## Safety Requirements
+## AI-DLC Traceability
 
-1. The application shall state that it is a prototype.
-2. The application shall reject obvious diagnosis/treatment-advice requests.
-3. The administrative summary shall explicitly state that it is non-diagnostic.
-4. Appointment confirmation shall require human receptionist review.
+- Inception: define clinic problem, roles, user stories, acceptance criteria, and safety boundary.
+- Construction: generate requirements, UML, Flask code, website files, image, tests, and validation checklist.
+- Operations: use Git commits, CI/CD, deployment configuration, and screenshot evidence.
+
+## Safety Controls
+
+- Reject requests containing diagnosis or treatment wording.
+- Keep summaries non-diagnostic.
+- Require doctor/admin permission for review actions.
+- Use deterministic fallback when optional APIs are unavailable.

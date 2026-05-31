@@ -1,25 +1,26 @@
 @startuml
 start
-:Patient opens appointment form;
-:Patient enters administrative request;
-:System validates required fields;
-if (Valid input?) then (yes)
-  :System checks date/time conflict;
-  if (Conflict found?) then (yes)
-    :Mark request with conflict flag;
-  else (no)
-    :Mark request as no conflict;
+:User opens login page;
+if (Role?) then (Patient)
+  :Open patient dashboard;
+  :Submit appointment request;
+  :System validates administrative scope;
+  if (Valid request?) then (Yes)
+    :Store Pending Review request;
+    :Flag conflict if slot is active;
+  else (No)
+    :Show validation error;
+    stop
   endif
-  :Create Pending Review request;
-  :Receptionist reviews request;
-  if (Accept request?) then (confirm)
-    :Set status to Confirmed;
-  else (cancel)
-    :Set status to Cancelled;
-  endif
-  :Show non-diagnostic administrative summary;
-else (no)
-  :Return validation error;
+else (Doctor/Admin)
+  :Open staff dashboard;
 endif
+:Staff reviews shared queue;
+if (Slot acceptable?) then (Confirm)
+  :Set status to Confirmed;
+else (Cancel)
+  :Set status to Cancelled;
+endif
+:Show non-diagnostic summary;
 stop
 @enduml

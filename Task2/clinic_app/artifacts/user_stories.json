@@ -1,58 +1,65 @@
 {
-  "user_stories": [
+  "product": "Clinic Appointment System",
+  "methodology": "AI-DLC-informed iterative methodology",
+  "stories": [
     {
-      "id": 1,
-      "role": "Patient",
-      "goal": "submit an appointment request",
-      "benefit": "the clinic can review my preferred time",
+      "id": "US-01",
+      "actor": "Patient",
+      "story": "As a patient, I want to log in to a patient dashboard so that my booking workflow is separate from staff review.",
       "acceptance_criteria": [
-        "The request form collects display name, preferred date, preferred time, appointment type, and optional administrative reason.",
-        "A successful submission creates a request with Pending Review status.",
-        "The website warns users not to enter real patient records."
+        "The patient demo account can log in successfully.",
+        "The patient is redirected to /patient.",
+        "The patient cannot access staff review actions."
       ]
     },
     {
-      "id": 2,
-      "role": "Clinic System",
-      "goal": "flag conflicting appointment slots",
-      "benefit": "the receptionist can review scheduling risks before confirmation",
+      "id": "US-02",
+      "actor": "Patient",
+      "story": "As a patient, I want to submit an appointment request so that clinic staff can review it.",
       "acceptance_criteria": [
-        "If an active request already uses the same date and time, the new request is marked with conflict=true.",
-        "Conflicted requests are still created but remain Pending Review.",
-        "Cancelled requests do not block future slots."
+        "The request requires name, date, time, and appointment type.",
+        "The initial status is Pending Review.",
+        "The request appears in the patient's request list."
       ]
     },
     {
-      "id": 3,
-      "role": "Receptionist",
-      "goal": "confirm or cancel appointment requests",
-      "benefit": "appointments remain under human control",
+      "id": "US-03",
+      "actor": "Doctor",
+      "story": "As a doctor, I want to review appointment requests so that I can confirm or cancel bookings safely.",
       "acceptance_criteria": [
-        "The receptionist can change a Pending Review request to Confirmed.",
-        "The receptionist can change a request to Cancelled.",
-        "The system records a review note and review timestamp."
+        "The doctor demo account is redirected to /staff.",
+        "The doctor can see the shared appointment queue.",
+        "The doctor can confirm, cancel, or reopen a request."
       ]
     },
     {
-      "id": 4,
-      "role": "Receptionist",
-      "goal": "view a non-diagnostic summary",
-      "benefit": "I can understand the request without receiving unsafe medical advice",
+      "id": "US-04",
+      "actor": "Admin Staff",
+      "story": "As admin staff, I want conflict flags so that I can identify duplicate time slots before confirming appointments.",
       "acceptance_criteria": [
-        "The summary includes appointment type, date, time, and current status.",
-        "The summary explicitly states that it is non-diagnostic.",
+        "Two active requests for the same date and time create a conflict flag.",
+        "Cancelled requests do not block the slot.",
+        "The conflict flag is visible in the staff dashboard."
+      ]
+    },
+    {
+      "id": "US-05",
+      "actor": "Clinic System",
+      "story": "As the clinic system, I want to produce non-diagnostic summaries so that staff can review requests without medical advice generation.",
+      "acceptance_criteria": [
+        "The summary includes administrative booking details.",
+        "The summary states that it is non-diagnostic.",
         "The summary does not provide treatment advice."
       ]
     },
     {
-      "id": 5,
-      "role": "Developer",
-      "goal": "test and deploy the generated system",
-      "benefit": "the coursework provides evidence of CI/CD and deployment practice",
+      "id": "US-06",
+      "actor": "Developer",
+      "story": "As a developer, I want optional API hooks to be configured through environment variables so that secrets are not committed.",
       "acceptance_criteria": [
-        "The project includes automated API tests.",
-        "The project includes a GitHub Actions workflow.",
-        "The project includes Render deployment configuration."
+        ".env is ignored by Git.",
+        ".env.example documents variable names only.",
+        "The application works without optional API keys."
       ]
     }
   ]

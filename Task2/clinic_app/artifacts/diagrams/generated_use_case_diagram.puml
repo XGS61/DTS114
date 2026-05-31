@@ -1,16 +1,19 @@
 @startuml
+left to right direction
 actor Patient
-actor Receptionist
-rectangle "Clinic Appointment Prototype" {
-  usecase "Submit appointment request" as Submit
-  usecase "Review pending request" as Review
-  usecase "Confirm or cancel" as Decide
-  usecase "Flag slot conflict" as Conflict
-  usecase "Generate non-diagnostic summary" as Summary
+actor Doctor
+actor "Admin Staff" as Admin
+rectangle "Generated Clinic Appointment System" {
+  usecase "Patient booking dashboard" as PatientDashboard
+  usecase "Staff review dashboard" as StaffDashboard
+  usecase "Shared appointment store" as Store
+  usecase "Safety validation" as Safety
 }
-Patient -- Submit
-Receptionist -- Review
-Review ..> Decide : <<include>>
-Submit ..> Conflict : <<include>>
-Review ..> Summary : <<include>>
+Patient --> PatientDashboard
+Doctor --> StaffDashboard
+Admin --> StaffDashboard
+PatientDashboard --> Store
+StaffDashboard --> Store
+PatientDashboard --> Safety
+StaffDashboard --> Safety
 @enduml

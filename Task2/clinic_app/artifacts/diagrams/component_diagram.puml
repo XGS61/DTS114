@@ -1,30 +1,29 @@
 @startuml
-package "Task 1 Generator" {
-  [AI-DLC Notebook] as Notebook
-  [Prompt Templates] as Prompts
-  [Structured Artefact Builder] as Builder
+package "Task 1 Generator Notebook" {
+  [Prompt Templates]
+  [Structured JSON Artefacts]
+  [Optional DeepSeek Hook]
 }
-
-package "Generated Clinic Application" {
-  [Website] as Website
-  [Flask API] as API
-  [Appointment Store] as Store
-  [Generated Image] as Image
+package "Generated Flask App" {
+  [Login UI]
+  [Patient Dashboard]
+  [Staff Dashboard]
+  [REST API]
+  [Safety Validation]
+  [OpenWeather Adapter]
 }
+database "JSON Appointment Store" as Store
+cloud "GitHub Actions CI" as CI
+cloud "Render Deployment" as Render
 
-package "Operations Layer" {
-  [Pytest] as Tests
-  [GitHub Actions] as CI
-  [Render Deployment] as Render
-}
-
-Notebook --> Prompts
-Notebook --> Builder
-Builder --> Website
-Builder --> API
-Builder --> Image
-API --> Store
-Tests --> API
-CI --> Tests
-Render --> API
+[Prompt Templates] --> [Structured JSON Artefacts]
+[Structured JSON Artefacts] --> [REST API]
+[Login UI] --> [REST API]
+[Patient Dashboard] --> [REST API]
+[Staff Dashboard] --> [REST API]
+[REST API] --> Store
+[REST API] --> [OpenWeather Adapter]
+[REST API] --> [Safety Validation]
+[REST API] --> CI
+[REST API] --> Render
 @enduml

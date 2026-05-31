@@ -12,6 +12,10 @@ Capture GitHub commit history after pushing the repository. The history should s
 - add generated image and validation checklist
 - add tests and CI workflow
 - add Render deployment config and documentation
+- normalize generated notebook and image state
+- add role-based backend and JSON appointment store
+- split website into patient and staff dashboards
+- add optional API hooks and updated CW artefacts
 
 Suggested filename:
 
@@ -19,7 +23,7 @@ Suggested filename:
 
 ## 2. Website Deployment
 
-Deploy the Flask website, preferably using Render. Capture the deployed website homepage showing the clinic appointment system and generated image.
+Deploy the Flask website, preferably using Render. Capture the deployed login page or staff dashboard showing the generated clinic image and role-based workflow.
 
 Suggested filename:
 
@@ -35,4 +39,4 @@ Suggested filename:
 
 ## Fallback Evidence
 
-If Render access is blocked, include a local or Docker deployment screenshot and state the limitation in your own report/reflection.
+If Render access is blocked, include a local deployment screenshot and state the limitation in your own report/reflection.

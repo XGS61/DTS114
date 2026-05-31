@@ -13,26 +13,42 @@ python -m pip install -r requirements.txt
 python app.py
 ```
 
-Open `http://127.0.0.1:5000`.
+Open `http://127.0.0.1:5000/login`.
+
+## Demo Accounts
+
+| Role | Username | Password |
+|---|---|---|
+| Patient | `patient` | `patient123` |
+| Doctor | `doctor` | `doctor123` |
+| Admin | `admin` | `admin123` |
 
 ## API Endpoints
 
 | Method | Endpoint | Purpose |
 |---|---|---|
 | GET | `/health` | Service health check |
+| POST | `/api/auth/login` | Start a demo role session |
+| POST | `/api/auth/logout` | End the current demo session |
+| GET | `/api/auth/session` | Inspect the current demo session |
 | POST | `/api/appointments` | Create pending appointment request |
-| GET | `/api/appointments` | List appointment requests |
+| GET | `/api/appointments` | List visible appointment requests |
 | GET | `/api/appointments/<id>` | Get one appointment |
-| PATCH | `/api/appointments/<id>/review` | Confirm or cancel request |
+| PATCH | `/api/appointments/<id>/review` | Staff-only review action |
 | GET | `/api/appointments/<id>/summary` | Non-diagnostic summary |
+| GET | `/api/clinic/weather` | Optional non-medical weather context |
 | GET | `/api/meta/requirements` | Generated requirements metadata |
 
-## Example Request
+## Example Requests
 
 ```bash
 curl -X POST http://127.0.0.1:5000/api/appointments ^
   -H "Content-Type: application/json" ^
   -d "{\"patient_name\":\"Alex Chen\",\"preferred_date\":\"2026-06-05\",\"preferred_time\":\"09:30\",\"appointment_type\":\"General consultation booking\"}"
+```
+
+```bash
+curl http://127.0.0.1:5000/api/clinic/weather?city=Suzhou
 ```
 
 ## Tests
@@ -43,4 +59,4 @@ python -m pytest
 
 ## Deployment
 
-The app includes `render.yaml`. After pushing to GitHub, connect the repository to Render or create a Blueprint from the YAML file.
+The app includes `render.yaml`. After pushing to GitHub, connect the repository to Render or create a Blueprint from the YAML file. Configure API keys as Render environment variables only if optional API features are required.

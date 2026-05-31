@@ -5,10 +5,12 @@ This coursework software component implements an AI-DLC-informed generator for a
 The project demonstrates:
 
 - SDLC artefact generation: requirements, user stories, acceptance criteria, UML source, and validation checklist.
-- A generated Flask API and website for clinic appointment administration.
+- A generated Flask API and role-based website for clinic appointment administration.
 - A generated website image shown in the front end.
-- Human review boundary: appointments are created as `Pending Review` and require receptionist confirmation or cancellation.
-- Safety boundary: no diagnosis, no treatment advice, and no real patient records.
+- Separate patient and doctor/admin dashboards using one shared appointment data store.
+- Human review boundary: appointments are created as `Pending Review` and require staff confirmation or cancellation.
+- Safety boundary: no diagnosis, no treatment advice, no prescriptions, and no real patient records.
+- Optional API integration through environment variables, with deterministic fallback if keys are not configured.
 - Testing, CI/CD workflow, and deployment-ready Render configuration.
 
 ## Structure
@@ -26,6 +28,7 @@ StudentID-Your_Name/
       static/
       tests/
       artifacts/
+      data/
     screenshots/
   .github/workflows/
 ```
@@ -40,8 +43,30 @@ python app.py
 
 Open:
 
-- Website: http://127.0.0.1:5000
+- Login: http://127.0.0.1:5000/login
+- Patient dashboard: http://127.0.0.1:5000/patient
+- Staff dashboard: http://127.0.0.1:5000/staff
 - Health check: http://127.0.0.1:5000/health
+
+## Demo Accounts
+
+| Role | Username | Password | Purpose |
+|---|---|---|---|
+| Patient | `patient` | `patient123` | Submit and track appointment requests |
+| Doctor | `doctor` | `doctor123` | Review, confirm, cancel, and summarise requests |
+| Admin | `admin` | `admin123` | Review and manage the shared queue |
+
+## Optional Environment Variables
+
+Copy `.env.example` to `.env` for local testing, but do not commit `.env`.
+
+| Variable | Purpose |
+|---|---|
+| `FLASK_SECRET_KEY` | Session signing key for Flask |
+| `OPENWEATHER_API_KEY` | Optional non-medical clinic travel context |
+| `DEFAULT_WEATHER_CITY` | Default weather city |
+| `DEEPSEEK_API_KEY` | Optional notebook support for AI artefact drafting |
+| `ENABLE_LLM_GENERATION` | Set to `1` only when intentionally testing optional LLM generation |
 
 ## Test
 
@@ -58,7 +83,7 @@ The `Task2/screenshots` folder explains the three required screenshots:
 2. Deployed website.
 3. CI/CD workflow.
 
-After creating an empty GitHub repository, add it as a remote and push:
+After creating an empty GitHub repository in the required account, add it as a remote and push:
 
 ```bash
 git remote add origin <your-github-repository-url>
@@ -68,4 +93,4 @@ git push -u origin main
 
 ## AI Use and Academic Integrity
 
-This software includes generated artefact templates and deterministic generation logic to support learning. Final report and presentation wording should be written in the student's own words, with AI use acknowledged according to the module policy.
+This software includes generated artefact templates, optional API hooks, and deterministic generation logic to support learning. Final report and presentation wording should be written in the student's own words, with AI use acknowledged according to the module policy.

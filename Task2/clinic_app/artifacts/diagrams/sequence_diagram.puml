@@ -1,21 +1,23 @@
 @startuml
 actor Patient
-participant "Website" as Frontend
+participant "Patient Dashboard" as PatientUI
 participant "Flask API" as API
-participant "Appointment Store" as Store
-actor Receptionist
+database "JSON Appointment Store" as Store
+actor Doctor
+participant "Staff Dashboard" as StaffUI
 
-Patient -> Frontend: Fill appointment form
-Frontend -> API: POST /api/appointments
-API -> API: Validate administrative scope
-API -> Store: Check same date/time
-Store --> API: Existing active slot or none
-API -> Store: Save Pending Review request
-API --> Frontend: JSON appointment + conflict flag
-Receptionist -> Frontend: Review pending request
-Frontend -> API: PATCH /api/appointments/{id}/review
-API -> Store: Update status Confirmed/Cancelled
-API --> Frontend: Reviewed appointment
-Frontend -> API: GET /api/appointments/{id}/summary
-API --> Frontend: Non-diagnostic summary
+Patient -> PatientUI : Submit appointment request
+PatientUI -> API : POST /api/appointments
+API -> API : Validate safety boundary
+API -> Store : Save Pending Review request
+API --> PatientUI : Created request with conflict flag
+
+Doctor -> StaffUI : Open shared queue
+StaffUI -> API : GET /api/appointments
+API -> Store : Load appointments
+API --> StaffUI : Shared queue
+Doctor -> StaffUI : Confirm or cancel
+StaffUI -> API : PATCH /api/appointments/{id}/review
+API -> Store : Update status and review note
+API --> StaffUI : Reviewed appointment
 @enduml
