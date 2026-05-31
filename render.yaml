@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: dts114-clinic-appointment-generator
+    env: python
+    plan: free
+    rootDir: Task2/clinic_app
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn app:app"
+    healthCheckPath: "/health"
