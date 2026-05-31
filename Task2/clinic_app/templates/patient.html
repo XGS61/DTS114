@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patient Booking | Clinic Appointment System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Patient Dashboard</p>
+      <h1>Request an Appointment</h1>
+      <p class="lead">Submit an administrative booking request and track review status.</p>
+    </div>
+    <nav class="user-nav" aria-label="User navigation">
+      <span>{{ user.display_name }}</span>
+      <a href="{{ url_for('logout_page') }}">Logout</a>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="panel form-panel">
+      <h2>Appointment Request</h2>
+      <form id="appointmentForm">
+        <label>
+          Patient display name
+          <input name="patient_name" required value="{{ user.display_name }}">
+        </label>
+        <label>
+          Contact email
+          <input name="contact_email" type="email" placeholder="patient@example.com">
+        </label>
+        <div class="split">
+          <label>
+            Preferred date
+            <input name="preferred_date" type="date" required>
+          </label>
+          <label>
+            Preferred time
+            <input name="preferred_time" type="time" required>
+          </label>
+        </div>
+        <label>
+          Appointment type
+          <select name="appointment_type" required>
+            <option value="">Select type</option>
+            <option>General consultation booking</option>
+            <option>Vaccination appointment booking</option>
+            <option>Follow-up appointment booking</option>
+            <option>Administrative query booking</option>
+          </select>
+        </label>
+        <label>
+          Administrative reason
+          <textarea name="reason" rows="3" placeholder="Keep this administrative. Do not enter real patient records."></textarea>
+        </label>
+        <button type="submit">Submit Request</button>
+      </form>
+      <div id="formMessage" class="message" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <h2>My Requests</h2>
+        <button id="refreshButton" type="button" class="secondary">Refresh</button>
+      </div>
+      <div id="patientAppointmentList" class="appointment-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Clinic Travel Context</h2>
+      <form id="weatherForm" class="inline-form">
+        <label>
+          City
+          <input name="city" value="{{ default_city }}" required>
+        </label>
+        <button type="submit" class="secondary">Check Weather</button>
+      </form>
+      <div id="weatherResult" class="message weather-box" aria-live="polite"></div>
+    </section>
+
+    <section class="panel wide">
+      <h2>Safety Boundary</h2>
+      <div class="safety-grid">
+        <div>
+          <strong>Scope</strong>
+          <p>{{ safety_boundary.scope }}</p>
+        </div>
+        <div>
+          <strong>Human review</strong>
+          <p>{{ safety_boundary.human_review }}</p>
+        </div>
+        <div>
+          <strong>Not allowed</strong>
+          <p>{{ safety_boundary.not_allowed | join(", ") }}</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

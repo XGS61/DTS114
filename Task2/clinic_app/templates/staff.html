@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff Review | Clinic Appointment System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="topbar staff-topbar">
+    <div>
+      <p class="eyebrow">Doctor and Admin Dashboard</p>
+      <h1>Review Appointment Requests</h1>
+      <p class="lead">Confirm, cancel, or monitor appointment requests through a human review boundary.</p>
+    </div>
+    <nav class="user-nav" aria-label="User navigation">
+      <span>{{ user.display_name }} | {{ user.role }}</span>
+      <a href="{{ url_for('logout_page') }}">Logout</a>
+    </nav>
+  </header>
+
+  <main class="layout staff-layout">
+    <section class="panel wide">
+      <div class="section-heading">
+        <div>
+          <h2>Shared Appointment Queue</h2>
+          <p class="muted">Patients and staff use the same backend appointment data.</p>
+        </div>
+        <div class="toolbar">
+          <select id="statusFilter" aria-label="Filter appointments by status">
+            <option value="">All statuses</option>
+            <option>Pending Review</option>
+            <option>Confirmed</option>
+            <option>Cancelled</option>
+          </select>
+          <button id="refreshButton" type="button" class="secondary">Refresh</button>
+        </div>
+      </div>
+      <div id="staffAppointmentList" class="appointment-list staff-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Clinic Travel Context</h2>
+      <form id="weatherForm" class="inline-form">
+        <label>
+          City
+          <input name="city" value="{{ default_city }}" required>
+        </label>
+        <button type="submit" class="secondary">Check Weather</button>
+      </form>
+      <div id="weatherResult" class="message weather-box" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Safety Boundary</h2>
+      <div class="safety-stack">
+        <p><strong>Scope:</strong> {{ safety_boundary.scope }}</p>
+        <p><strong>Human review:</strong> {{ safety_boundary.human_review }}</p>
+        <p><strong>Not allowed:</strong> {{ safety_boundary.not_allowed | join(", ") }}</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

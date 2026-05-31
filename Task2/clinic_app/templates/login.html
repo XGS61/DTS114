@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login | Clinic Appointment System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <main class="login-layout">
+    <section class="login-copy">
+      <p class="eyebrow">AI-DLC Generated Prototype</p>
+      <h1>Clinic Appointment System</h1>
+      <p class="lead">Separate patient booking from doctor and admin review while keeping one shared appointment workflow.</p>
+      <img class="hero-image wide-image" src="{{ url_for('static', filename='generated_clinic_image.png') }}" alt="Generated clinic appointment illustration">
+    </section>
+
+    <section class="panel login-panel">
+      <h2>Demo Login</h2>
+      <form id="loginForm">
+        <label>
+          Username
+          <input name="username" autocomplete="username" required placeholder="patient">
+        </label>
+        <label>
+          Password
+          <input name="password" type="password" autocomplete="current-password" required placeholder="patient123">
+        </label>
+        <button type="submit">Sign In</button>
+      </form>
+      <div id="loginMessage" class="message" aria-live="polite"></div>
+
+      <div class="demo-accounts">
+        <h3>Demo accounts</h3>
+        {% for account in demo_accounts %}
+        <button
+          type="button"
+          class="account-card"
+          data-demo-login
+          data-username="{{ account.username }}"
+          data-password="{{ account.password }}">
+          <strong>{{ account.display_name }}</strong>
+          <span>{{ account.role }} | {{ account.username }} / {{ account.password }}</span>
+        </button>
+        {% endfor %}
+      </div>
+
+      <div class="safety-note">
+        <strong>Safety boundary</strong>
+        <p>{{ safety_boundary.scope }}. This prototype does not support diagnosis, treatment advice, prescriptions, or real patient records.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
