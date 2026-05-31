@@ -3,9 +3,6 @@ import os
 from datetime import UTC, datetime
 from functools import wraps
 from pathlib import Path
-from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
-from urllib.request import urlopen
 
 from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 
@@ -37,8 +34,6 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY=os.getenv("FLASK_SECRET_KEY", "dts114-demo-secret"),
         DATA_FILE=BASE_DIR / "data" / "appointments.json",
-        OPENWEATHER_API_KEY=os.getenv("OPENWEATHER_API_KEY", ""),
-        DEFAULT_WEATHER_CITY=os.getenv("DEFAULT_WEATHER_CITY", "Suzhou"),
     )
     app.config.update(test_config or {})
 
@@ -72,7 +67,6 @@ def create_app(test_config=None):
         "ai_specific_tooling": [
             "Prompt templates and structured JSON artefacts in the notebook",
             "Optional DeepSeek API support for artefact drafting",
-            "Optional OpenWeather API support for non-medical clinic travel context",
             "Deterministic fallback when API keys are not configured",
         ],
     }
@@ -227,7 +221,6 @@ def create_app(test_config=None):
             "patient.html",
             user=user,
             safety_boundary=safety_boundary,
-            default_city=app.config["DEFAULT_WEATHER_CITY"],
         )
 
     @app.get("/staff")
@@ -241,7 +234,6 @@ def create_app(test_config=None):
             "staff.html",
             user=user,
             safety_boundary=safety_boundary,
-            default_city=app.config["DEFAULT_WEATHER_CITY"],
         )
 
     @app.get("/logout")
@@ -364,46 +356,6 @@ def create_app(test_config=None):
             "This summary is non-diagnostic and does not provide treatment advice."
         )
         return jsonify({"summary": summary, "safety_boundary": safety_boundary}), 200
-
-    @app.get("/api/clinic/weather")
-    def clinic_weather():
-        city = str(request.args.get("city") or app.config["DEFAULT_WEATHER_CITY"]).strip()
-        if not city:
-            city = app.config["DEFAULT_WEATHER_CITY"]
-
-        api_key = app.config.get("OPENWEATHER_API_KEY") or os.getenv("OPENWEATHER_API_KEY", "")
-        safe_use = "Weather is used only for travel planning context, not medical advice."
-        if not api_key:
-            return jsonify(
-                {
-                    "available": False,
-                    "city": city,
-                    "message": "OpenWeather API key is not configured.",
-                    "safe_use": safe_use,
-                }
-            ), 200
-
-        query = urlencode({"q": city, "appid": api_key, "units": "metric"})
-        url = f"https://api.openweathermap.org/data/2.5/weather?{query}"
-        try:
-            with urlopen(url, timeout=5) as response:
-                payload = json.loads(response.read().decode("utf-8"))
-        except HTTPError as error:
-            return _json_error("Weather service rejected the request", 502, {"status": error.code})
-        except (URLError, TimeoutError):
-            return _json_error("Weather service is currently unavailable", 502)
-
-        weather = payload.get("weather", [{}])[0]
-        main = payload.get("main", {})
-        return jsonify(
-            {
-                "available": True,
-                "city": payload.get("name", city),
-                "temperature_c": main.get("temp"),
-                "condition": weather.get("description", "Weather unavailable"),
-                "safe_use": safe_use,
-            }
-        ), 200
 
     @app.get("/api/meta/requirements")
     def meta_requirements():

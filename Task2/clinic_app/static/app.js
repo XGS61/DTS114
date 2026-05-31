@@ -6,8 +6,10 @@ const patientAppointmentList = document.querySelector("#patientAppointmentList")
 const staffAppointmentList = document.querySelector("#staffAppointmentList");
 const refreshButton = document.querySelector("#refreshButton");
 const statusFilter = document.querySelector("#statusFilter");
-const weatherForm = document.querySelector("#weatherForm");
-const weatherResult = document.querySelector("#weatherResult");
+const pendingMetric = document.querySelector("#pendingMetric");
+const confirmedMetric = document.querySelector("#confirmedMetric");
+const cancelledMetric = document.querySelector("#cancelledMetric");
+const conflictMetric = document.querySelector("#conflictMetric");
 
 async function api(path, options = {}) {
   const response = await fetch(path, {
@@ -100,6 +102,20 @@ function renderStaffAppointment(item) {
   return card;
 }
 
+function updateStaffMetrics(items) {
+  if (!pendingMetric) return;
+  const counts = items.reduce((summary, item) => {
+    summary[item.status] = (summary[item.status] || 0) + 1;
+    summary.conflicts += item.conflict ? 1 : 0;
+    return summary;
+  }, { conflicts: 0 });
+
+  pendingMetric.textContent = counts["Pending Review"] || 0;
+  confirmedMetric.textContent = counts.Confirmed || 0;
+  cancelledMetric.textContent = counts.Cancelled || 0;
+  conflictMetric.textContent = counts.conflicts || 0;
+}
+
 async function loadAppointments() {
   const list = staffAppointmentList || patientAppointmentList;
   if (!list) return;
@@ -113,11 +129,13 @@ async function loadAppointments() {
     const payload = await api(`/api/appointments${query}`);
     list.innerHTML = "";
     if (payload.items.length === 0) {
+      if (staffAppointmentList) updateStaffMetrics([]);
       list.textContent = staffAppointmentList
         ? "No appointment requests match this view."
         : "No appointment requests yet.";
       return;
     }
+    if (staffAppointmentList) updateStaffMetrics(payload.items);
     payload.items.forEach((item) => {
       list.appendChild(staffAppointmentList ? renderStaffAppointment(item) : renderPatientAppointment(item));
     });
@@ -223,22 +241,6 @@ if (refreshButton) {
 
 if (statusFilter) {
   statusFilter.addEventListener("change", loadAppointments);
-}
-
-if (weatherForm) {
-  weatherForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    weatherResult.textContent = "Checking weather...";
-    const data = Object.fromEntries(new FormData(weatherForm).entries());
-    try {
-      const payload = await api(`/api/clinic/weather?city=${encodeURIComponent(data.city)}`);
-      weatherResult.textContent = payload.available
-        ? `${payload.city}: ${payload.temperature_c} C, ${payload.condition}. ${payload.safe_use}`
-        : `${payload.city}: ${payload.message} ${payload.safe_use}`;
-    } catch (error) {
-      weatherResult.textContent = error.message;
-    }
-  });
 }
 
 loadAppointments();

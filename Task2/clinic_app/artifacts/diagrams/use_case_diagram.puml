@@ -10,12 +10,10 @@ rectangle "Clinic Appointment System" {
   usecase "Review shared queue" as UC4
   usecase "Confirm or cancel request" as UC5
   usecase "View non-diagnostic summary" as UC6
-  usecase "Check travel weather context" as UC7
 }
 Patient --> UC1
 Patient --> UC2
 Patient --> UC3
-Patient --> UC7
 Doctor --> UC1
 Doctor --> UC4
 Doctor --> UC5

@@ -20,7 +20,7 @@
     <rect x="395" y="280" width="240" height="36" rx="8" fill="#ffffff" stroke="#d9e2ec"/>
     <text x="515" y="303">REST API and Safety Validation</text>
     <rect x="720" y="100" width="170" height="70" rx="8" fill="#fff2dc" stroke="#b4661f"/>
-    <text x="805" y="140">OpenWeather API</text>
+    <text x="805" y="140">Safety Boundary</text>
     <rect x="720" y="230" width="170" height="70" rx="8" fill="#e8f5ef" stroke="#17623f"/>
     <text x="805" y="270">JSON Store</text>
     <rect x="360" y="430" width="180" height="70" rx="8" fill="#ffffff" stroke="#5f6c7b"/>

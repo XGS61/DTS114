@@ -5,6 +5,6 @@
     "Doctor or admin logs in and reviews the shared appointment queue.",
     "System flags conflicting active appointment slots.",
     "System produces non-diagnostic administrative summaries.",
-    "Developer configures optional API keys through environment variables only."
+    "Developer configures optional AI keys through environment variables only."
   ]
 }

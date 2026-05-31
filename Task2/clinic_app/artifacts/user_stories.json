@@ -55,11 +55,11 @@
     {
       "id": "US-06",
       "actor": "Developer",
-      "story": "As a developer, I want optional API hooks to be configured through environment variables so that secrets are not committed.",
+      "story": "As a developer, I want optional AI support to be configured through environment variables so that secrets are not committed.",
       "acceptance_criteria": [
         ".env is ignored by Git.",
         ".env.example documents variable names only.",
-        "The application works without optional API keys."
+        "The application works without optional AI keys."
       ]
     }
   ]

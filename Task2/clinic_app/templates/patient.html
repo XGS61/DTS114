@@ -11,7 +11,7 @@
     <div>
       <p class="eyebrow">Patient Dashboard</p>
       <h1>Request an Appointment</h1>
-      <p class="lead">Submit an administrative booking request and track review status.</p>
+      <p class="lead">Submit an administrative booking request, track status, and keep the workflow inside a human review boundary.</p>
     </div>
     <nav class="user-nav" aria-label="User navigation">
       <span>{{ user.display_name }}</span>
@@ -34,11 +34,11 @@
         <div class="split">
           <label>
             Preferred date
-            <input name="preferred_date" type="date" required>
+            <input name="preferred_date" type="text" inputmode="numeric" pattern="\d{4}-\d{2}-\d{2}" placeholder="YYYY-MM-DD" required>
           </label>
           <label>
             Preferred time
-            <input name="preferred_time" type="time" required>
+            <input name="preferred_time" type="text" inputmode="numeric" pattern="\d{2}:\d{2}" placeholder="HH:MM" required>
           </label>
         </div>
         <label>
@@ -69,15 +69,12 @@
     </section>
 
     <section class="panel">
-      <h2>Clinic Travel Context</h2>
-      <form id="weatherForm" class="inline-form">
-        <label>
-          City
-          <input name="city" value="{{ default_city }}" required>
-        </label>
-        <button type="submit" class="secondary">Check Weather</button>
-      </form>
-      <div id="weatherResult" class="message weather-box" aria-live="polite"></div>
+      <h2>Review Process</h2>
+      <div class="process-list">
+        <div><span>1</span><p>Submit an administrative request.</p></div>
+        <div><span>2</span><p>Clinic staff check availability and conflict flags.</p></div>
+        <div><span>3</span><p>Status changes to Confirmed or Cancelled after review.</p></div>
+      </div>
     </section>
 
     <section class="panel wide">

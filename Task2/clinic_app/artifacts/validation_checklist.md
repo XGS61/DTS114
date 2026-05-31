@@ -12,7 +12,7 @@
 | Review action requires staff role | `PATCH /api/appointments/<id>/review` |
 | Safety boundary blocks diagnosis/treatment requests | appointment payload validation |
 | Summary is non-diagnostic | `GET /api/appointments/<id>/summary` |
-| Optional API keys are not committed | `.env.example`, `.gitignore` |
+| Optional AI API keys are not committed | `.env.example`, `.gitignore` |
 | Tests pass | `python -m pytest` |
 | CI/CD configuration exists | `.github/workflows/ci.yml` |
 | Deployment configuration exists | `render.yaml` |

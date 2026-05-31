@@ -20,6 +20,25 @@
   </header>
 
   <main class="layout staff-layout">
+    <section class="panel wide dashboard-strip" aria-label="Operational summary">
+      <div>
+        <span class="metric-label">Pending Review</span>
+        <strong id="pendingMetric">0</strong>
+      </div>
+      <div>
+        <span class="metric-label">Confirmed</span>
+        <strong id="confirmedMetric">0</strong>
+      </div>
+      <div>
+        <span class="metric-label">Cancelled</span>
+        <strong id="cancelledMetric">0</strong>
+      </div>
+      <div>
+        <span class="metric-label">Conflicts</span>
+        <strong id="conflictMetric">0</strong>
+      </div>
+    </section>
+
     <section class="panel wide">
       <div class="section-heading">
         <div>
@@ -40,15 +59,12 @@
     </section>
 
     <section class="panel">
-      <h2>Clinic Travel Context</h2>
-      <form id="weatherForm" class="inline-form">
-        <label>
-          City
-          <input name="city" value="{{ default_city }}" required>
-        </label>
-        <button type="submit" class="secondary">Check Weather</button>
-      </form>
-      <div id="weatherResult" class="message weather-box" aria-live="polite"></div>
+      <h2>Review Focus</h2>
+      <div class="process-list">
+        <div><span>1</span><p>Prioritise requests with conflict flags.</p></div>
+        <div><span>2</span><p>Use the summary for administrative context only.</p></div>
+        <div><span>3</span><p>Record a review note before changing status.</p></div>
+      </div>
     </section>
 
     <section class="panel">

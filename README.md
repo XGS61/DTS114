@@ -10,7 +10,7 @@ The project demonstrates:
 - Separate patient and doctor/admin dashboards using one shared appointment data store.
 - Human review boundary: appointments are created as `Pending Review` and require staff confirmation or cancellation.
 - Safety boundary: no diagnosis, no treatment advice, no prescriptions, and no real patient records.
-- Optional API integration through environment variables, with deterministic fallback if keys are not configured.
+- Optional DeepSeek API support for notebook artefact drafting, with deterministic fallback if no key is configured.
 - Testing, CI/CD workflow, and deployment-ready Render configuration.
 
 ## Structure
@@ -63,8 +63,6 @@ Copy `.env.example` to `.env` for local testing, but do not commit `.env`.
 | Variable | Purpose |
 |---|---|
 | `FLASK_SECRET_KEY` | Session signing key for Flask |
-| `OPENWEATHER_API_KEY` | Optional non-medical clinic travel context |
-| `DEFAULT_WEATHER_CITY` | Default weather city |
 | `DEEPSEEK_API_KEY` | Optional notebook support for AI artefact drafting |
 | `ENABLE_LLM_GENERATION` | Set to `1` only when intentionally testing optional LLM generation |
 

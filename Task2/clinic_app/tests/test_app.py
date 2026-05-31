@@ -9,7 +9,6 @@ def client(tmp_path):
         {
             "TESTING": True,
             "DATA_FILE": tmp_path / "appointments.json",
-            "OPENWEATHER_API_KEY": "",
         }
     )
     return app.test_client()
@@ -117,9 +116,10 @@ def test_rejects_diagnosis_or_treatment_requests(client):
     assert "appointment administration" in response.get_json()["error"]
 
 
-def test_weather_endpoint_has_safe_fallback_without_key(client):
-    response = client.get("/api/clinic/weather?city=Suzhou")
+def test_meta_requirements_describe_relevant_ai_tooling(client):
+    response = client.get("/api/meta/requirements")
     data = response.get_json()
     assert response.status_code == 200
-    assert data["available"] is False
-    assert "not medical advice" in data["safe_use"]
+    tooling = data["requirements"]["ai_specific_tooling"]
+    assert any("DeepSeek" in item for item in tooling)
+    assert any("Deterministic fallback" in item for item in tooling)

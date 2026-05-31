@@ -36,7 +36,6 @@ Open `http://127.0.0.1:5000/login`.
 | GET | `/api/appointments/<id>` | Get one appointment |
 | PATCH | `/api/appointments/<id>/review` | Staff-only review action |
 | GET | `/api/appointments/<id>/summary` | Non-diagnostic summary |
-| GET | `/api/clinic/weather` | Optional non-medical weather context |
 | GET | `/api/meta/requirements` | Generated requirements metadata |
 
 ## Example Requests
@@ -47,10 +46,6 @@ curl -X POST http://127.0.0.1:5000/api/appointments ^
   -d "{\"patient_name\":\"Alex Chen\",\"preferred_date\":\"2026-06-05\",\"preferred_time\":\"09:30\",\"appointment_type\":\"General consultation booking\"}"
 ```
 
-```bash
-curl http://127.0.0.1:5000/api/clinic/weather?city=Suzhou
-```
-
 ## Tests
 
 ```bash
@@ -59,4 +54,4 @@ python -m pytest
 
 ## Deployment
 
-The app includes `render.yaml`. After pushing to GitHub, connect the repository to Render or create a Blueprint from the YAML file. Configure API keys as Render environment variables only if optional API features are required.
+The app includes `render.yaml`. After pushing to GitHub, connect the repository to Render or create a Blueprint from the YAML file. Configure only required environment variables in Render.

@@ -7,6 +7,6 @@
 - [x] Role-based website generated.
 - [x] Generated clinic image included.
 - [x] Safety boundary documented.
-- [x] Optional API hooks use environment variables.
+- [x] Optional AI hook uses environment variables.
 - [x] Tests generated for API behaviour and role permissions.
 - [x] CI/CD and Render deployment files included.

@@ -10,7 +10,6 @@ package "Generated Flask App" {
   [Staff Dashboard]
   [REST API]
   [Safety Validation]
-  [OpenWeather Adapter]
 }
 database "JSON Appointment Store" as Store
 cloud "GitHub Actions CI" as CI
@@ -22,7 +21,6 @@ cloud "Render Deployment" as Render
 [Patient Dashboard] --> [REST API]
 [Staff Dashboard] --> [REST API]
 [REST API] --> Store
-[REST API] --> [OpenWeather Adapter]
 [REST API] --> [Safety Validation]
 [REST API] --> CI
 [REST API] --> Render

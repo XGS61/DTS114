@@ -28,9 +28,9 @@ The system supports appointment administration only. It must not provide diagnos
 | FR-07 | The system shall flag active appointment requests that use the same date and time. |
 | FR-08 | Doctor/admin users shall confirm, cancel, or reopen appointment requests. |
 | FR-09 | The system shall provide a non-diagnostic administrative summary for each request. |
-| FR-10 | The system shall expose REST-style API endpoints for health, authentication, appointments, review, summary, weather context, and metadata. |
+| FR-10 | The system shall expose REST-style API endpoints for health, authentication, appointments, review, summary, and metadata. |
 | FR-11 | The website shall display a generated clinic appointment image. |
-| FR-12 | The system shall provide optional OpenWeather support for non-medical travel context and fallback safely when no key is configured. |
+| FR-12 | The system shall avoid irrelevant external APIs unless they directly support the appointment administration workflow. |
 
 ## Non-Functional Requirements
 
@@ -54,4 +54,4 @@ The system supports appointment administration only. It must not provide diagnos
 - Reject requests containing diagnosis or treatment wording.
 - Keep summaries non-diagnostic.
 - Require doctor/admin permission for review actions.
-- Use deterministic fallback when optional APIs are unavailable.
+- Use deterministic fallback when optional AI generation is unavailable.
