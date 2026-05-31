@@ -1,0 +1,59 @@
+{
+  "user_stories": [
+    {
+      "id": 1,
+      "role": "Patient",
+      "goal": "submit an appointment request",
+      "benefit": "the clinic can review my preferred time",
+      "acceptance_criteria": [
+        "The request form collects display name, preferred date, preferred time, appointment type, and optional administrative reason.",
+        "A successful submission creates a request with Pending Review status.",
+        "The website warns users not to enter real patient records."
+      ]
+    },
+    {
+      "id": 2,
+      "role": "Clinic System",
+      "goal": "flag conflicting appointment slots",
+      "benefit": "the receptionist can review scheduling risks before confirmation",
+      "acceptance_criteria": [
+        "If an active request already uses the same date and time, the new request is marked with conflict=true.",
+        "Conflicted requests are still created but remain Pending Review.",
+        "Cancelled requests do not block future slots."
+      ]
+    },
+    {
+      "id": 3,
+      "role": "Receptionist",
+      "goal": "confirm or cancel appointment requests",
+      "benefit": "appointments remain under human control",
+      "acceptance_criteria": [
+        "The receptionist can change a Pending Review request to Confirmed.",
+        "The receptionist can change a request to Cancelled.",
+        "The system records a review note and review timestamp."
+      ]
+    },
+    {
+      "id": 4,
+      "role": "Receptionist",
+      "goal": "view a non-diagnostic summary",
+      "benefit": "I can understand the request without receiving unsafe medical advice",
+      "acceptance_criteria": [
+        "The summary includes appointment type, date, time, and current status.",
+        "The summary explicitly states that it is non-diagnostic.",
+        "The summary does not provide treatment advice."
+      ]
+    },
+    {
+      "id": 5,
+      "role": "Developer",
+      "goal": "test and deploy the generated system",
+      "benefit": "the coursework provides evidence of CI/CD and deployment practice",
+      "acceptance_criteria": [
+        "The project includes automated API tests.",
+        "The project includes a GitHub Actions workflow.",
+        "The project includes Render deployment configuration."
+      ]
+    }
+  ]
+}

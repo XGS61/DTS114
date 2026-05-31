@@ -1,0 +1,16 @@
+@startuml
+actor Patient
+actor Receptionist
+rectangle "Clinic Appointment Prototype" {
+  usecase "Submit appointment request" as Submit
+  usecase "Review pending request" as Review
+  usecase "Confirm or cancel" as Decide
+  usecase "Flag slot conflict" as Conflict
+  usecase "Generate non-diagnostic summary" as Summary
+}
+Patient -- Submit
+Receptionist -- Review
+Review ..> Decide : <<include>>
+Submit ..> Conflict : <<include>>
+Review ..> Summary : <<include>>
+@enduml

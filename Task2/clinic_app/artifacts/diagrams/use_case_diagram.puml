@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+actor Patient
+actor Receptionist
+actor "Clinic System" as System
+
+rectangle "Clinic Appointment Administration Prototype" {
+  usecase "Submit appointment request" as UC_Submit
+  usecase "View appointment status" as UC_Status
+  usecase "Review pending request" as UC_Review
+  usecase "Confirm appointment" as UC_Confirm
+  usecase "Cancel appointment" as UC_Cancel
+  usecase "Flag slot conflict" as UC_Conflict
+  usecase "Generate non-diagnostic summary" as UC_Summary
+}
+
+Patient -- UC_Submit
+Patient -- UC_Status
+Receptionist -- UC_Review
+Receptionist -- UC_Confirm
+Receptionist -- UC_Cancel
+Receptionist -- UC_Summary
+System -- UC_Conflict
+
+UC_Submit ..> UC_Conflict : <<include>>
+UC_Review ..> UC_Summary : <<include>>
+UC_Review ..> UC_Confirm : <<extend>>
+UC_Review ..> UC_Cancel : <<extend>>
+@enduml

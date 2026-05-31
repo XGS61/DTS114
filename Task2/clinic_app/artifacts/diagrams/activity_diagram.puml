@@ -1,0 +1,25 @@
+@startuml
+start
+:Patient opens appointment form;
+:Patient enters administrative request;
+:System validates required fields;
+if (Valid input?) then (yes)
+  :System checks date/time conflict;
+  if (Conflict found?) then (yes)
+    :Mark request with conflict flag;
+  else (no)
+    :Mark request as no conflict;
+  endif
+  :Create Pending Review request;
+  :Receptionist reviews request;
+  if (Accept request?) then (confirm)
+    :Set status to Confirmed;
+  else (cancel)
+    :Set status to Cancelled;
+  endif
+  :Show non-diagnostic administrative summary;
+else (no)
+  :Return validation error;
+endif
+stop
+@enduml

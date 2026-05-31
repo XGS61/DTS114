@@ -1,0 +1,30 @@
+@startuml
+package "Task 1 Generator" {
+  [AI-DLC Notebook] as Notebook
+  [Prompt Templates] as Prompts
+  [Structured Artefact Builder] as Builder
+}
+
+package "Generated Clinic Application" {
+  [Website] as Website
+  [Flask API] as API
+  [Appointment Store] as Store
+  [Generated Image] as Image
+}
+
+package "Operations Layer" {
+  [Pytest] as Tests
+  [GitHub Actions] as CI
+  [Render Deployment] as Render
+}
+
+Notebook --> Prompts
+Notebook --> Builder
+Builder --> Website
+Builder --> API
+Builder --> Image
+API --> Store
+Tests --> API
+CI --> Tests
+Render --> API
+@enduml

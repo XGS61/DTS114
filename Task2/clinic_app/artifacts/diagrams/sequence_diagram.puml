@@ -1,0 +1,21 @@
+@startuml
+actor Patient
+participant "Website" as Frontend
+participant "Flask API" as API
+participant "Appointment Store" as Store
+actor Receptionist
+
+Patient -> Frontend: Fill appointment form
+Frontend -> API: POST /api/appointments
+API -> API: Validate administrative scope
+API -> Store: Check same date/time
+Store --> API: Existing active slot or none
+API -> Store: Save Pending Review request
+API --> Frontend: JSON appointment + conflict flag
+Receptionist -> Frontend: Review pending request
+Frontend -> API: PATCH /api/appointments/{id}/review
+API -> Store: Update status Confirmed/Cancelled
+API --> Frontend: Reviewed appointment
+Frontend -> API: GET /api/appointments/{id}/summary
+API --> Frontend: Non-diagnostic summary
+@enduml

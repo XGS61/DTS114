@@ -1,0 +1,37 @@
+{
+  "user_stories": [
+    {
+      "id": 1,
+      "role": "Patient",
+      "goal": "submit an appointment request",
+      "benefit": "the clinic can review my preferred time",
+      "acceptance_criteria": [
+        "Form collects display name, date, time, type, and optional administrative reason.",
+        "Successful submission creates Pending Review status.",
+        "Users are warned not to enter real patient records."
+      ]
+    },
+    {
+      "id": 2,
+      "role": "Receptionist",
+      "goal": "confirm or cancel pending requests",
+      "benefit": "appointments stay under human control",
+      "acceptance_criteria": [
+        "Receptionist can set status to Confirmed.",
+        "Receptionist can set status to Cancelled.",
+        "Review note and timestamp are recorded."
+      ]
+    },
+    {
+      "id": 3,
+      "role": "Clinic System",
+      "goal": "flag same-slot conflicts",
+      "benefit": "the receptionist can spot scheduling risk",
+      "acceptance_criteria": [
+        "Same date/time active requests set conflict=true.",
+        "Conflicted requests remain Pending Review.",
+        "Cancelled requests do not block future slots."
+      ]
+    }
+  ]
+}
