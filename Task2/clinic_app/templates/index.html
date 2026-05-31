@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clinic Appointment Administration</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">AI-DLC Generated Prototype</p>
+      <h1>Clinic Appointment Administration</h1>
+      <p class="lead">Collect appointment requests, flag conflicts, and keep human review in the workflow.</p>
+    </div>
+    <img class="hero-image" src="{{ url_for('static', filename='generated_clinic_image.png') }}" alt="Generated clinic appointment illustration">
+  </header>
+
+  <main class="layout">
+    <section class="panel form-panel">
+      <h2>Appointment Request</h2>
+      <form id="appointmentForm">
+        <label>
+          Patient display name
+          <input name="patient_name" required placeholder="Example: Alex Chen">
+        </label>
+        <label>
+          Contact email
+          <input name="contact_email" type="email" placeholder="alex@example.com">
+        </label>
+        <div class="split">
+          <label>
+            Preferred date
+            <input name="preferred_date" type="date" required>
+          </label>
+          <label>
+            Preferred time
+            <input name="preferred_time" type="time" required>
+          </label>
+        </div>
+        <label>
+          Appointment type
+          <select name="appointment_type" required>
+            <option value="">Select type</option>
+            <option>General consultation booking</option>
+            <option>Vaccination appointment booking</option>
+            <option>Follow-up appointment booking</option>
+            <option>Administrative query booking</option>
+          </select>
+        </label>
+        <label>
+          Administrative reason
+          <textarea name="reason" rows="3" placeholder="Keep this administrative. Do not enter real patient records."></textarea>
+        </label>
+        <button type="submit">Submit Request</button>
+      </form>
+      <div id="formMessage" class="message" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <h2>Receptionist Review</h2>
+        <button id="refreshButton" type="button" class="secondary">Refresh</button>
+      </div>
+      <div id="appointmentList" class="appointment-list"></div>
+    </section>
+
+    <section class="panel wide">
+      <h2>Safety Boundary</h2>
+      <div class="safety-grid">
+        <div>
+          <strong>Scope</strong>
+          <p>{{ safety_boundary.scope }}</p>
+        </div>
+        <div>
+          <strong>Human review</strong>
+          <p>{{ safety_boundary.human_review }}</p>
+        </div>
+        <div>
+          <strong>Not allowed</strong>
+          <p>{{ safety_boundary.not_allowed | join(", ") }}</p>
+        </div>
+      </div>
+      <p class="note">This website is a coursework prototype. It must not be used for real medical operations.</p>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
