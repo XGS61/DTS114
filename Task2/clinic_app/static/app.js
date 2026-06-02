@@ -10,6 +10,19 @@ const pendingMetric = document.querySelector("#pendingMetric");
 const confirmedMetric = document.querySelector("#confirmedMetric");
 const cancelledMetric = document.querySelector("#cancelledMetric");
 const conflictMetric = document.querySelector("#conflictMetric");
+const nativePickerShells = document.querySelectorAll("[data-native-picker]");
+
+function syncNativePickerPlaceholder(shell) {
+  const input = shell.querySelector("input");
+  shell.classList.toggle("is-empty", !input.value);
+}
+
+nativePickerShells.forEach((shell) => {
+  const input = shell.querySelector("input");
+  syncNativePickerPlaceholder(shell);
+  input.addEventListener("input", () => syncNativePickerPlaceholder(shell));
+  input.addEventListener("change", () => syncNativePickerPlaceholder(shell));
+});
 
 async function api(path, options = {}) {
   const response = await fetch(path, {

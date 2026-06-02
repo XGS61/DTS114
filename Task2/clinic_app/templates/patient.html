@@ -34,11 +34,15 @@
         <div class="split">
           <label>
             Preferred date
-            <input name="preferred_date" type="text" inputmode="numeric" pattern="\d{4}-\d{2}-\d{2}" placeholder="YYYY-MM-DD" required>
+            <span class="native-picker-shell" data-native-picker data-placeholder="YYYY-MM-DD">
+              <input name="preferred_date" type="date" lang="en" required aria-label="Preferred date">
+            </span>
           </label>
           <label>
             Preferred time
-            <input name="preferred_time" type="text" inputmode="numeric" pattern="\d{2}:\d{2}" placeholder="HH:MM" required>
+            <span class="native-picker-shell" data-native-picker data-placeholder="HH:MM">
+              <input name="preferred_time" type="time" lang="en" required aria-label="Preferred time">
+            </span>
           </label>
         </div>
         <label>

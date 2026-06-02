@@ -123,3 +123,14 @@ def test_meta_requirements_describe_relevant_ai_tooling(client):
     tooling = data["requirements"]["ai_specific_tooling"]
     assert any("DeepSeek" in item for item in tooling)
     assert any("Deterministic fallback" in item for item in tooling)
+
+
+def test_patient_page_uses_native_date_picker_with_english_placeholder(client):
+    login(client, "patient", "patient123")
+    response = client.get("/patient")
+    page = response.get_data(as_text=True)
+    assert response.status_code == 200
+    assert 'name="preferred_date" type="date"' in page
+    assert 'data-placeholder="YYYY-MM-DD"' in page
+    assert 'name="preferred_time" type="time"' in page
+    assert 'data-placeholder="HH:MM"' in page
