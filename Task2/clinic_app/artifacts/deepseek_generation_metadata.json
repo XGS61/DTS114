@@ -1,0 +1,31 @@
+{
+  "generator": "DeepSeek API",
+  "endpoint": "https://api.deepseek.com/chat/completions",
+  "model": "deepseek-v4-flash",
+  "status": "generated",
+  "reason": "DeepSeek API call completed successfully",
+  "generated_at_utc": "2026-06-02T16:10:08Z",
+  "outputs": [
+    "artifacts/generated_requirements.md",
+    "artifacts/generated_user_stories.json",
+    "artifacts/generated_validation_checklist.md",
+    "artifacts/diagrams/generated_use_case_diagram.puml",
+    "artifacts/diagrams/sequence_diagram.puml",
+    "artifacts/diagrams/activity_diagram.puml"
+  ],
+  "usage": {
+    "prompt_tokens": 787,
+    "completion_tokens": 1851,
+    "total_tokens": 2638,
+    "prompt_tokens_details": {
+      "cached_tokens": 768
+    },
+    "prompt_cache_hit_tokens": 768,
+    "prompt_cache_miss_tokens": 19
+  },
+  "validation": {
+    "postprocess_alignment": "Applied deterministic checks for endpoint names, evidence paths, and safety wording",
+    "actual_test_file": "tests/test_app.py",
+    "summary_endpoint": "GET /api/appointments/<id>/summary"
+  }
+}

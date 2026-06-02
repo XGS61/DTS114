@@ -1,10 +1,60 @@
 {
-  "generated_by": "Task1 clinic appointment generator notebook",
+  "product": "Clinic Appointment System Generator",
+  "methodology": "AI-DLC-informed iterative methodology",
   "stories": [
-    "Patient logs in and submits an appointment request.",
-    "Doctor or admin logs in and reviews the shared appointment queue.",
-    "System flags conflicting active appointment slots.",
-    "System produces non-diagnostic administrative summaries.",
-    "Developer configures optional AI keys through environment variables only."
+    {
+      "id": "US01",
+      "actor": "Patient",
+      "story": "As a Patient, I want to log in with a demo account so that I can access the appointment system.",
+      "acceptance_criteria": "Given a patient demo account, when I enter valid credentials, then I am logged in and see the patient dashboard."
+    },
+    {
+      "id": "US02",
+      "actor": "Patient",
+      "story": "As a Patient, I want to create an appointment request with date/time so that I can book a slot.",
+      "acceptance_criteria": "Given I am logged in as patient, when I submit a new appointment request with date and time, then the appointment is created with status Pending Review."
+    },
+    {
+      "id": "US03",
+      "actor": "Patient",
+      "story": "As a Patient, I want to view the status of my own appointments so that I can track updates.",
+      "acceptance_criteria": "Given I am logged in as patient, when I view my dashboard, then I see a list of my appointments and their statuses."
+    },
+    {
+      "id": "US04",
+      "actor": "Doctor",
+      "story": "As a Doctor, I want to log in and see a shared queue of pending appointments so that I can review them.",
+      "acceptance_criteria": "Given I am logged in as doctor, when I access the staff dashboard, then I see a list of all appointments with status Pending Review."
+    },
+    {
+      "id": "US05",
+      "actor": "Doctor",
+      "story": "As a Doctor, I want to confirm or cancel an appointment so that the patient knows the outcome.",
+      "acceptance_criteria": "Given I am logged in as doctor, when I confirm an appointment, then its status changes to Confirmed; when I cancel, status changes to Cancelled."
+    },
+    {
+      "id": "US06",
+      "actor": "Admin Staff",
+      "story": "As an Admin Staff, I want to log in and perform the same review actions as a doctor.",
+      "acceptance_criteria": "Given I am logged in as admin, when I access the staff dashboard, then I can confirm or cancel appointments."
+    },
+    {
+      "id": "US07",
+      "actor": "Clinic System",
+      "story": "As the Clinic System, I want to detect and flag conflicting appointments so that double-booking is avoided.",
+      "acceptance_criteria": "Given two appointments with the same date and time are active (not cancelled), then the system flags a conflict."
+    },
+    {
+      "id": "US08",
+      "actor": "Clinic System",
+      "story": "As the Clinic System, I want to reject any appointment content containing diagnosis, treatment, or prescription wording so that safety boundaries are maintained.",
+      "acceptance_criteria": "Given an appointment request contains words like 'diagnosis', when submitted, then the system rejects it with an error."
+    },
+    {
+      "id": "US07",
+      "actor": "Clinic System",
+      "story": "As the Clinic System, I want to provide a non-diagnostic administrative summary for an appointment so that staff can review scheduling context without medical advice.",
+      "acceptance_criteria": "Given an existing appointment, when GET /api/appointments/<id>/summary is called, then the response contains only administrative appointment details and status, with no diagnosis or treatment advice."
+    }
   ]
 }

@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 import pytest
 
 from app import create_app
@@ -137,3 +140,13 @@ def test_patient_page_uses_english_custom_calendar_picker(client):
     assert 'data-calendar-clear>Clear</button>' in page
     assert 'data-calendar-today>Today</button>' in page
     assert 'name="preferred_time" type="time"' in page
+
+def test_deepseek_metadata_records_generated_artefact_run():
+    metadata_path = Path(__file__).resolve().parents[1] / "artifacts" / "deepseek_generation_metadata.json"
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    assert metadata["generator"] == "DeepSeek API"
+    assert metadata["endpoint"] == "https://api.deepseek.com/chat/completions"
+    assert metadata["model"] == "deepseek-v4-flash"
+    assert metadata["status"] == "generated"
+    assert metadata["usage"]["total_tokens"] > 0
+    assert metadata["validation"]["summary_endpoint"] == "GET /api/appointments/<id>/summary"

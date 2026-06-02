@@ -1,26 +1,29 @@
 @startuml
+|Patient|
 start
-:User opens login page;
-if (Role?) then (Patient)
-  :Open patient dashboard;
-  :Submit appointment request;
-  :System validates administrative scope;
-  if (Valid request?) then (Yes)
-    :Store Pending Review request;
-    :Flag conflict if slot is active;
-  else (No)
-    :Show validation error;
-    stop
+:Login;
+:Create Appointment Request;
+|#LightBlue|System|
+:Validate safety (no diagnosis/treatment/prescription);
+if (valid?) then (yes)
+  :Store appointment as Pending Review;
+  :Check for conflicts;
+  if (conflict?) then (yes)
+    :Flag conflict;
   endif
-else (Doctor/Admin)
-  :Open staff dashboard;
+else (no)
+  :Reject request;
+  stop
 endif
-:Staff reviews shared queue;
-if (Slot acceptable?) then (Confirm)
-  :Set status to Confirmed;
+|Staff|
+:View shared queue;
+:Review appointment;
+if (decision?) then (Confirm)
+  :Update status to Confirmed;
 else (Cancel)
-  :Set status to Cancelled;
+  :Update status to Cancelled;
 endif
-:Show non-diagnostic summary;
+|Patient|
+:View own appointment status;
 stop
 @enduml
