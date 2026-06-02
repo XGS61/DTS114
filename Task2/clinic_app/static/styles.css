@@ -105,48 +105,110 @@ textarea:focus {
   border-color: var(--primary);
 }
 
-.native-picker-shell {
+
+.custom-date-picker {
   position: relative;
   display: block;
 }
 
-.native-picker-shell::before {
-  content: attr(data-placeholder);
+.custom-date-picker input {
+  padding-right: 118px;
+}
+
+.picker-toggle {
   position: absolute;
-  left: 13px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 5px;
+  top: 5px;
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #e7edf1;
+  color: var(--ink);
+  font-size: 13px;
+  z-index: 2;
+}
+
+.picker-toggle:hover {
+  background: #d9e3e8;
+}
+
+.calendar-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: min(340px, calc(100vw - 48px));
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 24px 60px rgba(23, 50, 77, 0.22);
+  z-index: 20;
+}
+
+.calendar-header,
+.calendar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.calendar-header strong {
+  font-size: 16px;
+}
+
+.calendar-nav,
+.calendar-footer button {
+  min-height: 34px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.calendar-weekdays,
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.calendar-weekdays {
+  margin: 14px 0 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.calendar-grid button {
+  min-height: 36px;
+  padding: 0;
+  border-radius: 6px;
+  background: #f7fafb;
   color: var(--ink);
   font-weight: 800;
-  pointer-events: none;
-  opacity: 0;
-  z-index: 1;
 }
 
-.native-picker-shell.is-empty::before {
-  opacity: 1;
+.calendar-grid button:hover {
+  background: #e7f4f4;
 }
 
-.native-picker-shell input {
-  min-height: 46px;
-  position: relative;
+.calendar-grid button.is-outside {
+  color: #9aa7b2;
+  background: #fbfcfd;
 }
 
-.native-picker-shell.is-empty input,
-.native-picker-shell.is-empty input::-webkit-datetime-edit,
-.native-picker-shell.is-empty input::-webkit-date-and-time-value {
-  color: transparent;
+.calendar-grid button.is-selected {
+  background: var(--primary);
+  color: #ffffff;
 }
 
-.native-picker-shell input::-webkit-calendar-picker-indicator {
-  cursor: pointer;
+.calendar-grid button.is-today {
+  outline: 2px solid rgba(16, 119, 127, 0.35);
 }
 
-.native-picker-shell input:not(:placeholder-shown),
-.native-picker-shell:not(.is-empty) input,
-.native-picker-shell:not(.is-empty) input::-webkit-datetime-edit,
-.native-picker-shell:not(.is-empty) input::-webkit-date-and-time-value {
-  color: var(--ink);
+.calendar-footer {
+  margin-top: 12px;
 }
 
 label {

@@ -10,19 +10,118 @@ const pendingMetric = document.querySelector("#pendingMetric");
 const confirmedMetric = document.querySelector("#confirmedMetric");
 const cancelledMetric = document.querySelector("#cancelledMetric");
 const conflictMetric = document.querySelector("#conflictMetric");
-const nativePickerShells = document.querySelectorAll("[data-native-picker]");
+const datePickers = document.querySelectorAll("[data-date-picker]");
 
-function syncNativePickerPlaceholder(shell) {
-  const input = shell.querySelector("input");
-  shell.classList.toggle("is-empty", !input.value);
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
-nativePickerShells.forEach((shell) => {
-  const input = shell.querySelector("input");
-  syncNativePickerPlaceholder(shell);
-  input.addEventListener("input", () => syncNativePickerPlaceholder(shell));
-  input.addEventListener("change", () => syncNativePickerPlaceholder(shell));
-});
+function parseDate(value) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || "");
+  if (!match) return null;
+  const date = new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function setupDatePicker(picker) {
+  const input = picker.querySelector("[data-date-input]");
+  const toggle = picker.querySelector("[data-date-toggle]");
+  const popover = picker.querySelector("[data-calendar-popover]");
+  const title = picker.querySelector("[data-calendar-title]");
+  const grid = picker.querySelector("[data-calendar-grid]");
+  const previous = picker.querySelector("[data-calendar-prev]");
+  const next = picker.querySelector("[data-calendar-next]");
+  const clear = picker.querySelector("[data-calendar-clear]");
+  const today = picker.querySelector("[data-calendar-today]");
+  let viewDate = parseDate(input.value) || new Date();
+
+  function closeCalendar() {
+    popover.hidden = true;
+  }
+
+  function openCalendar() {
+    renderCalendar();
+    popover.hidden = false;
+  }
+
+  function renderCalendar() {
+    const year = viewDate.getFullYear();
+    const month = viewDate.getMonth();
+    const selected = parseDate(input.value);
+    const todayDate = new Date();
+    const firstOfMonth = new Date(year, month, 1);
+    const start = new Date(year, month, 1 - firstOfMonth.getDay());
+    title.textContent = `${MONTH_NAMES[month]} ${year}`;
+    grid.innerHTML = "";
+
+    for (let index = 0; index < 42; index += 1) {
+      const cellDate = new Date(start);
+      cellDate.setDate(start.getDate() + index);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = String(cellDate.getDate());
+      button.dataset.dateValue = formatDate(cellDate);
+      button.setAttribute("role", "gridcell");
+      button.setAttribute("aria-label", `${MONTH_NAMES[cellDate.getMonth()]} ${cellDate.getDate()}, ${cellDate.getFullYear()}`);
+      if (cellDate.getMonth() !== month) button.classList.add("is-outside");
+      if (selected && formatDate(cellDate) === formatDate(selected)) button.classList.add("is-selected");
+      if (formatDate(cellDate) === formatDate(todayDate)) button.classList.add("is-today");
+      grid.appendChild(button);
+    }
+  }
+
+  toggle.addEventListener("click", () => {
+    if (popover.hidden) openCalendar();
+    else closeCalendar();
+  });
+
+  input.addEventListener("click", openCalendar);
+
+  previous.addEventListener("click", () => {
+    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1);
+    renderCalendar();
+  });
+
+  next.addEventListener("click", () => {
+    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1);
+    renderCalendar();
+  });
+
+  today.addEventListener("click", () => {
+    const now = new Date();
+    input.value = formatDate(now);
+    viewDate = now;
+    renderCalendar();
+    closeCalendar();
+  });
+
+  clear.addEventListener("click", () => {
+    input.value = "";
+    closeCalendar();
+  });
+
+  grid.addEventListener("click", (event) => {
+    const button = event.target.closest("button[data-date-value]");
+    if (!button) return;
+    input.value = button.dataset.dateValue;
+    viewDate = parseDate(input.value) || viewDate;
+    closeCalendar();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!picker.contains(event.target)) closeCalendar();
+  });
+}
+
+datePickers.forEach(setupDatePicker);
 
 async function api(path, options = {}) {
   const response = await fetch(path, {

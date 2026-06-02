@@ -34,15 +34,29 @@
         <div class="split">
           <label>
             Preferred date
-            <span class="native-picker-shell" data-native-picker data-placeholder="YYYY-MM-DD">
-              <input name="preferred_date" type="date" lang="en" required aria-label="Preferred date">
+            <span class="custom-date-picker" data-date-picker>
+              <input name="preferred_date" type="text" inputmode="none" autocomplete="off" placeholder="YYYY-MM-DD" required aria-label="Preferred date" data-date-input>
+              <button type="button" class="picker-toggle" data-date-toggle aria-label="Open calendar">Calendar</button>
+              <div class="calendar-popover" data-calendar-popover hidden>
+                <div class="calendar-header">
+                  <button type="button" class="calendar-nav" data-calendar-prev aria-label="Previous month">Prev</button>
+                  <strong data-calendar-title>Month Year</strong>
+                  <button type="button" class="calendar-nav" data-calendar-next aria-label="Next month">Next</button>
+                </div>
+                <div class="calendar-weekdays" aria-hidden="true">
+                  <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                </div>
+                <div class="calendar-grid" data-calendar-grid role="grid" aria-label="English appointment date picker"></div>
+                <div class="calendar-footer">
+                  <button type="button" class="secondary" data-calendar-clear>Clear</button>
+                  <button type="button" data-calendar-today>Today</button>
+                </div>
+              </div>
             </span>
           </label>
           <label>
             Preferred time
-            <span class="native-picker-shell" data-native-picker data-placeholder="HH:MM">
-              <input name="preferred_time" type="time" lang="en" required aria-label="Preferred time">
-            </span>
+            <input name="preferred_time" type="time" lang="en" required aria-label="Preferred time">
           </label>
         </div>
         <label>
