@@ -23,14 +23,16 @@ The system supports appointment administration only. It must not provide diagnos
 | FR-02 | The system shall route patients to a patient booking dashboard. |
 | FR-03 | The system shall route doctor/admin users to a staff review dashboard. |
 | FR-04 | The patient dashboard shall create appointment requests with patient name, date, time, type, and administrative reason. |
-| FR-05 | New appointment requests shall start with `Pending Review` status. |
-| FR-06 | The shared backend shall store appointment requests in a JSON data file for prototype persistence. |
-| FR-07 | The system shall flag active appointment requests that use the same date and time. |
-| FR-08 | Doctor/admin users shall confirm, cancel, or reopen appointment requests. |
-| FR-09 | The system shall provide a non-diagnostic administrative summary for each request. |
-| FR-10 | The system shall expose REST-style API endpoints for health, authentication, appointments, review, summary, and metadata. |
-| FR-11 | The website shall display a generated clinic appointment image. |
-| FR-12 | The system shall avoid irrelevant external APIs unless they directly support the appointment administration workflow. |
+| FR-05 | Appointment API routes shall require an authenticated demo session. |
+| FR-06 | Patient users shall see only appointments created by their account. |
+| FR-07 | New appointment requests shall start with `Pending Review` status. |
+| FR-08 | The shared backend shall store appointment requests in a JSON data file for prototype persistence. |
+| FR-09 | The system shall recalculate conflict flags when active appointments share or stop sharing the same date and time. |
+| FR-10 | Doctor/admin users shall confirm, cancel, or reopen appointment requests. |
+| FR-11 | The system shall provide a non-diagnostic administrative summary for each visible request. |
+| FR-12 | The system shall expose REST-style API endpoints for health, authentication, appointments, review, summary, and metadata. |
+| FR-13 | The website shall display a generated clinic appointment image. |
+| FR-14 | The system shall avoid irrelevant external APIs unless they directly support the appointment administration workflow. |
 
 ## Non-Functional Requirements
 
@@ -39,9 +41,10 @@ The system supports appointment administration only. It must not provide diagnos
 | NFR-01 | All user-visible text shall be in English. |
 | NFR-02 | API keys shall be read from environment variables and must not be committed. |
 | NFR-03 | The application shall include automated tests for core API behaviour. |
-| NFR-04 | The repository shall include GitHub Actions CI configuration. |
+| NFR-04 | The repository shall include GitHub Actions CI configuration for validation, syntax checking, and pytest. |
 | NFR-05 | The repository shall include Render deployment configuration. |
 | NFR-06 | The project shall provide clear Git commit history for coursework evidence. |
+| NFR-07 | The repository shall include submission validation for structure, DeepSeek metadata, English-only files, and possible API key leakage. |
 
 ## AI-DLC Traceability
 

@@ -14,21 +14,23 @@ Appointment administration prototype only. No diagnosis, treatment advice, presc
 
 ## Functional Requirements
 1. Login with demo accounts (patient, doctor, admin).
-2. Patient can create appointment requests; view own request status.
-3. Staff (doctor/admin) can view shared queue of pending appointments.
-4. Staff can confirm or cancel appointments (human review).
-5. Conflict detection: flag when active appointments share same date and time.
-6. Status values: Pending Review, Confirmed, Cancelled.
-7. Staff-only review endpoint.
-8. Non-diagnostic summary endpoint: GET /api/appointments/<id>/summary.
-9. Metadata endpoint: GET /api/meta/requirements.
-10. Safety validation: reject diagnosis/treatment/prescription wording.
+2. Appointment APIs require an authenticated demo session.
+3. Patient can create appointment requests and view own request status only.
+4. Staff (doctor/admin) can view the shared queue of appointment requests.
+5. Staff can confirm or cancel appointments (human review).
+6. Conflict detection recalculates flags when active appointments share or stop sharing the same date and time.
+7. Status values: Pending Review, Confirmed, Cancelled.
+8. Staff-only review endpoint: PATCH /api/appointments/<id>/review.
+9. Non-diagnostic summary endpoint: GET /api/appointments/<id>/summary.
+10. Metadata endpoint: GET /api/meta/requirements.
+11. Safety validation: reject diagnosis/treatment/prescription wording.
 
 ## Non-Functional Requirements
 - Automated tests in tests/test_app.py.
-- CI with GitHub Actions.
+- CI with GitHub Actions, including submission validation, syntax check, and pytest.
 - Deployment via Render.
 - LLM-backed generation evidence in artifacts/deepseek_generation_metadata.json.
+- Submission validation checks one-notebook structure, DeepSeek metadata, English-only files, and possible API key leakage.
 
 ## AI-DLC Traceability
 The requirements were generated using an AI-DLC-informed iterative methodology. Outputs include user stories, validation checklist, UML diagrams, Flask API, tests, CI, and deployment config.

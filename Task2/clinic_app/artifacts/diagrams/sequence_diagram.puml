@@ -1,17 +1,30 @@
 @startuml
+title Authenticated Patient Request to Staff Review
 actor Patient
-participant "System" as S
-actor Staff
-Patient -> S: Submit appointment request
-altogether patient
-  S -> S: Validate safety (no diagnosis/treatment/prescription)
-  S -> S: Store appointment (status: Pending Review)
-  S -> S: Check for conflicts with existing appointments
+participant "Clinic System" as System
+participant "JSON Store" as Store
+actor "Staff (Doctor/Admin)" as Staff
+
+Patient -> System: Login with demo patient account
+System --> Patient: Patient dashboard
+Patient -> System: Submit appointment request
+System -> System: Validate required fields and safety boundary
+alt safety violation
+  System --> Patient: Administrative-scope rejection
+else valid request
+  System -> Store: Store as Pending Review
+  System -> System: Recalculate conflict flags for active slots
+  System --> Patient: Request saved with current status
 end
-Patient <-- S: Confirmation
-Staff -> S: View shared queue
-S --> Staff: List of pending appointments
-Staff -> S: Confirm or Cancel appointment
-S -> S: Update status to Confirmed or Cancelled
-Patient <-- S: Notification (if implemented)
+
+Staff -> System: Login with doctor/admin account
+System --> Staff: Staff dashboard
+Staff -> System: View shared queue
+System -> Store: Load visible appointments
+System --> Staff: Appointment queue with conflict flags
+Staff -> System: Confirm or cancel appointment
+System -> Store: Update status and review note
+System -> System: Recalculate conflict flags
+Patient -> System: Refresh own appointment list
+System --> Patient: Updated status visible
 @enduml

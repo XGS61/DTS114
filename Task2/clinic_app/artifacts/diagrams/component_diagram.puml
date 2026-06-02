@@ -2,7 +2,8 @@
 package "Task 1 Generator Notebook" {
   [Prompt Templates]
   [Structured JSON Artefacts]
-  [Optional DeepSeek Hook]
+  [DeepSeek API Generation]
+  [Submission Validator]
 }
 package "Generated Flask App" {
   [Login UI]
@@ -16,6 +17,8 @@ cloud "GitHub Actions CI" as CI
 cloud "Render Deployment" as Render
 
 [Prompt Templates] --> [Structured JSON Artefacts]
+[DeepSeek API Generation] --> [Structured JSON Artefacts]
+[Submission Validator] --> CI
 [Structured JSON Artefacts] --> [REST API]
 [Login UI] --> [REST API]
 [Patient Dashboard] --> [REST API]

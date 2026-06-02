@@ -1,6 +1,6 @@
 # Screenshot Evidence Guide
 
-Place the three required screenshots in this folder before submission.
+Place the three required screenshots in this folder before submission. These screenshots must be real evidence from GitHub and the deployed website, not generated placeholders.
 
 ## 1. Commit Records
 
@@ -40,3 +40,11 @@ Suggested filename:
 ## Fallback Evidence
 
 If Render access is blocked, include a local deployment screenshot and state the limitation in your own report/reflection.
+
+## Validation
+
+After adding the three screenshots, run this command from the repository root:
+
+```bash
+python scripts/validate_submission.py --require-screenshots
+```

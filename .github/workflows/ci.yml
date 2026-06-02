@@ -28,6 +28,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Validate generated submission artefacts
+        run: python scripts/validate_submission.py
+
+      - name: Compile Flask app
+        working-directory: Task2/clinic_app
+        run: python -m py_compile app.py
+
       - name: Run tests
         working-directory: Task2/clinic_app
         run: python -m pytest

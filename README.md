@@ -12,6 +12,7 @@ The project demonstrates:
 - Safety boundary: no diagnosis, no treatment advice, no prescriptions, and no real patient records.
 - DeepSeek API support for Task 1 artefact generation when configured; committed artefacts record the latest generated run in `Task2/clinic_app/artifacts/deepseek_generation_metadata.json`.
 - Testing, CI/CD workflow, and deployment-ready Render configuration.
+- Submission validation for structure, DeepSeek metadata, English-only files, and secret scanning.
 
 ## Structure
 
@@ -70,7 +71,20 @@ Copy `.env.example` to `.env` for local testing, but do not commit `.env`.
 
 ```bash
 cd Task2/clinic_app
+python -m py_compile app.py
 python -m pytest
+```
+
+Run the coursework structure validation from the repository root:
+
+```bash
+python scripts/validate_submission.py
+```
+
+Before final packaging, add the three required screenshots and run:
+
+```bash
+python scripts/validate_submission.py --require-screenshots
 ```
 
 ## GitHub / Deployment Evidence
@@ -92,3 +106,10 @@ git push -u origin main
 ## AI Use and Academic Integrity
 
 This software includes generated artefact templates, optional API hooks, and deterministic generation logic to support learning. Final report and presentation wording should be written in the student's own words, with AI use acknowledged according to the module policy.
+
+Supporting documents:
+
+- `AI_USE.md`
+- `REFERENCES.md`
+- `DEPLOYMENT.md`
+- `SUBMISSION_CHECKLIST.md`

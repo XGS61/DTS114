@@ -26,6 +26,9 @@
   "validation": {
     "postprocess_alignment": "Applied deterministic checks for endpoint names, evidence paths, and safety wording",
     "actual_test_file": "tests/test_app.py",
-    "summary_endpoint": "GET /api/appointments/<id>/summary"
+    "summary_endpoint": "GET /api/appointments/<id>/summary",
+    "auth_boundary": "Appointment APIs require an authenticated demo session",
+    "conflict_recalculation": "Conflict flags are recalculated after appointment creation and staff review",
+    "submission_validation": "scripts/validate_submission.py checks structure, metadata, English-only text, and possible API key leakage"
   }
 }

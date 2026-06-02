@@ -66,8 +66,9 @@ def create_app(test_config=None):
         ],
         "ai_specific_tooling": [
             "Prompt templates and structured JSON artefacts in the notebook",
-            "Optional DeepSeek API support for artefact drafting",
+            "DeepSeek API support for SDLC artefact generation with recorded metadata",
             "Deterministic fallback when API keys are not configured",
+            "Submission validation script for structure, metadata, language, and secret checks",
         ],
     }
 
@@ -140,6 +141,15 @@ def create_app(test_config=None):
 
         return decorator
 
+    def _require_api_login(view):
+        @wraps(view)
+        def wrapped(*args, **kwargs):
+            if not _current_user():
+                return _json_error("Login required", 401)
+            return view(*args, **kwargs)
+
+        return wrapped
+
     def _validate_appointment_payload(data):
         required = ["patient_name", "preferred_date", "preferred_time", "appointment_type"]
         missing = [field for field in required if not str(data.get(field, "")).strip()]
@@ -177,11 +187,31 @@ def create_app(test_config=None):
     def _find_appointment(appointment_id):
         return next((item for item in appointments if item["id"] == appointment_id), None)
 
+    def _refresh_conflicts():
+        active_slots = {}
+        for item in appointments:
+            if item["status"] == "Cancelled":
+                continue
+            key = (item["preferred_date"], item["preferred_time"])
+            active_slots.setdefault(key, []).append(item["id"])
+
+        for item in appointments:
+            key = (item["preferred_date"], item["preferred_time"])
+            item["conflict"] = item["status"] != "Cancelled" and len(active_slots.get(key, [])) > 1
+
     def _visible_appointments():
         user = _current_user()
         if user and user["role"] == "patient":
             return [item for item in appointments if item.get("created_by") == user["username"]]
         return appointments
+
+    def _appointment_visible_to_user(appointment):
+        user = _current_user()
+        if not user:
+            return False
+        if user["role"] in STAFF_ROLES:
+            return True
+        return appointment.get("created_by") == user["username"]
 
     @app.get("/")
     def index():
@@ -276,6 +306,7 @@ def create_app(test_config=None):
         return jsonify({"authenticated": bool(user), "user": user}), 200
 
     @app.post("/api/appointments")
+    @_require_api_login
     def create_appointment():
         data = _parse_payload()
         validation_error = _validate_appointment_payload(data)
@@ -283,7 +314,6 @@ def create_app(test_config=None):
             return _json_error(validation_error, 400)
 
         user = _current_user()
-        conflict = _has_conflict(data["preferred_date"], data["preferred_time"])
         appointment = {
             "id": _next_id(),
             "patient_name": str(data["patient_name"]).strip(),
@@ -293,18 +323,20 @@ def create_app(test_config=None):
             "appointment_type": str(data["appointment_type"]).strip(),
             "reason": str(data.get("reason", "")).strip(),
             "status": "Pending Review",
-            "conflict": conflict,
+            "conflict": False,
             "review_note": "",
-            "created_by": user["username"] if user else "public-api",
-            "created_by_role": user["role"] if user else "public-api",
+            "created_by": user["username"],
+            "created_by_role": user["role"],
             "created_at": datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z"),
         }
         appointments.append(appointment)
+        _refresh_conflicts()
         _save_appointments()
 
         return jsonify({"message": "Appointment request created", "appointment": appointment}), 201
 
     @app.get("/api/appointments")
+    @_require_api_login
     def list_appointments():
         status_filter = request.args.get("status")
         visible_items = _visible_appointments()
@@ -313,12 +345,12 @@ def create_app(test_config=None):
         return jsonify({"count": len(visible_items), "items": visible_items}), 200
 
     @app.get("/api/appointments/<int:appointment_id>")
+    @_require_api_login
     def get_appointment(appointment_id):
         appointment = _find_appointment(appointment_id)
         if not appointment:
             return _json_error("Appointment not found", 404)
-        user = _current_user()
-        if user and user["role"] == "patient" and appointment.get("created_by") != user["username"]:
+        if not _appointment_visible_to_user(appointment):
             return _json_error("Appointment not visible for this patient account", 403)
         return jsonify({"appointment": appointment}), 200
 
@@ -340,14 +372,18 @@ def create_app(test_config=None):
         appointment["reviewed_by"] = user["display_name"]
         appointment["reviewed_role"] = user["role"]
         appointment["reviewed_at"] = datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
+        _refresh_conflicts()
         _save_appointments()
         return jsonify({"message": "Appointment reviewed", "appointment": appointment}), 200
 
     @app.get("/api/appointments/<int:appointment_id>/summary")
+    @_require_api_login
     def appointment_summary(appointment_id):
         appointment = _find_appointment(appointment_id)
         if not appointment:
             return _json_error("Appointment not found", 404)
+        if not _appointment_visible_to_user(appointment):
+            return _json_error("Appointment not visible for this patient account", 403)
 
         summary = (
             f"Administrative summary: {appointment['patient_name']} requested a "

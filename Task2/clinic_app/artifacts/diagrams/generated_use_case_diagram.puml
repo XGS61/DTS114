@@ -10,16 +10,22 @@ rectangle "Clinic Appointment System" {
   usecase "View Shared Queue" as UC4
   usecase "Confirm Appointment" as UC5
   usecase "Cancel Appointment" as UC6
+  usecase "View Non-diagnostic Summary" as UC7
+  usecase "Run Submission Validation" as UC8
 }
 P --> UC1
 P --> UC2
 P --> UC3
+P --> UC7
 D --> UC1
 D --> UC4
 D --> UC5
 D --> UC6
+D --> UC7
 A --> UC1
 A --> UC4
 A --> UC5
 A --> UC6
+A --> UC7
+System --> UC8
 @enduml

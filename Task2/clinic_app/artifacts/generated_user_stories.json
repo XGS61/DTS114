@@ -11,50 +11,56 @@
     {
       "id": "US02",
       "actor": "Patient",
-      "story": "As a Patient, I want to create an appointment request with date/time so that I can book a slot.",
-      "acceptance_criteria": "Given I am logged in as patient, when I submit a new appointment request with date and time, then the appointment is created with status Pending Review."
+      "story": "As a Patient, I want to create an appointment request with date and time so that staff can review my request.",
+      "acceptance_criteria": "Given I am logged in as patient, when I submit a valid appointment request, then the appointment is created with status Pending Review."
     },
     {
       "id": "US03",
       "actor": "Patient",
-      "story": "As a Patient, I want to view the status of my own appointments so that I can track updates.",
-      "acceptance_criteria": "Given I am logged in as patient, when I view my dashboard, then I see a list of my appointments and their statuses."
+      "story": "As a Patient, I want to view only my own appointments so that I can track status updates privately.",
+      "acceptance_criteria": "Given I am logged in as patient, when I list or open appointments, then I only see appointments created by my account."
     },
     {
       "id": "US04",
       "actor": "Doctor",
-      "story": "As a Doctor, I want to log in and see a shared queue of pending appointments so that I can review them.",
-      "acceptance_criteria": "Given I am logged in as doctor, when I access the staff dashboard, then I see a list of all appointments with status Pending Review."
+      "story": "As a Doctor, I want to log in and see a shared queue of appointment requests so that I can review them.",
+      "acceptance_criteria": "Given I am logged in as doctor, when I access the staff dashboard or appointment API, then I can see the shared queue."
     },
     {
       "id": "US05",
-      "actor": "Doctor",
-      "story": "As a Doctor, I want to confirm or cancel an appointment so that the patient knows the outcome.",
-      "acceptance_criteria": "Given I am logged in as doctor, when I confirm an appointment, then its status changes to Confirmed; when I cancel, status changes to Cancelled."
+      "actor": "Admin Staff",
+      "story": "As Admin Staff, I want to use the same staff review workflow as the doctor so that appointment administration is consistent.",
+      "acceptance_criteria": "Given I am logged in as admin, when I access the staff dashboard, then I can confirm or cancel appointments."
     },
     {
       "id": "US06",
-      "actor": "Admin Staff",
-      "story": "As an Admin Staff, I want to log in and perform the same review actions as a doctor.",
-      "acceptance_criteria": "Given I am logged in as admin, when I access the staff dashboard, then I can confirm or cancel appointments."
+      "actor": "Staff",
+      "story": "As a staff member, I want to confirm or cancel appointment requests so that the patient can view the updated status.",
+      "acceptance_criteria": "Given I am logged in as doctor or admin, when I review an appointment, then its status changes to Confirmed, Cancelled, or Pending Review."
     },
     {
       "id": "US07",
       "actor": "Clinic System",
-      "story": "As the Clinic System, I want to detect and flag conflicting appointments so that double-booking is avoided.",
-      "acceptance_criteria": "Given two appointments with the same date and time are active (not cancelled), then the system flags a conflict."
+      "story": "As the Clinic System, I want to recalculate conflict flags when appointments are created or reviewed so that double-booking evidence stays accurate.",
+      "acceptance_criteria": "Given two active appointments share the same date and time, then both are flagged; when one is cancelled, both conflict flags are cleared."
     },
     {
       "id": "US08",
       "actor": "Clinic System",
-      "story": "As the Clinic System, I want to reject any appointment content containing diagnosis, treatment, or prescription wording so that safety boundaries are maintained.",
-      "acceptance_criteria": "Given an appointment request contains words like 'diagnosis', when submitted, then the system rejects it with an error."
+      "story": "As the Clinic System, I want to reject appointment content containing diagnosis, treatment, or prescription wording so that safety boundaries are maintained.",
+      "acceptance_criteria": "Given an appointment request contains forbidden medical wording, when submitted, then the system rejects it with an administrative-scope error."
     },
     {
-      "id": "US07",
+      "id": "US09",
       "actor": "Clinic System",
-      "story": "As the Clinic System, I want to provide a non-diagnostic administrative summary for an appointment so that staff can review scheduling context without medical advice.",
-      "acceptance_criteria": "Given an existing appointment, when GET /api/appointments/<id>/summary is called, then the response contains only administrative appointment details and status, with no diagnosis or treatment advice."
+      "story": "As the Clinic System, I want to provide a non-diagnostic administrative summary for an appointment so that users can review scheduling context without medical advice.",
+      "acceptance_criteria": "Given an existing visible appointment, when GET /api/appointments/<id>/summary is called by an authenticated user, then the response contains only administrative appointment details and status."
+    },
+    {
+      "id": "US10",
+      "actor": "Developer",
+      "story": "As a Developer, I want automated validation in CI so that the submitted project structure, AI metadata, tests, and security checks are repeatable.",
+      "acceptance_criteria": "Given the repository is pushed to GitHub, when GitHub Actions runs, then it validates submission artefacts, compiles the Flask app, and runs pytest successfully."
     }
   ]
 }

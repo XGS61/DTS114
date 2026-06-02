@@ -6,6 +6,8 @@ Generated Flask API and website for the DTS114 Software Component.
 
 This prototype supports appointment administration only. It does not provide diagnosis, treatment advice, prescriptions, or real patient-record storage.
 
+Appointment API routes are session-protected. Use a demo account through `/login` or `POST /api/auth/login` before creating, listing, opening, or summarising appointments.
+
 ## Local Setup
 
 ```bash
@@ -49,7 +51,14 @@ curl -X POST http://127.0.0.1:5000/api/appointments ^
 ## Tests
 
 ```bash
+python -m py_compile app.py
 python -m pytest
+```
+
+From the repository root, run the submission-level validation:
+
+```bash
+python scripts/validate_submission.py
 ```
 
 ## Deployment
