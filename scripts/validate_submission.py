@@ -37,6 +37,9 @@ REQUIRED_PATHS = [
     "Task2/clinic_app/artifacts/diagrams/sequence_diagram.puml",
     "Task2/clinic_app/artifacts/diagrams/activity_diagram.puml",
     "Task2/clinic_app/tests/test_app.py",
+    "Task2/clinic_app/requirements.txt",
+    "Task2/clinic_app/runtime.txt",
+    "Task2/clinic_app/render.yaml",
     ".github/workflows/ci.yml",
     "render.yaml",
 ]

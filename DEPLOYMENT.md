@@ -15,6 +15,7 @@ Latest CI evidence should be captured from the GitHub Actions page after pushing
 3. Use the root-level `render.yaml`.
 4. Confirm the service uses:
    - Root directory: `Task2/clinic_app`
+   - Python runtime: `python-3.11.9` from `Task2/clinic_app/runtime.txt`
    - Build command: `pip install -r requirements.txt`
    - Start command: `gunicorn app:app`
    - Health check path: `/health`

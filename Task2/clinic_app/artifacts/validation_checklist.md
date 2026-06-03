@@ -18,5 +18,5 @@
 | AI API keys are not committed | `.env.example`, `.gitignore`, `scripts/validate_submission.py` |
 | Tests pass | `python -m pytest` |
 | CI/CD configuration runs validation, syntax check, and tests | `.github/workflows/ci.yml` |
-| Deployment configuration exists | `render.yaml` |
+| Deployment configuration exists | `render.yaml`, `runtime.txt` |
 | Git evidence exists | meaningful commit history on `main` |

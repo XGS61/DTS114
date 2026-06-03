@@ -64,3 +64,5 @@ python scripts/validate_submission.py
 ## Deployment
 
 The app includes `render.yaml`. After pushing to GitHub, connect the repository to Render or create a Blueprint from the YAML file. Configure only required environment variables in Render.
+
+The app also includes `runtime.txt` to pin the Render Python runtime to Python 3.11 for stable dependency installation.
