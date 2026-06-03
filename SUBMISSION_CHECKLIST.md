@@ -19,6 +19,7 @@ Use this checklist before creating the final `StudentID-Your_Name.zip`.
 - [ ] Render Docker health check loads `/health`.
 - [ ] Docker image builds locally or in GitHub Actions.
 - [ ] APIFREE image generation metadata exists and the website displays the generated image.
+- [ ] `environment.yml` exists and documents the local notebook/app environment.
 
 ## Validation Commands
 

@@ -48,7 +48,18 @@ docker build -t dts114-clinic-app .
 docker run --rm -p 5000:5000 dts114-clinic-app
 ```
 
-The local container URL is `http://127.0.0.1:5000/`. Render runs the container in the cloud and provides the public website URL.
+The local container URL is `http://127.0.0.1:5000/`. This proves the Docker image works on the marking machine. Render uses the same Dockerfile to build and run the container in the cloud, then provides the public website URL.
+
+## Conda Environment Setup
+
+For local Python and notebook execution, create the environment from the repository root:
+
+```bash
+conda env create -f environment.yml
+conda activate dts114-clinic-generator
+```
+
+Use this environment for running the Task 1 notebook, `python scripts/validate_submission.py`, and `python -m pytest`.
 
 ## Native Render Fallback
 

@@ -12,6 +12,15 @@ The login page displays `static/generated_clinic_image.png`, which is generated 
 
 ## Local Setup
 
+From the repository root, the recommended coursework environment is:
+
+```bash
+conda env create -f environment.yml
+conda activate dts114-clinic-generator
+```
+
+The app can also be run with a standard Python virtual environment using `requirements.txt`:
+
 ```bash
 python -m pip install -r requirements.txt
 python app.py
@@ -77,5 +86,7 @@ docker run --rm -p 5000:5000 dts114-clinic-app
 Open `http://127.0.0.1:5000/`.
 
 For cloud evidence, create a Render Web Service using Docker runtime, root directory `Task2/clinic_app`, Dockerfile path `./Dockerfile`, Docker context `.`, and health check path `/health`.
+
+Local Docker and Render Docker use the same Dockerfile. The local container is accessible on `http://127.0.0.1:5000/`; the Render container is accessible through the public Render URL after deployment.
 
 The app also includes `render.yaml` and `runtime.txt` as a native Python Render fallback. The Docker deployment is the stronger containerisation evidence.

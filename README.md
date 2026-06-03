@@ -15,10 +15,23 @@ The project demonstrates:
 - Testing, Docker containerisation, CI/CD workflow, and deployment-ready Render configuration.
 - Submission validation for structure, DeepSeek metadata, APIFREE metadata, English-only files, and secret scanning.
 
+## Task 1 Generator Synchronisation
+
+`Task1/clinic_appointment_generator.ipynb` is the single generator notebook for this submission. Running the full notebook from the repository root or from the `Task1` folder regenerates the Task 2 Flask project, including:
+
+- Flask API and website files in `Task2/clinic_app`.
+- Requirements, user stories, validation checklist, and UML source files.
+- Generated clinic image at `Task2/clinic_app/static/generated_clinic_image.png`.
+- DeepSeek and APIFREE metadata files in `Task2/clinic_app/artifacts`.
+- Tests, Dockerfile, Render configuration, CI workflow, screenshot guide, and documentation.
+
+Optional API calls are controlled by environment variables. If DeepSeek or APIFREE keys are unavailable, the notebook uses deterministic fallback artefacts so the generated application remains runnable.
+
 ## Structure
 
 ```text
 StudentID-Your_Name/
+  environment.yml
   Task1/
     clinic_appointment_generator.ipynb
   Task2/
@@ -37,6 +50,19 @@ StudentID-Your_Name/
 ```
 
 ## Run Locally
+
+### Conda Environment
+
+Create the coursework environment from the repository root:
+
+```bash
+conda env create -f environment.yml
+conda activate dts114-clinic-generator
+```
+
+This environment supports the Task 1 notebook, the Task 2 Flask app, and the pytest validation commands.
+
+### Flask App
 
 ```bash
 cd Task2/clinic_app
@@ -96,7 +122,7 @@ python scripts/validate_submission.py --require-screenshots
 
 ## Docker
 
-The generated app can be run as a container for Week 5 containerisation evidence:
+The generated app can be run as a local container for Week 5 containerisation evidence:
 
 ```bash
 cd Task2/clinic_app
@@ -104,7 +130,7 @@ docker build -t dts114-clinic-app .
 docker run --rm -p 5000:5000 dts114-clinic-app
 ```
 
-Open `http://127.0.0.1:5000/`. In cloud deployment, Render builds and runs the same Docker container and provides a public URL.
+Open `http://127.0.0.1:5000/`. In cloud deployment, Render builds and runs the same Dockerfile as a public web service. Local Docker proves the container works on the marking machine; Render Docker deployment proves the same container can run as an online website.
  
 ## GitHub / Deployment Evidence
 

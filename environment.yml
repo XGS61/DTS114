@@ -1,0 +1,17 @@
+# Conda environment for running the Task 1 generator notebook and Task 2 Flask app.
+# Docker is documented separately because container execution uses Task2/clinic_app/Dockerfile.
+name: dts114-clinic-generator
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - jupyter
+  - notebook
+  - nbclient
+  - nbformat
+  - ipykernel
+  - pytest=7.4.4
+  - pip:
+      - Flask==3.0.3
+      - gunicorn==22.0.0

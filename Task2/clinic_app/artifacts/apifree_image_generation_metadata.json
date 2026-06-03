@@ -5,16 +5,10 @@
   "result_endpoint_template": "https://api.apifree.ai/v1/image/{request_id}/result",
   "model": "qwen/qwen-image-2512",
   "status": "fallback",
-  "reason": "APIFREE API returned invalid_api_key: Invalid API key",
-  "generated_at_utc": "2026-06-03T10:16:01Z",
+  "reason": "ENABLE_IMAGE_API_GENERATION is not set to 1",
+  "generated_at_utc": "2026-06-03T12:23:48Z",
   "prompt": "Use case: ui-mockup\nAsset type: website hero image for a clinic appointment system coursework prototype\nPrimary request: a polished modern healthcare appointment scheduling interface mockup shown on a laptop/tablet screen in a clean clinic reception environment\nConstraints: no logos, no brand names, no medical diagnosis content, no real patient names, no watermark, no readable private data.",
   "output": "static/generated_clinic_image.png",
   "fallback_policy": "If ENABLE_IMAGE_API_GENERATION is not 1, APIFREE_API_KEY is missing, or the API call fails, the notebook writes the embedded AI-generated PNG fallback.",
-  "safety_boundary": "The image supports appointment administration only and must not include diagnosis, treatment advice, or real patient information.",
-  "submit_response_shape": [
-    "code",
-    "error",
-    "served_by",
-    "trace_id"
-  ]
+  "safety_boundary": "The image supports appointment administration only and must not include diagnosis, treatment advice, or real patient information."
 }

@@ -24,6 +24,7 @@ SECRET_PATTERN = re.compile(r"(sk|rnd)_[A-Za-z0-9_-]{20,}")
 
 REQUIRED_PATHS = [
     "Task1/clinic_appointment_generator.ipynb",
+    "environment.yml",
     "Task2/clinic_app/app.py",
     "Task2/clinic_app/templates/login.html",
     "Task2/clinic_app/templates/patient.html",
