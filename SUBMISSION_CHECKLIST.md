@@ -15,7 +15,7 @@ Use this checklist before creating the final `StudentID-Your_Name.zip`.
 - [ ] Deployed website screenshot: `Task2/screenshots/02_deployed_website.png`.
 - [ ] CI/CD workflow screenshot: `Task2/screenshots/03_cicd_workflow.png`.
 - [ ] GitHub Actions latest run is successful.
-- [ ] Render Docker deployment loads `/login`.
+- [ ] Render Docker deployment loads `/`.
 - [ ] Render Docker health check loads `/health`.
 - [ ] Docker image builds locally or in GitHub Actions.
 

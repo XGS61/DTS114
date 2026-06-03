@@ -6,7 +6,7 @@ Generated Flask API and website for the DTS114 Software Component.
 
 This prototype supports appointment administration only. It does not provide diagnosis, treatment advice, prescriptions, or real patient-record storage.
 
-Appointment API routes are session-protected. Use a demo account through `/login` or `POST /api/auth/login` before creating, listing, opening, or summarising appointments.
+Appointment API routes are session-protected. Use a demo account through `/`, `/app/login`, or `POST /api/auth/login` before creating, listing, opening, or summarising appointments.
 
 ## Local Setup
 
@@ -15,7 +15,7 @@ python -m pip install -r requirements.txt
 python app.py
 ```
 
-Open `http://127.0.0.1:5000/login`.
+Open `http://127.0.0.1:5000/` or `http://127.0.0.1:5000/app/login`.
 
 ## Demo Accounts
 
@@ -30,6 +30,8 @@ Open `http://127.0.0.1:5000/login`.
 | Method | Endpoint | Purpose |
 |---|---|---|
 | GET | `/health` | Service health check |
+| GET | `/` | Public login page for deployment screenshots |
+| GET | `/app/login` | Namespaced login page |
 | POST | `/api/auth/login` | Start a demo role session |
 | POST | `/api/auth/logout` | End the current demo session |
 | GET | `/api/auth/session` | Inspect the current demo session |
@@ -70,7 +72,7 @@ docker build -t dts114-clinic-app .
 docker run --rm -p 5000:5000 dts114-clinic-app
 ```
 
-Open `http://127.0.0.1:5000/login`.
+Open `http://127.0.0.1:5000/`.
 
 For cloud evidence, create a Render Web Service using Docker runtime, root directory `Task2/clinic_app`, Dockerfile path `./Dockerfile`, Docker context `.`, and health check path `/health`.
 

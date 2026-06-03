@@ -23,7 +23,7 @@ Suggested filename:
 
 ## 2. Website Deployment
 
-Deploy the Flask website, preferably using Render. Capture the deployed login page or staff dashboard showing the generated clinic image and role-based workflow.
+Deploy the Flask website using Render Docker runtime. Capture the deployed public login page or staff dashboard showing the generated clinic image and role-based workflow.
 
 Suggested filename:
 

@@ -48,7 +48,7 @@ def test_login_returns_role_redirect(client):
     data = response.get_json()
     assert response.status_code == 200
     assert data["user"]["role"] == "doctor"
-    assert data["redirect"] == "/staff"
+    assert data["redirect"] == "/app/staff"
 
 
 def test_appointment_api_requires_login(client):
@@ -182,7 +182,7 @@ def test_meta_requirements_describe_relevant_ai_tooling(client):
 
 def test_patient_page_uses_english_custom_calendar_picker(client):
     login(client, "patient", "patient123")
-    response = client.get("/patient")
+    response = client.get("/app/patient")
     page = response.get_data(as_text=True)
     assert response.status_code == 200
     assert 'data-date-picker' in page
@@ -192,6 +192,20 @@ def test_patient_page_uses_english_custom_calendar_picker(client):
     assert 'data-calendar-clear>Clear</button>' in page
     assert 'data-calendar-today>Today</button>' in page
     assert 'name="preferred_time" type="time"' in page
+
+
+def test_legacy_patient_route_still_works(client):
+    login(client, "patient", "patient123")
+    response = client.get("/patient")
+    assert response.status_code == 200
+
+
+def test_root_renders_login_page_for_public_deployment(client):
+    response = client.get("/")
+    page = response.get_data(as_text=True)
+    assert response.status_code == 200
+    assert "Demo Login" in page
+    assert "Clinic Appointment System" in page
 
 def test_deepseek_metadata_records_generated_artefact_run():
     metadata_path = Path(__file__).resolve().parents[1] / "artifacts" / "deepseek_generation_metadata.json"

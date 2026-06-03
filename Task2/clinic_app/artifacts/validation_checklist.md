@@ -5,7 +5,7 @@
 | Single Task 1 notebook exists | `Task1/clinic_appointment_generator.ipynb` |
 | Generated Flask project exists | `Task2/clinic_app` |
 | Website displays generated image | `static/generated_clinic_image.png` |
-| Login supports patient, doctor, and admin roles | `/login`, `/api/auth/login` |
+| Login supports patient, doctor, and admin roles | `/`, `/app/login`, `/api/auth/login` |
 | Patient and staff dashboards are separate | `/patient`, `/staff` |
 | Appointment APIs require login | `tests/test_app.py` |
 | Patient visibility is limited to own appointments | `tests/test_app.py` |

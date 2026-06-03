@@ -45,9 +45,10 @@ python app.py
 
 Open:
 
-- Login: http://127.0.0.1:5000/login
-- Patient dashboard: http://127.0.0.1:5000/patient
-- Staff dashboard: http://127.0.0.1:5000/staff
+- Login: http://127.0.0.1:5000/
+- App login: http://127.0.0.1:5000/app/login
+- Patient dashboard: http://127.0.0.1:5000/app/patient
+- Staff dashboard: http://127.0.0.1:5000/app/staff
 - Health check: http://127.0.0.1:5000/health
 
 ## Demo Accounts
@@ -98,7 +99,7 @@ docker build -t dts114-clinic-app .
 docker run --rm -p 5000:5000 dts114-clinic-app
 ```
 
-Open `http://127.0.0.1:5000/login`. In cloud deployment, Render builds and runs the same Docker container and provides a public URL.
+Open `http://127.0.0.1:5000/`. In cloud deployment, Render builds and runs the same Docker container and provides a public URL.
  
 ## GitHub / Deployment Evidence
 

@@ -8,17 +8,21 @@ https://github.com/XGS61/DTS114
 
 Latest CI evidence should be captured from the GitHub Actions page after pushing the final commit.
 
-Deployed website URL:
+Primary Docker deployed website URL:
 
-Primary Docker Render deployment will use the Docker service URL after creation.
+https://dts114-clinic-appointment-generator-g8md.onrender.com/
+
+Primary Docker app login URL:
+
+https://dts114-clinic-appointment-generator-g8md.onrender.com/app/login
 
 Fallback native Python Render deployment:
 
 https://dts114-clinic-appointment-generator.onrender.com/login
 
-Health check URL:
+Primary Docker health check URL:
 
-Primary Docker Render health check will use the Docker service `/health` URL after creation.
+https://dts114-clinic-appointment-generator-g8md.onrender.com/health
 
 Fallback native Python Render health check:
 
@@ -34,7 +38,7 @@ https://dts114-clinic-appointment-generator.onrender.com/health
    - Dockerfile path: `./Dockerfile`
    - Docker context: `.`
    - Health check path: `/health`
-5. After deployment, open the deployed `/login` page and `/health` endpoint.
+5. After deployment, open the deployed `/` page and `/health` endpoint.
 
 ## Local Docker Verification
 
@@ -44,7 +48,7 @@ docker build -t dts114-clinic-app .
 docker run --rm -p 5000:5000 dts114-clinic-app
 ```
 
-The local container URL is `http://127.0.0.1:5000/login`. Render runs the container in the cloud and provides the public website URL.
+The local container URL is `http://127.0.0.1:5000/`. Render runs the container in the cloud and provides the public website URL.
 
 ## Native Render Fallback
 
@@ -62,7 +66,7 @@ Place the final screenshots in `Task2/screenshots/`:
 | Filename | Required evidence |
 |---|---|
 | `01_commit_records.png` | GitHub commit history showing meaningful commits |
-| `02_deployed_website.png` | Render deployed website, preferably the login page with generated image |
+| `02_deployed_website.png` | Render Docker deployed website, preferably the public login page with generated image |
 | `03_cicd_workflow.png` | GitHub Actions workflow run showing success |
 
 ## Final Packaging Check

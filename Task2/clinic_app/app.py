@@ -126,6 +126,22 @@ def create_app(test_config=None):
             return "staff_dashboard"
         return "patient_dashboard"
 
+    def _render_login_page():
+        demo_accounts = [
+            {
+                "username": username,
+                "password": config["password"],
+                "role": config["role"],
+                "display_name": config["display_name"],
+            }
+            for username, config in DEMO_USERS.items()
+        ]
+        return render_template(
+            "login.html",
+            demo_accounts=demo_accounts,
+            safety_boundary=safety_boundary,
+        )
+
     def _require_api_roles(allowed_roles):
         def decorator(view):
             @wraps(view)
@@ -217,30 +233,21 @@ def create_app(test_config=None):
     def index():
         user = _current_user()
         if not user:
-            return redirect(url_for("login_page"))
+            return _render_login_page()
         return redirect(url_for(_dashboard_endpoint(user)))
 
-    @app.get("/login")
+    @app.get("/app/login")
     def login_page():
         user = _current_user()
         if user:
             return redirect(url_for(_dashboard_endpoint(user)))
-        demo_accounts = [
-            {
-                "username": username,
-                "password": config["password"],
-                "role": config["role"],
-                "display_name": config["display_name"],
-            }
-            for username, config in DEMO_USERS.items()
-        ]
-        return render_template(
-            "login.html",
-            demo_accounts=demo_accounts,
-            safety_boundary=safety_boundary,
-        )
+        return _render_login_page()
 
-    @app.get("/patient")
+    @app.get("/login")
+    def legacy_login_page():
+        return login_page()
+
+    @app.get("/app/patient")
     def patient_dashboard():
         user = _current_user()
         if not user:
@@ -253,7 +260,11 @@ def create_app(test_config=None):
             safety_boundary=safety_boundary,
         )
 
-    @app.get("/staff")
+    @app.get("/patient")
+    def legacy_patient_dashboard():
+        return patient_dashboard()
+
+    @app.get("/app/staff")
     def staff_dashboard():
         user = _current_user()
         if not user:
@@ -266,10 +277,18 @@ def create_app(test_config=None):
             safety_boundary=safety_boundary,
         )
 
-    @app.get("/logout")
+    @app.get("/staff")
+    def legacy_staff_dashboard():
+        return staff_dashboard()
+
+    @app.get("/app/logout")
     def logout_page():
         session.pop("user", None)
         return redirect(url_for("login_page"))
+
+    @app.get("/logout")
+    def legacy_logout_page():
+        return logout_page()
 
     @app.get("/health")
     def health():
