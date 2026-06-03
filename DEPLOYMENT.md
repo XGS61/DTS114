@@ -8,6 +8,14 @@ https://github.com/XGS61/DTS114
 
 Latest CI evidence should be captured from the GitHub Actions page after pushing the final commit.
 
+Deployed website URL:
+
+https://dts114-clinic-appointment-generator.onrender.com/login
+
+Health check URL:
+
+https://dts114-clinic-appointment-generator.onrender.com/health
+
 ## Render Deployment Steps
 
 1. Log in to Render.
