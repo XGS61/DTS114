@@ -53,8 +53,8 @@
     {
       "id": "US09",
       "actor": "Clinic System",
-      "story": "As the Clinic System, I want to provide a non-diagnostic administrative summary for an appointment so that users can review scheduling context without medical advice.",
-      "acceptance_criteria": "Given an existing visible appointment, when GET /api/appointments/<id>/summary is called by an authenticated user, then the response contains only administrative appointment details and status."
+      "story": "As the Clinic System, I want to provide a non-diagnostic administrative summary for an appointment so that staff can review scheduling context without medical advice.",
+      "acceptance_criteria": "Given an existing appointment, when GET /api/appointments/<id>/summary is called, then the response contains only administrative appointment details and status, with no diagnosis or treatment advice."
     },
     {
       "id": "US10",

@@ -29,6 +29,7 @@
     "summary_endpoint": "GET /api/appointments/<id>/summary",
     "auth_boundary": "Appointment APIs require an authenticated demo session",
     "conflict_recalculation": "Conflict flags are recalculated after appointment creation and staff review",
-    "submission_validation": "scripts/validate_submission.py checks structure, metadata, English-only text, and possible API key leakage"
+    "submission_validation": "scripts/validate_submission.py checks structure, metadata, English-only text, and possible API key leakage",
+    "docker_deployment": "Dockerfile, GitHub Actions Docker build/smoke test, and Render Docker runtime are generated"
   }
 }
