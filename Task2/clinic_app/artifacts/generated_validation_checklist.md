@@ -13,6 +13,6 @@
 | 11 | Meta requirements endpoint exposes AI-DLC and DeepSeek tooling rationale | tests/test_app.py |
 | 12 | Custom English date picker avoids localised browser date text | tests/test_app.py |
 | 13 | Submission validation checks structure, metadata, English-only files, and secrets | scripts/validate_submission.py |
-| 14 | GitHub Actions CI runs validation, syntax check, and pytest | .github/workflows/ci.yml |
-| 15 | Render deployment configuration and Python runtime pin are present | render.yaml; Task2/clinic_app/runtime.txt |
+| 14 | GitHub Actions CI runs validation, syntax check, pytest, Docker build, and Docker smoke test | .github/workflows/ci.yml |
+| 15 | Dockerfile and Render deployment configuration are present | Task2/clinic_app/Dockerfile; render.yaml |
 | 16 | Screenshot guide explains commit, deployment, and CI/CD evidence | Task2/screenshots/README.md |

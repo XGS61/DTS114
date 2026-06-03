@@ -10,24 +10,50 @@ Latest CI evidence should be captured from the GitHub Actions page after pushing
 
 Deployed website URL:
 
+Primary Docker Render deployment will use the Docker service URL after creation.
+
+Fallback native Python Render deployment:
+
 https://dts114-clinic-appointment-generator.onrender.com/login
 
 Health check URL:
 
+Primary Docker Render health check will use the Docker service `/health` URL after creation.
+
+Fallback native Python Render health check:
+
 https://dts114-clinic-appointment-generator.onrender.com/health
 
-## Render Deployment Steps
+## Render Docker Deployment Steps
 
 1. Log in to Render.
-2. Create a new Blueprint or Web Service from the GitHub repository.
-3. Use the root-level `render.yaml`.
+2. Create a new Blueprint from the root-level `render.yaml`, or create a new Web Service from the GitHub repository.
+3. Confirm Docker runtime is selected.
 4. Confirm the service uses:
    - Root directory: `Task2/clinic_app`
-   - Python runtime: `python-3.11.9` from `Task2/clinic_app/runtime.txt`
-   - Build command: `pip install -r requirements.txt`
-   - Start command: `gunicorn app:app`
+   - Dockerfile path: `./Dockerfile`
+   - Docker context: `.`
    - Health check path: `/health`
 5. After deployment, open the deployed `/login` page and `/health` endpoint.
+
+## Local Docker Verification
+
+```bash
+cd Task2/clinic_app
+docker build -t dts114-clinic-app .
+docker run --rm -p 5000:5000 dts114-clinic-app
+```
+
+The local container URL is `http://127.0.0.1:5000/login`. Render runs the container in the cloud and provides the public website URL.
+
+## Native Render Fallback
+
+The project also keeps `runtime.txt` for a native Python fallback. Use this fallback only if Docker service creation is blocked:
+
+- Root directory: `Task2/clinic_app`
+- Build command: `pip install -r requirements.txt`
+- Start command: `gunicorn app:app`
+- Python runtime: `python-3.11.9`
 
 ## Required Screenshot Evidence
 

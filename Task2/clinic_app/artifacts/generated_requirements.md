@@ -27,8 +27,8 @@ Appointment administration prototype only. No diagnosis, treatment advice, presc
 
 ## Non-Functional Requirements
 - Automated tests in tests/test_app.py.
-- CI with GitHub Actions, including submission validation, syntax check, and pytest.
-- Deployment via Render.
+- CI with GitHub Actions, including submission validation, syntax check, pytest, Docker image build, and Docker smoke test.
+- Containerisation via Dockerfile and cloud deployment via Render Docker runtime.
 - LLM-backed generation evidence in artifacts/deepseek_generation_metadata.json.
 - Submission validation checks one-notebook structure, DeepSeek metadata, English-only files, and possible API key leakage.
 

@@ -38,3 +38,16 @@ jobs:
       - name: Run tests
         working-directory: Task2/clinic_app
         run: python -m pytest
+
+      - name: Build Docker image
+        working-directory: Task2/clinic_app
+        run: docker build -t dts114-clinic-app .
+
+      - name: Smoke test Docker container
+        working-directory: Task2/clinic_app
+        run: |
+          docker run -d --name clinic-app -p 5000:5000 dts114-clinic-app
+          sleep 5
+          curl --fail http://127.0.0.1:5000/health
+          docker logs clinic-app
+          docker stop clinic-app

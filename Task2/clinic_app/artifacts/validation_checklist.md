@@ -17,6 +17,6 @@
 | Summary is non-diagnostic | `GET /api/appointments/<id>/summary` |
 | AI API keys are not committed | `.env.example`, `.gitignore`, `scripts/validate_submission.py` |
 | Tests pass | `python -m pytest` |
-| CI/CD configuration runs validation, syntax check, and tests | `.github/workflows/ci.yml` |
-| Deployment configuration exists | `render.yaml`, `runtime.txt` |
+| CI/CD configuration runs validation, syntax check, tests, Docker build, and Docker smoke test | `.github/workflows/ci.yml` |
+| Docker deployment configuration exists | `Dockerfile`, `render.yaml` |
 | Git evidence exists | meaningful commit history on `main` |

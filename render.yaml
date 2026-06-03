@@ -1,9 +1,12 @@
 services:
   - type: web
-    name: dts114-clinic-appointment-generator
-    env: python
+    name: dts114-clinic-appointment-generator-docker
+    env: docker
     plan: free
     rootDir: Task2/clinic_app
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
     healthCheckPath: "/health"
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true

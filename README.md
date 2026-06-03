@@ -11,7 +11,7 @@ The project demonstrates:
 - Human review boundary: appointments are created as `Pending Review` and require staff confirmation or cancellation.
 - Safety boundary: no diagnosis, no treatment advice, no prescriptions, and no real patient records.
 - DeepSeek API support for Task 1 artefact generation when configured; committed artefacts record the latest generated run in `Task2/clinic_app/artifacts/deepseek_generation_metadata.json`.
-- Testing, CI/CD workflow, and deployment-ready Render configuration.
+- Testing, Docker containerisation, CI/CD workflow, and deployment-ready Render configuration.
 - Submission validation for structure, DeepSeek metadata, English-only files, and secret scanning.
 
 ## Structure
@@ -23,6 +23,7 @@ StudentID-Your_Name/
   Task2/
     clinic_app/
       app.py
+      Dockerfile
       requirements.txt
       render.yaml
       templates/
@@ -87,6 +88,18 @@ Before final packaging, add the three required screenshots and run:
 python scripts/validate_submission.py --require-screenshots
 ```
 
+## Docker
+
+The generated app can be run as a container for Week 5 containerisation evidence:
+
+```bash
+cd Task2/clinic_app
+docker build -t dts114-clinic-app .
+docker run --rm -p 5000:5000 dts114-clinic-app
+```
+
+Open `http://127.0.0.1:5000/login`. In cloud deployment, Render builds and runs the same Docker container and provides a public URL.
+ 
 ## GitHub / Deployment Evidence
 
 The `Task2/screenshots` folder explains the three required screenshots:

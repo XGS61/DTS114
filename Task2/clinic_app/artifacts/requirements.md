@@ -41,8 +41,8 @@ The system supports appointment administration only. It must not provide diagnos
 | NFR-01 | All user-visible text shall be in English. |
 | NFR-02 | API keys shall be read from environment variables and must not be committed. |
 | NFR-03 | The application shall include automated tests for core API behaviour. |
-| NFR-04 | The repository shall include GitHub Actions CI configuration for validation, syntax checking, and pytest. |
-| NFR-05 | The repository shall include Render deployment configuration. |
+| NFR-04 | The repository shall include GitHub Actions CI configuration for validation, syntax checking, pytest, Docker image build, and Docker smoke testing. |
+| NFR-05 | The repository shall include Dockerfile and Render Docker deployment configuration. |
 | NFR-06 | The project shall provide clear Git commit history for coursework evidence. |
 | NFR-07 | The repository shall include submission validation for structure, DeepSeek metadata, English-only files, and possible API key leakage. |
 
@@ -50,7 +50,7 @@ The system supports appointment administration only. It must not provide diagnos
 
 - Inception: define clinic problem, roles, user stories, acceptance criteria, and safety boundary.
 - Construction: generate requirements, UML, Flask code, website files, image, tests, and validation checklist.
-- Operations: use Git commits, CI/CD, deployment configuration, and screenshot evidence.
+- Operations: use Git commits, CI/CD, Docker containerisation, Render deployment configuration, and screenshot evidence.
 
 ## Safety Controls
 

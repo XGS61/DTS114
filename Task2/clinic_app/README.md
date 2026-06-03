@@ -60,9 +60,18 @@ From the repository root, run the submission-level validation:
 ```bash
 python scripts/validate_submission.py
 ```
-
+ 
 ## Deployment
 
-The app includes `render.yaml`. After pushing to GitHub, connect the repository to Render or create a Blueprint from the YAML file. Configure only required environment variables in Render.
+The app includes a `Dockerfile` for containerised deployment. Build and run it locally:
 
-The app also includes `runtime.txt` to pin the Render Python runtime to Python 3.11 for stable dependency installation.
+```bash
+docker build -t dts114-clinic-app .
+docker run --rm -p 5000:5000 dts114-clinic-app
+```
+
+Open `http://127.0.0.1:5000/login`.
+
+For cloud evidence, create a Render Web Service using Docker runtime, root directory `Task2/clinic_app`, Dockerfile path `./Dockerfile`, Docker context `.`, and health check path `/health`.
+
+The app also includes `render.yaml` and `runtime.txt` as a native Python Render fallback. The Docker deployment is the stronger containerisation evidence.

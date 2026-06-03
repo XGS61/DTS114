@@ -15,8 +15,9 @@ Use this checklist before creating the final `StudentID-Your_Name.zip`.
 - [ ] Deployed website screenshot: `Task2/screenshots/02_deployed_website.png`.
 - [ ] CI/CD workflow screenshot: `Task2/screenshots/03_cicd_workflow.png`.
 - [ ] GitHub Actions latest run is successful.
-- [ ] Render deployment loads `/login`.
-- [ ] Render health check loads `/health`.
+- [ ] Render Docker deployment loads `/login`.
+- [ ] Render Docker health check loads `/health`.
+- [ ] Docker image builds locally or in GitHub Actions.
 
 ## Validation Commands
 
@@ -33,6 +34,13 @@ python -m py_compile app.py
 python -m pytest
 ```
 
+Optional local Docker check:
+
+```bash
+docker build -t dts114-clinic-app .
+docker run --rm -p 5000:5000 dts114-clinic-app
+```
+
 ## Clean Packaging
 
 - [ ] Do not include `.env`.
@@ -41,6 +49,7 @@ python -m pytest
 - [ ] Do not include `__pycache__`.
 - [ ] Do not include runtime `Task2/clinic_app/data/appointments.json`.
 - [ ] Keep `Task2/clinic_app/data/.gitkeep`.
+- [ ] Keep `Task2/clinic_app/Dockerfile` and `Task2/clinic_app/.dockerignore`.
 
 Suggested PowerShell cleanup before zipping:
 
