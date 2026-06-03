@@ -30,7 +30,8 @@ Appointment administration prototype only. No diagnosis, treatment advice, presc
 - CI with GitHub Actions, including submission validation, syntax check, pytest, Docker image build, and Docker smoke test.
 - Containerisation via Dockerfile and cloud deployment via Render Docker runtime.
 - LLM-backed generation evidence in artifacts/deepseek_generation_metadata.json.
-- Submission validation checks one-notebook structure, DeepSeek metadata, English-only files, and possible API key leakage.
+- APIFREE-backed image generation evidence in artifacts/apifree_image_generation_metadata.json.
+- Submission validation checks one-notebook structure, DeepSeek metadata, APIFREE metadata, English-only files, and possible API key leakage.
 
 ## AI-DLC Traceability
-The requirements were generated using an AI-DLC-informed iterative methodology. Outputs include user stories, validation checklist, UML diagrams, Flask API, tests, CI, and deployment config.
+The requirements were generated using an AI-DLC-informed iterative methodology. Outputs include user stories, validation checklist, UML diagrams, Flask API, APIFREE-backed clinic image, tests, CI, and deployment config.

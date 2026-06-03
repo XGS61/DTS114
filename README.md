@@ -11,8 +11,9 @@ The project demonstrates:
 - Human review boundary: appointments are created as `Pending Review` and require staff confirmation or cancellation.
 - Safety boundary: no diagnosis, no treatment advice, no prescriptions, and no real patient records.
 - DeepSeek API support for Task 1 artefact generation when configured; committed artefacts record the latest generated run in `Task2/clinic_app/artifacts/deepseek_generation_metadata.json`.
+- APIFREE API support for Task 1 clinic image generation when configured; committed artefacts record the image generation run in `Task2/clinic_app/artifacts/apifree_image_generation_metadata.json`.
 - Testing, Docker containerisation, CI/CD workflow, and deployment-ready Render configuration.
-- Submission validation for structure, DeepSeek metadata, English-only files, and secret scanning.
+- Submission validation for structure, DeepSeek metadata, APIFREE metadata, English-only files, and secret scanning.
 
 ## Structure
 
@@ -68,6 +69,10 @@ Copy `.env.example` to `.env` for local testing, but do not commit `.env`.
 | `FLASK_SECRET_KEY` | Session signing key for Flask |
 | `DEEPSEEK_API_KEY` | Notebook support for DeepSeek SDLC artefact generation |
 | `ENABLE_LLM_GENERATION` | Set to `1` only when intentionally testing optional LLM generation |
+| `APIFREE_API_KEY` | Notebook support for APIFREE clinic image generation |
+| `ENABLE_IMAGE_API_GENERATION` | Set to `1` only when intentionally testing optional image API generation |
+| `APIFREE_IMAGE_MODEL` | Optional APIFREE image model override; default is `qwen/qwen-image-2512` |
+| `APIFREE_API_BASE` | Optional APIFREE base URL override |
 
 ## Test
 

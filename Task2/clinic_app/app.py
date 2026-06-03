@@ -56,7 +56,7 @@ def create_app(test_config=None):
             "Set safety boundary: no diagnosis, no treatment advice, no real patient records",
         ],
         "construction": [
-            "Generate requirements, user stories, UML source, Flask API, role-based website, and image",
+            "Generate requirements, user stories, UML source, Flask API, role-based website, and APIFREE-backed image",
             "Validate generated artefacts against safety, role, workflow, and testing checklists",
         ],
         "operations": [
@@ -67,6 +67,7 @@ def create_app(test_config=None):
         "ai_specific_tooling": [
             "Prompt templates and structured JSON artefacts in the notebook",
             "DeepSeek API support for SDLC artefact generation with recorded metadata",
+            "APIFREE API support for generated clinic interface imagery with recorded metadata",
             "Deterministic fallback when API keys are not configured",
             "Submission validation script for structure, metadata, language, and secret checks",
         ],

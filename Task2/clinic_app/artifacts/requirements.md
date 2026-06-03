@@ -31,7 +31,7 @@ The system supports appointment administration only. It must not provide diagnos
 | FR-10 | Doctor/admin users shall confirm, cancel, or reopen appointment requests. |
 | FR-11 | The system shall provide a non-diagnostic administrative summary for each visible request. |
 | FR-12 | The system shall expose REST-style API endpoints for health, authentication, appointments, review, summary, and metadata. |
-| FR-13 | The website shall display a generated clinic appointment image. |
+| FR-13 | The website shall display a generated clinic appointment image produced by the Task 1 notebook using APIFREE when configured, with deterministic fallback when unavailable. |
 | FR-14 | The system shall avoid irrelevant external APIs unless they directly support the appointment administration workflow. |
 
 ## Non-Functional Requirements
@@ -44,12 +44,12 @@ The system supports appointment administration only. It must not provide diagnos
 | NFR-04 | The repository shall include GitHub Actions CI configuration for validation, syntax checking, pytest, Docker image build, and Docker smoke testing. |
 | NFR-05 | The repository shall include Dockerfile and Render Docker deployment configuration. |
 | NFR-06 | The project shall provide clear Git commit history for coursework evidence. |
-| NFR-07 | The repository shall include submission validation for structure, DeepSeek metadata, English-only files, and possible API key leakage. |
+| NFR-07 | The repository shall include submission validation for structure, DeepSeek metadata, APIFREE image metadata, English-only files, and possible API key leakage. |
 
 ## AI-DLC Traceability
 
 - Inception: define clinic problem, roles, user stories, acceptance criteria, and safety boundary.
-- Construction: generate requirements, UML, Flask code, website files, image, tests, and validation checklist.
+- Construction: generate requirements, UML, Flask code, website files, APIFREE-backed image, tests, and validation checklist.
 - Operations: use Git commits, CI/CD, Docker containerisation, Render deployment configuration, and screenshot evidence.
 
 ## Safety Controls
@@ -57,4 +57,4 @@ The system supports appointment administration only. It must not provide diagnos
 - Reject requests containing diagnosis or treatment wording.
 - Keep summaries non-diagnostic.
 - Require doctor/admin permission for review actions.
-- Use deterministic fallback when optional AI generation is unavailable.
+- Use deterministic fallback when optional DeepSeek or APIFREE generation is unavailable.

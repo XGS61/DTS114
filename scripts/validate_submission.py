@@ -19,7 +19,7 @@ TEXT_SUFFIXES = {
     ".ipynb",
     ".example",
 }
-SECRET_PATTERN = re.compile(r"sk-[A-Za-z0-9_-]{20,}")
+SECRET_PATTERN = re.compile(r"(sk|rnd)_[A-Za-z0-9_-]{20,}")
 
 
 REQUIRED_PATHS = [
@@ -30,6 +30,7 @@ REQUIRED_PATHS = [
     "Task2/clinic_app/templates/staff.html",
     "Task2/clinic_app/static/generated_clinic_image.png",
     "Task2/clinic_app/artifacts/deepseek_generation_metadata.json",
+    "Task2/clinic_app/artifacts/apifree_image_generation_metadata.json",
     "Task2/clinic_app/artifacts/generated_requirements.md",
     "Task2/clinic_app/artifacts/generated_user_stories.json",
     "Task2/clinic_app/artifacts/generated_validation_checklist.md",
@@ -86,6 +87,20 @@ def assert_deepseek_metadata():
         raise AssertionError("DeepSeek metadata must record token usage")
 
 
+def assert_apifree_image_metadata():
+    metadata_path = ROOT / "Task2/clinic_app/artifacts/apifree_image_generation_metadata.json"
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    if metadata.get("generator") != "APIFREE API":
+        raise AssertionError("APIFREE metadata must record the APIFREE API generator")
+    if metadata.get("model") != "qwen/qwen-image-2512":
+        raise AssertionError("APIFREE metadata must record the generated image model")
+    if metadata.get("status") not in {"generated", "fallback"}:
+        raise AssertionError("APIFREE metadata status must be generated or fallback")
+    output_path = ROOT / "Task2/clinic_app" / metadata.get("output", "")
+    if not output_path.exists():
+        raise AssertionError("APIFREE metadata output image path does not exist")
+
+
 def assert_no_chinese_or_secrets():
     chinese_hits = []
     secret_hits = []
@@ -114,6 +129,7 @@ def main():
     assert_required_paths(args.require_screenshots)
     assert_single_task1_notebook()
     assert_deepseek_metadata()
+    assert_apifree_image_metadata()
     assert_no_chinese_or_secrets()
     print("Submission validation passed.")
 

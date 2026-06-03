@@ -1,5 +1,7 @@
 # References
 
+APIFREE. (2026). *APIFREE API documentation*. https://docs.apifree.ai/
+
 DeepSeek. (2026). *DeepSeek API documentation*. https://api-docs.deepseek.com/
 
 GitHub. (2026). *GitHub Actions documentation*. https://docs.github.com/actions

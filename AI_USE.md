@@ -7,13 +7,16 @@ This software component uses AI as an engineering support tool, not as a substit
 - The Task 1 notebook can call the DeepSeek Chat Completions API when `ENABLE_LLM_GENERATION=1` and `DEEPSEEK_API_KEY` is configured.
 - DeepSeek is used to generate draft SDLC artefacts: requirements, user stories, validation checklist, and UML source.
 - The generated run is recorded in `Task2/clinic_app/artifacts/deepseek_generation_metadata.json`, including model, endpoint, status, timestamp, and token usage.
-- A generated clinic interface image is included in `Task2/clinic_app/static/generated_clinic_image.png` and displayed on the login page.
+- The Task 1 notebook can call the APIFREE image API when `ENABLE_IMAGE_API_GENERATION=1` and `APIFREE_API_KEY` is configured.
+- APIFREE is used only for generated clinic interface imagery, not for medical advice or appointment decisions.
+- The image generation run is recorded in `Task2/clinic_app/artifacts/apifree_image_generation_metadata.json`, including model, endpoint, status, prompt, and output path.
+- The generated clinic interface image is written to `Task2/clinic_app/static/generated_clinic_image.png` and displayed on the login page.
 
 ## Human Review and Validation
 
 - The notebook applies deterministic post-processing to align AI output with the implemented Flask routes, evidence paths, and safety wording.
-- Automated tests verify role access, conflict handling, non-diagnostic summaries, English-only date picker behaviour, and DeepSeek metadata.
-- The validation script checks required files, single-notebook structure, DeepSeek metadata, Chinese text, and possible leaked API keys.
+- Automated tests verify role access, conflict handling, non-diagnostic summaries, English-only date picker behaviour, DeepSeek metadata, and APIFREE image metadata.
+- The validation script checks required files, single-notebook structure, DeepSeek metadata, APIFREE metadata, Chinese text, and possible leaked API keys.
 
 ## Safety Boundary
 

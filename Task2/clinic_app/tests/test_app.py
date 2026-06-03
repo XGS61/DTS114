@@ -177,6 +177,7 @@ def test_meta_requirements_describe_relevant_ai_tooling(client):
     assert response.status_code == 200
     tooling = data["requirements"]["ai_specific_tooling"]
     assert any("DeepSeek" in item for item in tooling)
+    assert any("APIFREE" in item for item in tooling)
     assert any("Deterministic fallback" in item for item in tooling)
 
 
@@ -217,3 +218,17 @@ def test_deepseek_metadata_records_generated_artefact_run():
     assert metadata["usage"]["total_tokens"] > 0
     assert metadata["validation"]["summary_endpoint"] == "GET /api/appointments/<id>/summary"
     assert metadata["validation"]["auth_boundary"] == "Appointment APIs require an authenticated demo session"
+
+
+def test_apifree_metadata_records_generated_image_run():
+    app_dir = Path(__file__).resolve().parents[1]
+    metadata_path = app_dir / "artifacts" / "apifree_image_generation_metadata.json"
+    metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+    image_path = app_dir / metadata["output"]
+    assert metadata["generator"] == "APIFREE API"
+    assert metadata["provider"] == "APIFREE"
+    assert metadata["model"] == "qwen/qwen-image-2512"
+    assert metadata["status"] in {"generated", "fallback"}
+    assert "clinic appointment system" in metadata["prompt"].lower()
+    assert image_path.exists()
+    assert image_path.read_bytes().startswith(b"\x89PNG")
