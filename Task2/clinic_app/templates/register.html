@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up | Clinic Appointment System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body data-page="register" class="auth-body">
+  <main class="login-layout auth-layout">
+    <section class="login-copy hero-card auth-hero">
+      <p class="eyebrow">AI-DLC Generated Prototype</p>
+      <h1>Clinic Appointment System</h1>
+      <p class="lead">Create a prototype account for the role-based appointment workflow.</p>
+      <img class="hero-image wide-image" src="{{ url_for('static', filename='generated_clinic_image.png') }}" alt="Generated clinic appointment dashboard visual">
+      <div class="hero-metrics" aria-label="Prototype workflow highlights">
+        <div><strong>3</strong><span>role choices</span></div>
+        <div><strong>1</strong><span>shared data store</span></div>
+        <div><strong>0</strong><span>real records</span></div>
+      </div>
+    </section>
+
+    <section class="panel login-panel auth-panel">
+      <div class="section-heading">
+        <div>
+          <h2>Sign Up</h2>
+          <p class="muted">Register a prototype account and choose the dashboard role for this coursework workflow.</p>
+        </div>
+        <span class="version-pill">{{ app_version }}</span>
+      </div>
+      <form id="registerForm" class="stacked-form">
+        <label>
+          Display name
+          <input name="display_name" autocomplete="name" required placeholder="Alex Chen" maxlength="80">
+        </label>
+        <label>
+          Username
+          <input name="username" autocomplete="username" required placeholder="alexchen" minlength="3" maxlength="32">
+        </label>
+        <label>
+          Account role
+          <select name="role" required>
+            {% for role in register_roles %}
+            <option value="{{ role }}">{{ role | title }}</option>
+            {% endfor %}
+          </select>
+        </label>
+        <label>
+          Password
+          <input name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="64" placeholder="Minimum 8 characters">
+        </label>
+        <label>
+          Confirm password
+          <input name="confirm_password" type="password" autocomplete="new-password" required minlength="8" maxlength="64" placeholder="Repeat password">
+        </label>
+        <button type="submit">Create Account</button>
+      </form>
+      <div id="registerMessage" class="message" aria-live="polite"></div>
+
+      <div class="auth-switch">
+        <span>Already have an account?</span>
+        <a href="{{ url_for('login_page') }}">Sign in</a>
+      </div>
+
+      <div class="safety-note">
+        <strong>Safety boundary</strong>
+        <p>{{ safety_boundary.scope }}. This prototype does not support diagnosis, treatment advice, prescriptions, or real patient records.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

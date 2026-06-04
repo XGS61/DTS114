@@ -14,4 +14,10 @@ build/
 dist/
 *.egg-info/
 Task2/clinic_app/data/*.json
+Task2/clinic_app/data/*.sqlite3
+Task2/clinic_app/data/*.sqlite3-*
 !Task2/clinic_app/data/.gitkeep
+Task2/clinic_app/static/uploads/*
+!Task2/clinic_app/static/uploads/.gitkeep
+!Task2/clinic_app/static/uploads/doctors/
+!Task2/clinic_app/static/uploads/doctors/.gitkeep

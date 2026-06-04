@@ -5,62 +5,68 @@
     {
       "id": "US01",
       "actor": "Patient",
-      "story": "As a Patient, I want to log in with a demo account so that I can access the appointment system.",
-      "acceptance_criteria": "Given a patient demo account, when I enter valid credentials, then I am logged in and see the patient dashboard."
+      "story": "As a Patient, I want to register and log in so that I can use the appointment system.",
+      "acceptance_criteria": "['Registration requires email, password, role selection.', 'Login validates credentials; session created.', 'Logout clears session.']"
     },
     {
       "id": "US02",
       "actor": "Patient",
-      "story": "As a Patient, I want to create an appointment request with date and time so that staff can review my request.",
-      "acceptance_criteria": "Given I am logged in as patient, when I submit a valid appointment request, then the appointment is created with status Pending Review."
+      "story": "As a Patient, I want to view available doctors on a selected date so that I can choose one.",
+      "acceptance_criteria": "['GET /api/doctors?date= returns doctors working that day.', 'Doctors have names, departments, profile photos.']"
     },
     {
       "id": "US03",
       "actor": "Patient",
-      "story": "As a Patient, I want to view only my own appointments so that I can track status updates privately.",
-      "acceptance_criteria": "Given I am logged in as patient, when I list or open appointments, then I only see appointments created by my account."
+      "story": "As a Patient, I want to see a doctor's available slots and select one so that I can book an appointment.",
+      "acceptance_criteria": "['GET /api/doctors/<id>/availability?date= returns time slots.', 'Slots respect shifts, 30-min increments, capacity.']"
     },
     {
       "id": "US04",
-      "actor": "Doctor",
-      "story": "As a Doctor, I want to log in and see a shared queue of appointment requests so that I can review them.",
-      "acceptance_criteria": "Given I am logged in as doctor, when I access the staff dashboard or appointment API, then I can see the shared queue."
+      "actor": "Patient",
+      "story": "As a Patient, I want to request an appointment so that my request is sent for review.",
+      "acceptance_criteria": "['POST /api/appointments creates Pending Review appointment.', 'Validation: future weekday, allowed type, slot available.']"
     },
     {
       "id": "US05",
-      "actor": "Admin Staff",
-      "story": "As Admin Staff, I want to use the same staff review workflow as the doctor so that appointment administration is consistent.",
-      "acceptance_criteria": "Given I am logged in as admin, when I access the staff dashboard, then I can confirm or cancel appointments."
+      "actor": "Patient",
+      "story": "As a Patient, I want to cancel my own appointment request so that I can remove it.",
+      "acceptance_criteria": "['DELETE /api/appointments/<id> only by creator.', 'Status updated to Cancelled.']"
     },
     {
       "id": "US06",
-      "actor": "Staff",
-      "story": "As a staff member, I want to confirm or cancel appointment requests so that the patient can view the updated status.",
-      "acceptance_criteria": "Given I am logged in as doctor or admin, when I review an appointment, then its status changes to Confirmed, Cancelled, or Pending Review."
+      "actor": "Patient",
+      "story": "As a Patient, I want to reschedule a pending appointment so that I can choose a new slot.",
+      "acceptance_criteria": "['PATCH /api/appointments/<id>/reschedule with new date/time.', 'Only if status is Pending Review.']"
+    },
+    {
+      "id": "US07",
+      "actor": "Doctor",
+      "story": "As a Doctor, I want to view my appointment queue so that I can review requests.",
+      "acceptance_criteria": "['GET /api/appointments returns appointments for my linked doctor.', 'Filter by status, date.']"
+    },
+    {
+      "id": "US08",
+      "actor": "Doctor",
+      "story": "As a Doctor, I want to confirm or cancel an appointment with a note so that the patient knows the outcome.",
+      "acceptance_criteria": "['PATCH /api/appointments/<id>/review with note.', 'Only for my own appointments.']"
+    },
+    {
+      "id": "US09",
+      "actor": "Admin",
+      "story": "As an Admin, I want to view all appointment queues so that I can manage the system.",
+      "acceptance_criteria": "['Admin sees all appointments, not scoped to one doctor.']"
+    },
+    {
+      "id": "US10",
+      "actor": "Admin",
+      "story": "As an Admin, I want to create a doctor account and profile so that new doctors can be added.",
+      "acceptance_criteria": "['POST /api/admin/doctors creates user and doctor record.', 'Profile includes department, photo.']"
     },
     {
       "id": "US07",
       "actor": "Clinic System",
-      "story": "As the Clinic System, I want to recalculate conflict flags when appointments are created or reviewed so that double-booking evidence stays accurate.",
-      "acceptance_criteria": "Given two active appointments share the same date and time, then both are flagged; when one is cancelled, both conflict flags are cleared."
-    },
-    {
-      "id": "US08",
-      "actor": "Clinic System",
-      "story": "As the Clinic System, I want to reject appointment content containing diagnosis, treatment, or prescription wording so that safety boundaries are maintained.",
-      "acceptance_criteria": "Given an appointment request contains forbidden medical wording, when submitted, then the system rejects it with an administrative-scope error."
-    },
-    {
-      "id": "US09",
-      "actor": "Clinic System",
       "story": "As the Clinic System, I want to provide a non-diagnostic administrative summary for an appointment so that staff can review scheduling context without medical advice.",
       "acceptance_criteria": "Given an existing appointment, when GET /api/appointments/<id>/summary is called, then the response contains only administrative appointment details and status, with no diagnosis or treatment advice."
-    },
-    {
-      "id": "US10",
-      "actor": "Developer",
-      "story": "As a Developer, I want automated validation in CI so that the submitted project structure, AI metadata, tests, and security checks are repeatable.",
-      "acceptance_criteria": "Given the repository is pushed to GitHub, when GitHub Actions runs, then it validates submission artefacts, compiles the Flask app, and runs pytest successfully."
     }
   ]
 }

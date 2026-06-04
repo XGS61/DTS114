@@ -6,76 +6,389 @@
   <title>Staff Review | Clinic Appointment System</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-  <header class="topbar staff-topbar">
-    <div>
-      <p class="eyebrow">Doctor and Admin Dashboard</p>
-      <h1>Review Appointment Requests</h1>
-      <p class="lead">Confirm, cancel, or monitor appointment requests through a human review boundary.</p>
-    </div>
-    <nav class="user-nav" aria-label="User navigation">
-      <span>{{ user.display_name }} | {{ user.role }}</span>
-      <a href="{{ url_for('logout_page') }}">Logout</a>
-    </nav>
-  </header>
-
-  <main class="layout staff-layout">
-    <section class="panel wide dashboard-strip" aria-label="Operational summary">
-      <div>
-        <span class="metric-label">Pending Review</span>
-        <strong id="pendingMetric">0</strong>
+<body data-page="staff" data-user-role="{{ user.role }}" data-doctor-id="{{ user.doctor_id or '' }}" class="workspace-body">
+  <div class="app-shell staff-shell">
+    <aside class="app-sidebar" aria-label="Staff workspace navigation">
+      <div class="sidebar-brand">
+        <span class="hamburger-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <strong>DTS Clinic</strong>
       </div>
-      <div>
-        <span class="metric-label">Confirmed</span>
-        <strong id="confirmedMetric">0</strong>
-      </div>
-      <div>
-        <span class="metric-label">Cancelled</span>
-        <strong id="cancelledMetric">0</strong>
-      </div>
-      <div>
-        <span class="metric-label">Conflicts</span>
-        <strong id="conflictMetric">0</strong>
-      </div>
-    </section>
-
-    <section class="panel wide">
-      <div class="section-heading">
+      <nav class="sidebar-nav" aria-label="Staff sections">
+        <a class="sidebar-link is-active" href="#" data-view-target="metrics"><span class="nav-glyph dashboard-glyph"></span>Dashboard</a>
+        <a class="sidebar-link" href="#" data-view-target="queue"><span class="nav-glyph booking-glyph"></span>Bookings</a>
+        <a class="sidebar-link" href="#" data-view-target="schedule"><span class="nav-glyph scheduler-glyph"></span>Employee Scheduler</a>
+        <a class="sidebar-link" href="#" data-view-target="management"><span class="nav-glyph settings-glyph"></span>Clinic Settings</a>
+      </nav>
+      <div class="sidebar-footer">
         <div>
-          <h2>Shared Appointment Queue</h2>
-          <p class="muted">Patients and staff use the same backend appointment data.</p>
+          <span class="role-chip">{{ user.role }}</span>
+          <strong>{{ user.display_name }}</strong>
+          <small>{{ app_version }}</small>
         </div>
-        <div class="toolbar">
-          <select id="statusFilter" aria-label="Filter appointments by status">
-            <option value="">All statuses</option>
-            <option>Pending Review</option>
-            <option>Confirmed</option>
-            <option>Cancelled</option>
-          </select>
-          <button id="refreshButton" type="button" class="secondary">Refresh</button>
+        <a href="{{ url_for('logout_page') }}" class="sidebar-logout">Logout</a>
+      </div>
+    </aside>
+
+    <main class="workspace-main">
+      <header class="workspace-header">
+        <div>
+          <p class="eyebrow">{{ "Admin Dashboard" if user.role == "admin" else "Doctor Dashboard" }}</p>
+          <h1>Appointment Management</h1>
+          <p class="lead">
+            {% if user.role == "admin" %}
+            Search every doctor queue, manage clinician records, inspect conflicts, review administrative requests, and retain an audit trail.
+            {% else %}
+            Review only your linked doctor queue, manage your own clinic schedule, inspect conflicts, and record administrative decisions.
+            {% endif %}
+          </p>
         </div>
-      </div>
-      <div id="staffAppointmentList" class="appointment-list staff-list"></div>
-    </section>
+        <nav class="workspace-actions" aria-label="User navigation">
+          <span class="version-pill">{{ app_version }}</span>
+          <button id="refreshButton" type="button">Refresh Workspace</button>
+          <a class="button-link secondary-link" href="{{ url_for('logout_page') }}">Logout</a>
+        </nav>
+      </header>
 
-    <section class="panel">
-      <h2>Review Focus</h2>
-      <div class="process-list">
-        <div><span>1</span><p>Prioritise requests with conflict flags.</p></div>
-        <div><span>2</span><p>Use the summary for administrative context only.</p></div>
-        <div><span>3</span><p>Record a review note before changing status.</p></div>
-      </div>
-    </section>
+      <section id="metrics" class="workspace-panel workspace-view dashboard-page is-active" data-workspace-view="metrics" data-view-title="Appointment Management" data-view-lead="{{ 'Search every doctor queue, manage clinician records, inspect conflicts, review administrative requests, and retain an audit trail.' if user.role == 'admin' else 'Review only your linked doctor queue, manage your own clinic schedule, inspect conflicts, and record administrative decisions.' }}" aria-label="Operational summary">
+        <div class="dashboard-strip workspace-metrics">
+          <div>
+            <span class="metric-label">Pending Review</span>
+            <strong id="pendingMetric">0</strong>
+          </div>
+          <div>
+            <span class="metric-label">Confirmed</span>
+            <strong id="confirmedMetric">0</strong>
+          </div>
+          <div>
+            <span class="metric-label">Cancelled</span>
+            <strong id="cancelledMetric">0</strong>
+          </div>
+          <div>
+            <span class="metric-label">Conflicts</span>
+            <strong id="conflictMetric">0</strong>
+          </div>
+          <div>
+            <span class="metric-label">Today</span>
+            <strong id="todayMetric">0</strong>
+          </div>
+        </div>
+        <div class="dashboard-overview-grid">
+          <section>
+            <h2>Operational Snapshot</h2>
+            <p class="muted">Use the sidebar to move between the appointment queue, employee scheduler, and clinic settings views.</p>
+          </section>
+          <section>
+            <h2>Review Focus</h2>
+            <div class="process-list">
+              <div><span>1</span><p>Prioritise requests with conflict flags.</p></div>
+              <div><span>2</span><p>Use the summary for administrative context only.</p></div>
+              <div><span>3</span><p>Record a review note before changing status.</p></div>
+            </div>
+          </section>
+          <section>
+            <h2>Safety Boundary</h2>
+            <div class="safety-stack">
+              <p><strong>Scope:</strong> {{ safety_boundary.scope }}</p>
+              <p><strong>Human review:</strong> {{ safety_boundary.human_review }}</p>
+              <p><strong>Not allowed:</strong> {{ safety_boundary.not_allowed | join(", ") }}</p>
+            </div>
+          </section>
+        </div>
+      </section>
 
-    <section class="panel">
-      <h2>Safety Boundary</h2>
-      <div class="safety-stack">
-        <p><strong>Scope:</strong> {{ safety_boundary.scope }}</p>
-        <p><strong>Human review:</strong> {{ safety_boundary.human_review }}</p>
-        <p><strong>Not allowed:</strong> {{ safety_boundary.not_allowed | join(", ") }}</p>
+      <section id="schedule" class="workspace-panel workspace-view schedule-workspace" data-workspace-view="schedule" data-view-title="Employee Scheduler" data-view-lead="{{ 'Review all doctor capacity, slots, and linked appointment requests.' if user.role == 'admin' else 'Review your own capacity, slots, and linked appointment requests.' }}">
+        <div class="section-heading">
+          <div>
+            <h2>Doctor Day Schedule</h2>
+            <p class="muted">{{ "Review all doctor capacity, slots, and linked appointment requests." if user.role == "admin" else "Review your own capacity, slots, and linked appointment requests." }}</p>
+          </div>
+          <div class="segmented-control" aria-label="Schedule view options">
+            <button type="button" class="is-active">Day</button>
+            <button type="button" class="secondary" disabled>Week</button>
+            <button type="button" class="secondary" disabled>Month</button>
+          </div>
+        </div>
+
+        <div class="schedule-management-grid">
+          <aside class="schedule-filter-card" aria-label="Schedule filters">
+            <h3>Schedule Filters</h3>
+            <label>
+              Schedule date
+              <input id="scheduleDateFilter" type="text" inputmode="numeric" placeholder="YYYY-MM-DD" aria-label="Load doctor schedule by date">
+            </label>
+            <button id="scheduleRefreshButton" type="button">Load Schedule</button>
+            <div class="mini-calendar-note">
+              <strong>Day board</strong>
+              <p>Doctor accounts show one linked column. Admin accounts show every doctor column.</p>
+            </div>
+          </aside>
+          <div class="schedule-stage">
+            <div class="schedule-topline">
+              <strong>Appointment grid</strong>
+              <span class="muted">Open slots, occupied capacity, conflicts, and review status are shown by time.</span>
+            </div>
+            <div id="scheduleDayBoard" class="schedule-board timeline-board" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="queue" class="workspace-panel workspace-view" data-workspace-view="queue" data-view-title="{{ 'All Appointment Queues' if user.role == 'admin' else 'Your Appointment Queue' }}" data-view-lead="{{ 'Admin can review every request in the shared backend data.' if user.role == 'admin' else 'Doctor accounts can review only requests linked to their own doctor profile.' }}">
+        <div class="section-heading">
+          <div>
+            <h2>{{ "All Appointment Queues" if user.role == "admin" else "Your Appointment Queue" }}</h2>
+            <p class="muted">{{ "Admin can review every request in the shared backend data." if user.role == "admin" else "Doctor accounts can review only requests linked to their own doctor profile." }}</p>
+          </div>
+          <div class="toolbar">
+            <input id="staffSearch" type="search" placeholder="Search patient, email, type, reason" aria-label="Search appointment queue">
+            <input id="staffDateFilter" type="text" inputmode="numeric" placeholder="YYYY-MM-DD" aria-label="Filter appointment queue by date">
+            <select id="statusFilter" aria-label="Filter appointments by status">
+              <option value="">All statuses</option>
+              <option>Pending Review</option>
+              <option>Confirmed</option>
+              <option>Cancelled</option>
+            </select>
+          </div>
+        </div>
+        <div id="staffAppointmentList" class="appointment-list staff-list appointment-rail"></div>
+        <div class="pagination-bar">
+          <button id="staffPrevPage" type="button" class="secondary">Previous</button>
+          <span id="staffPageInfo" class="muted">Page 1</span>
+          <button id="staffNextPage" type="button" class="secondary">Next</button>
+        </div>
+      </section>
+
+      <section id="management" class="workspace-panel workspace-view management-workspace" data-workspace-view="management" data-view-title="Clinic Settings" data-view-lead="{{ 'Create and review doctor accounts and patient-visible doctor profiles.' if user.role == 'admin' else 'Maintain your visible department, room, focus, shift, capacity, and profile note.' }}">
+        {% if user.role == "doctor" %}
+        <div class="section-heading">
+          <div>
+            <h2>Your Doctor Profile</h2>
+            <p class="muted">Update your visible department, room, appointment focus, photo, and weekday appointment schedule.</p>
+          </div>
+        </div>
+        <section class="doctor-photo-editor" aria-label="Doctor profile photo editor">
+          <img id="doctorProfilePhoto" src="" alt="Current doctor profile photo">
+          <div>
+            <h3>Profile Photo</h3>
+            <p class="muted">Upload a fictional profile photo for the patient roster and staff schedule. PNG, JPG, JPEG, and WEBP files up to 2 MB are accepted.</p>
+            <form id="doctorPhotoForm" class="photo-upload-form" enctype="multipart/form-data">
+              <label>
+                Photo file
+                <input name="photo" type="file" accept="image/png,image/jpeg,image/webp" required>
+              </label>
+              <button type="submit" class="secondary">Upload Photo</button>
+            </form>
+            <div id="doctorPhotoMessage" class="message" aria-live="polite"></div>
+          </div>
+        </section>
+        <form id="doctorProfileForm" class="management-form">
+          <label>
+            Display name
+            <input name="name" required maxlength="80">
+          </label>
+          <label>
+            Department
+            <input name="department" required maxlength="80">
+          </label>
+          <label>
+            Room
+            <input name="room" required maxlength="80">
+          </label>
+          <label>
+            Appointment focus
+            <select name="appointment_focus" required>
+              {% for item in appointment_types %}
+              <option value="{{ item }}">{{ item }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            Status
+            <select name="status" required>
+              <option>On duty</option>
+              <option>Limited availability</option>
+              <option>Unavailable</option>
+            </select>
+          </label>
+          <label>
+            Start time
+            <input name="start_time" type="time" lang="en" required>
+          </label>
+          <label>
+            End time
+            <input name="end_time" type="time" lang="en" required>
+          </label>
+          <label>
+            Slot minutes
+            <input name="slot_minutes" type="number" min="15" max="60" step="15" required>
+          </label>
+          <label>
+            Capacity per slot
+            <input name="capacity" type="number" min="1" max="6" required>
+          </label>
+          <label class="wide-field">
+            Profile note
+            <textarea name="profile" rows="3" required maxlength="240"></textarea>
+          </label>
+          <button type="submit">Save Doctor Profile</button>
+        </form>
+        <div id="doctorProfileMessage" class="message" aria-live="polite"></div>
+        {% endif %}
+
+        {% if user.role == "admin" %}
+        <div class="section-heading">
+          <div>
+            <h2>Doctor Account Management</h2>
+            <p class="muted">Create a doctor login and the matching visible doctor profile used by patient booking and staff scheduling.</p>
+          </div>
+        </div>
+        <form id="adminDoctorForm" class="management-form">
+          <label>
+            Username
+            <input name="username" required minlength="3" maxlength="32" placeholder="doctorlee">
+          </label>
+          <label>
+            Password
+            <input name="password" type="password" required minlength="8" maxlength="64" placeholder="Minimum 8 characters">
+          </label>
+          <label>
+            Account display name
+            <input name="display_name" required maxlength="80" placeholder="Dr Lee Carter">
+          </label>
+          <label>
+            Doctor name
+            <input name="name" required maxlength="80" placeholder="Dr Lee Carter">
+          </label>
+          <label>
+            Department
+            <input name="department" required maxlength="80" placeholder="Primary Care">
+          </label>
+          <label>
+            Room
+            <input name="room" required maxlength="80" placeholder="Consulting Room 4A">
+          </label>
+          <label>
+            Appointment focus
+            <select name="appointment_focus" required>
+              {% for item in appointment_types %}
+              <option value="{{ item }}">{{ item }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            Status
+            <select name="status" required>
+              <option>On duty</option>
+              <option>Limited availability</option>
+              <option>Unavailable</option>
+            </select>
+          </label>
+          <label>
+            Start time
+            <input name="start_time" type="time" lang="en" value="09:00" required>
+          </label>
+          <label>
+            End time
+            <input name="end_time" type="time" lang="en" value="17:00" required>
+          </label>
+          <label>
+            Slot minutes
+            <input name="slot_minutes" type="number" min="15" max="60" step="15" value="30" required>
+          </label>
+          <label>
+            Capacity per slot
+            <input name="capacity" type="number" min="1" max="6" value="1" required>
+          </label>
+          <label class="wide-field">
+            Profile note
+            <textarea name="profile" rows="3" required maxlength="240" placeholder="Fictional demo clinician profile for appointment administration."></textarea>
+          </label>
+          <button type="submit">Create Doctor Account</button>
+        </form>
+        <div id="adminDoctorMessage" class="message" aria-live="polite"></div>
+        <div id="adminDoctorList" class="management-list" aria-live="polite"></div>
+        {% endif %}
+      </section>
+    </main>
+  </div>
+
+  <aside id="detailDrawer" class="drawer" aria-live="polite" aria-label="Appointment detail drawer" hidden>
+    <div class="drawer-backdrop" data-close-drawer></div>
+    <section class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <div class="drawer-header">
+        <div>
+          <p class="eyebrow">Appointment Detail</p>
+          <h2 id="drawerTitle">Select a request</h2>
+        </div>
+        <button type="button" class="secondary icon-button" data-close-drawer aria-label="Close detail drawer">Close</button>
+      </div>
+      <div id="drawerContent" class="drawer-content"></div>
+      <section class="drawer-static-note">
+        <h3>Audit Timeline</h3>
+        <p class="muted">Audit events are loaded from the shared SQLite database when a request is opened.</p>
+      </section>
+      <div class="drawer-actions">
+        <button type="button" data-review-status="Confirmed">Confirm</button>
+        <button type="button" data-review-status="Cancelled" class="secondary danger">Cancel</button>
+        <button type="button" data-review-status="Pending Review" class="secondary">Return to Pending</button>
+        <button type="button" data-open-reschedule class="secondary">Reschedule</button>
       </div>
     </section>
-  </main>
+  </aside>
+
+  <div id="reviewModal" class="modal-shell" hidden>
+    <div class="modal-backdrop" data-close-review></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+      <h2 id="reviewModalTitle">Record Review Decision</h2>
+      <form id="reviewForm">
+        <input type="hidden" name="appointment_id">
+        <input type="hidden" name="status">
+        <label>
+          Decision
+          <input name="decision_label" readonly>
+        </label>
+        <label>
+          Review note
+          <textarea name="review_note" rows="4" required placeholder="Write an administrative reason for this status change."></textarea>
+        </label>
+        <div class="actions">
+          <button type="submit">Save Decision</button>
+          <button type="button" class="secondary" data-close-review>Close</button>
+        </div>
+      </form>
+      <div id="reviewMessage" class="message" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <div id="rescheduleModal" class="modal-shell" hidden>
+    <div class="modal-backdrop" data-close-reschedule></div>
+    <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="rescheduleModalTitle">
+      <h2 id="rescheduleModalTitle">Reschedule Appointment</h2>
+      <form id="rescheduleForm">
+        <input type="hidden" name="appointment_id">
+        <label>
+          New date
+          <input name="preferred_date" type="text" inputmode="numeric" placeholder="YYYY-MM-DD" required>
+        </label>
+        <label>
+          Doctor
+          <select name="doctor_id" required></select>
+        </label>
+        <label>
+          New time
+          <input name="preferred_time" type="time" lang="en" required>
+        </label>
+        <label>
+          Review note
+          <textarea name="review_note" rows="4" required placeholder="Write an administrative reason for this reschedule."></textarea>
+        </label>
+        <div class="actions">
+          <button type="submit">Save Reschedule</button>
+          <button type="button" class="secondary" data-close-reschedule>Close</button>
+        </div>
+      </form>
+      <div id="rescheduleMessage" class="message" aria-live="polite"></div>
+    </section>
+  </div>
 
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>

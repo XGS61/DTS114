@@ -1,25 +1,46 @@
 @startuml
 left to right direction
-actor Patient
-actor Doctor
-actor "Admin Staff" as Admin
-rectangle "Clinic Appointment System" {
-  usecase "Log in" as UC1
-  usecase "Submit appointment request" as UC2
-  usecase "View own request status" as UC3
-  usecase "Review shared queue" as UC4
-  usecase "Confirm or cancel request" as UC5
-  usecase "View non-diagnostic summary" as UC6
+actor Patient as P
+actor Doctor as D
+actor Admin as A
+actor "Clinic System" as S
+rectangle Clinic_Appointment_System {
+  usecase "Login" as UC1
+  usecase "Register Account" as UC2
+  usecase "Select Doctor Schedule" as UC3
+  usecase "View Doctor Availability" as UC4
+  usecase "Request Appointment" as UC5
+  usecase "View Own Appointments" as UC6
+  usecase "Cancel Own Appointment" as UC7
+  usecase "Request Reschedule" as UC8
+  usecase "View Linked Doctor Queue" as UC9
+  usecase "Manage Own Doctor Profile" as UC10
+  usecase "Review Own Appointments" as UC11
+  usecase "View Own Audit Trail" as UC12
+  usecase "View All Queues" as UC13
+  usecase "Create Doctor Account/Profile" as UC14
+  usecase "Review Any Appointment" as UC15
+  usecase "Generate SDLC Evidence" as UC16
 }
-Patient --> UC1
-Patient --> UC2
-Patient --> UC3
-Doctor --> UC1
-Doctor --> UC4
-Doctor --> UC5
-Doctor --> UC6
-Admin --> UC1
-Admin --> UC4
-Admin --> UC5
-UC5 ..> UC6 : <<include>>
+P --> UC1
+P --> UC2
+P --> UC3
+P --> UC4
+P --> UC5
+P --> UC6
+P --> UC7
+P --> UC8
+D --> UC1
+D --> UC2
+D --> UC9
+D --> UC10
+D --> UC11
+D --> UC12
+A --> UC1
+A --> UC2
+A --> UC13
+A --> UC14
+A --> UC15
+A --> UC12
+S --> UC16
 @enduml

@@ -1,31 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="920" height="520" viewBox="0 0 920 520" role="img" aria-label="Use case diagram for role based clinic appointment system">
-  <rect width="920" height="520" fill="#ffffff"/>
-  <rect x="220" y="40" width="520" height="430" rx="8" fill="#f4f7fb" stroke="#18646f" stroke-width="2"/>
-  <text x="480" y="72" text-anchor="middle" font-family="Arial" font-size="22" font-weight="700" fill="#17202a">Clinic Appointment System</text>
-  <text x="80" y="140" font-family="Arial" font-size="18" font-weight="700" fill="#17202a">Patient</text>
-  <text x="790" y="120" font-family="Arial" font-size="18" font-weight="700" fill="#17202a">Doctor</text>
-  <text x="770" y="390" font-family="Arial" font-size="18" font-weight="700" fill="#17202a">Admin Staff</text>
-  <g fill="#ffffff" stroke="#5f6c7b" stroke-width="1.5" font-family="Arial" font-size="14">
-    <ellipse cx="390" cy="140" rx="120" ry="32"/>
-    <text x="390" y="145" text-anchor="middle">Log in</text>
-    <ellipse cx="390" cy="220" rx="120" ry="32"/>
-    <text x="390" y="225" text-anchor="middle">Submit request</text>
-    <ellipse cx="390" cy="300" rx="120" ry="32"/>
-    <text x="390" y="305" text-anchor="middle">View own status</text>
-    <ellipse cx="580" cy="180" rx="120" ry="32"/>
-    <text x="580" y="185" text-anchor="middle">Review queue</text>
-    <ellipse cx="580" cy="260" rx="120" ry="32"/>
-    <text x="580" y="265" text-anchor="middle">Confirm or cancel</text>
-    <ellipse cx="580" cy="340" rx="120" ry="32"/>
-    <text x="580" y="345" text-anchor="middle">Non-diagnostic summary</text>
-  </g>
-  <g stroke="#18646f" stroke-width="2">
-    <line x1="140" y1="140" x2="270" y2="140"/>
-    <line x1="140" y1="140" x2="270" y2="220"/>
-    <line x1="140" y1="140" x2="270" y2="300"/>
-    <line x1="780" y1="120" x2="690" y2="180"/>
-    <line x1="780" y1="120" x2="700" y2="260"/>
-    <line x1="770" y1="390" x2="690" y2="180"/>
-    <line x1="770" y1="390" x2="700" y2="260"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="392" viewBox="0 0 1180 392" role="img" aria-label="Use Case Preview">
+<rect width="1180" height="392" fill="#ffffff"/>
+<rect x="36" y="32" width="1108" height="328" rx="10" fill="#ffffff" stroke="#cfdbe3" stroke-width="2"/>
+<text x="64" y="82" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#172a3a">Use Case Preview</text>
+<text x="64" y="112" font-family="Arial, sans-serif" font-size="16" fill="#5d6b7a">Clinic Appointment System scoped doctor/admin workflow</text>
+<rect x="64" y="96" width="1052" height="46" rx="8" fill="#f7fbfb" stroke="#d6e4e7"/><text x="86" y="125" font-family="Arial, sans-serif" font-size="18" fill="#172a3a"><tspan font-weight="700">1.</tspan> Patient: register/login, choose doctor, request appointment, cancel/reschedule own request</text><rect x="64" y="154" width="1052" height="46" rx="8" fill="#f7fbfb" stroke="#d6e4e7"/><text x="86" y="183" font-family="Arial, sans-serif" font-size="18" fill="#172a3a"><tspan font-weight="700">2.</tspan> Doctor: linked doctor queue only, manage own profile, review own appointments</text><rect x="64" y="212" width="1052" height="46" rx="8" fill="#f7fbfb" stroke="#d6e4e7"/><text x="86" y="241" font-family="Arial, sans-serif" font-size="18" fill="#172a3a"><tspan font-weight="700">3.</tspan> Admin: all queues, create doctor accounts/profiles, review any appointment</text><rect x="64" y="270" width="1052" height="46" rx="8" fill="#f7fbfb" stroke="#d6e4e7"/><text x="86" y="299" font-family="Arial, sans-serif" font-size="18" fill="#172a3a"><tspan font-weight="700">4.</tspan> Clinic System: generate SDLC evidence and maintain safety boundary</text>
 </svg>

@@ -45,7 +45,7 @@ https://dts114-clinic-appointment-generator.onrender.com/health
 ```bash
 cd Task2/clinic_app
 docker build -t dts114-clinic-app .
-docker run --rm -p 5000:5000 dts114-clinic-app
+docker run --rm -p 5000:5000 -e FLASK_SECRET_KEY=local-docker-secret dts114-clinic-app
 ```
 
 The local container URL is `http://127.0.0.1:5000/`. This proves the Docker image works on the marking machine. Render uses the same Dockerfile to build and run the container in the cloud, then provides the public website URL.

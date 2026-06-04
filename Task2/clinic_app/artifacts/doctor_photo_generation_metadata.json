@@ -1,0 +1,57 @@
+{
+  "generator": "APIFREE API",
+  "provider": "APIFREE",
+  "endpoint": "https://api.apifree.ai/v1/image/submit",
+  "result_endpoint_template": "https://api.apifree.ai/v1/image/{request_id}/result",
+  "model": "Qwen/Qwen-Image",
+  "asset_type": "doctor_roster_photos",
+  "generated_at_utc": "2026-06-04T18:18:00Z",
+  "summary": {
+    "total": 3,
+    "generated": 3,
+    "fallback": 0
+  },
+  "assets": [
+    {
+      "doctor_id": "amelia-hart",
+      "name": "Dr Amelia Hart",
+      "status": "generated",
+      "reason": "APIFREE image generation completed successfully",
+      "prompt": "Professional AI-generated profile photo of a fictional clinic doctor named Dr Amelia Hart, General Medicine appointment setting, realistic healthcare portrait, clean clinic background, no logos, no text, no watermark, no patient data, not a real person.",
+      "output": "static/doctors/dr_amelia_hart.png",
+      "image_format": "png",
+      "request_id": "2062599629984505856",
+      "submit_attempts": 1,
+      "polls": 5,
+      "asset_attempts": 1
+    },
+    {
+      "doctor_id": "noah-bennett",
+      "name": "Dr Noah Bennett",
+      "status": "generated",
+      "reason": "APIFREE image generation completed successfully",
+      "prompt": "Professional AI-generated profile photo of a fictional clinic doctor named Dr Noah Bennett, Preventive Care appointment setting, realistic healthcare portrait, clean clinic background, no logos, no text, no watermark, no patient data, not a real person.",
+      "output": "static/doctors/dr_noah_bennett.png",
+      "image_format": "png",
+      "request_id": "2062599708959047680",
+      "submit_attempts": 1,
+      "polls": 2,
+      "asset_attempts": 1
+    },
+    {
+      "doctor_id": "priya-raman",
+      "name": "Dr Priya Raman",
+      "status": "generated",
+      "reason": "APIFREE image generation completed successfully",
+      "prompt": "Professional AI-generated profile photo of a fictional clinic doctor named Dr Priya Raman, Follow-up Coordination appointment setting, realistic healthcare portrait, clean clinic background, no logos, no text, no watermark, no patient data, not a real person.",
+      "output": "static/doctors/dr_priya_raman.png",
+      "image_format": "png",
+      "request_id": "2062599750822375424",
+      "submit_attempts": 1,
+      "polls": 2,
+      "asset_attempts": 1
+    }
+  ],
+  "fallback_policy": "If APIFREE is unavailable, fictional deterministic portrait PNGs are written so the app remains runnable.",
+  "safety_boundary": "Doctor photos are fictional demo clinician images for appointment administration only."
+}

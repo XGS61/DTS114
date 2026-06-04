@@ -2,29 +2,55 @@
 package "Task 1 Generator Notebook" {
   [Prompt Templates]
   [Structured JSON Artefacts]
-  [DeepSeek API Generation]
+  [DeepSeek Artefact Generator]
+  [APIFREE Image Generator]
+  [Deterministic Fallbacks]
   [Submission Validator]
 }
 package "Generated Flask App" {
-  [Login UI]
+  [Sign In UI]
+  [Sign Up UI]
   [Patient Dashboard]
-  [Staff Dashboard]
+  [Doctor Dashboard]
+  [Admin Dashboard]
   [REST API]
-  [Safety Validation]
+  [Auth Service]
+  [Doctor Profile Service]
+  [Admin Doctor Management]
+  [Scheduling Validation]
+  [Conflict Service]
+  [Audit Service]
+  [Non-Diagnostic Summary]
 }
-database "JSON Appointment Store" as Store
+database "SQLite Runtime Store" as Store
 cloud "GitHub Actions CI" as CI
+node "Docker Container" as Docker
 cloud "Render Deployment" as Render
 
 [Prompt Templates] --> [Structured JSON Artefacts]
-[DeepSeek API Generation] --> [Structured JSON Artefacts]
-[Submission Validator] --> CI
+[DeepSeek Artefact Generator] --> [Structured JSON Artefacts]
+[APIFREE Image Generator] --> [Sign In UI]
+[Deterministic Fallbacks] --> [Structured JSON Artefacts]
 [Structured JSON Artefacts] --> [REST API]
-[Login UI] --> [REST API]
+[Sign In UI] --> [REST API]
+[Sign Up UI] --> [REST API]
 [Patient Dashboard] --> [REST API]
-[Staff Dashboard] --> [REST API]
+[Doctor Dashboard] --> [REST API]
+[Admin Dashboard] --> [REST API]
+[REST API] --> [Auth Service]
+[REST API] --> [Doctor Profile Service]
+[REST API] --> [Admin Doctor Management]
+[REST API] --> [Scheduling Validation]
+[REST API] --> [Conflict Service]
+[REST API] --> [Audit Service]
+[REST API] --> [Non-Diagnostic Summary]
+[Auth Service] --> Store
+[Doctor Profile Service] --> Store
+[Admin Doctor Management] --> Store
+[Conflict Service] --> Store
+[Audit Service] --> Store
 [REST API] --> Store
-[REST API] --> [Safety Validation]
-[REST API] --> CI
-[REST API] --> Render
+[Submission Validator] --> CI
+[REST API] --> Docker
+Docker --> Render
 @enduml

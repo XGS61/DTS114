@@ -1,31 +1,40 @@
 @startuml
 left to right direction
-actor Patient as P
-actor Doctor as D
-actor "Admin Staff" as A
-rectangle "Clinic Appointment System" {
-  usecase "Login" as UC1
-  usecase "Create Appointment Request" as UC2
-  usecase "View Own Appointments" as UC3
-  usecase "View Shared Queue" as UC4
-  usecase "Confirm Appointment" as UC5
+skinparam packageStyle rectangle
+actor Patient
+actor Doctor
+actor "Admin Staff" as Admin
+actor "Clinic System" as System
+rectangle "Appointment System" {
+  usecase "Register" as UC1
+  usecase "Login" as UC2
+  usecase "Schedule Appointment" as UC3
+  usecase "Review Appointment" as UC4
+  usecase "Reschedule Appointment" as UC5
   usecase "Cancel Appointment" as UC6
-  usecase "View Non-diagnostic Summary" as UC7
-  usecase "Run Submission Validation" as UC8
+  usecase "Manage Doctor Profile" as UC7
+  usecase "View Audit" as UC8
 }
-P --> UC1
-P --> UC2
-P --> UC3
-P --> UC7
-D --> UC1
-D --> UC4
-D --> UC5
-D --> UC6
-D --> UC7
-A --> UC1
-A --> UC4
-A --> UC5
-A --> UC6
-A --> UC7
-System --> UC8
+Patient --> UC1
+Patient --> UC2
+Patient --> UC3
+Patient --> UC5
+Patient --> UC6
+Doctor --> UC2
+Doctor --> UC4
+Doctor --> UC7
+Doctor --> UC8
+Admin --> UC2
+Admin --> UC4
+Admin --> UC7
+Admin --> UC8
+Admin --> UC3
+UC1 .> System : creates session
+UC2 .> System : validates credentials
+UC3 .> System : creates appointment
+UC4 .> System : updates status
+UC5 .> System : modifies appointment
+UC6 .> System : cancels
+UC7 .> System : updates doctor
+UC8 .> System : returns events
 @enduml

@@ -6,113 +6,197 @@
   <title>Patient Booking | Clinic Appointment System</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">Patient Dashboard</p>
-      <h1>Request an Appointment</h1>
-      <p class="lead">Submit an administrative booking request, track status, and keep the workflow inside a human review boundary.</p>
-    </div>
-    <nav class="user-nav" aria-label="User navigation">
-      <span>{{ user.display_name }}</span>
-      <a href="{{ url_for('logout_page') }}">Logout</a>
-    </nav>
-  </header>
+<body data-page="patient" class="workspace-body">
+  <div class="app-shell patient-shell">
+    <aside class="app-sidebar" aria-label="Patient workspace navigation">
+      <div class="sidebar-brand">
+        <span class="hamburger-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <strong>DTS Clinic</strong>
+      </div>
+      <nav class="sidebar-nav" aria-label="Patient sections">
+        <a class="sidebar-link is-active" href="#" data-view-target="newAppointment"><span class="nav-glyph booking-glyph"></span>New Appointment</a>
+        <a class="sidebar-link" href="#" data-view-target="myAppointments"><span class="nav-glyph list-glyph"></span>My Appointments</a>
+        <a class="sidebar-link" href="#" data-view-target="reviewProcess"><span class="nav-glyph history-glyph"></span>Review Process</a>
+        <a class="sidebar-link" href="#" data-view-target="safetyBoundary"><span class="nav-glyph settings-glyph"></span>Safety Boundary</a>
+      </nav>
+      <div class="sidebar-footer">
+        <div>
+          <span class="role-chip">Patient</span>
+          <strong>{{ user.display_name }}</strong>
+          <small>{{ app_version }}</small>
+        </div>
+        <a href="{{ url_for('logout_page') }}" class="sidebar-logout">Logout</a>
+      </div>
+    </aside>
 
-  <main class="layout">
-    <section class="panel form-panel">
-      <h2>Appointment Request</h2>
-      <form id="appointmentForm">
-        <label>
-          Patient display name
-          <input name="patient_name" required value="{{ user.display_name }}">
-        </label>
-        <label>
-          Contact email
-          <input name="contact_email" type="email" placeholder="patient@example.com">
-        </label>
-        <div class="split">
-          <label>
-            Preferred date
-            <span class="custom-date-picker" data-date-picker>
-              <input name="preferred_date" type="text" inputmode="none" autocomplete="off" placeholder="YYYY-MM-DD" required aria-label="Preferred date" data-date-input>
-              <button type="button" class="picker-toggle" data-date-toggle aria-label="Open calendar">Calendar</button>
-              <div class="calendar-popover" data-calendar-popover hidden>
-                <div class="calendar-header">
-                  <button type="button" class="calendar-nav" data-calendar-prev aria-label="Previous month">Prev</button>
-                  <strong data-calendar-title>Month Year</strong>
-                  <button type="button" class="calendar-nav" data-calendar-next aria-label="Next month">Next</button>
+    <main class="workspace-main">
+      <header class="workspace-header">
+        <div>
+          <p class="eyebrow">Patient Dashboard</p>
+          <h1>Request an Appointment</h1>
+          <p class="lead">Choose a fictional doctor, preview available slots, submit an administrative request, and track the human review status.</p>
+        </div>
+        <nav class="workspace-actions" aria-label="User navigation">
+          <span class="version-pill">{{ app_version }}</span>
+          <a class="button-link secondary-link" href="{{ url_for('logout_page') }}">Logout</a>
+        </nav>
+      </header>
+
+      <section id="newAppointment" class="workspace-panel workspace-view booking-workspace is-active" data-workspace-view="newAppointment" data-view-title="Request an Appointment" data-view-lead="Choose a fictional doctor, preview available slots, submit an administrative request, and track the human review status.">
+        <div class="section-heading">
+          <div>
+            <h2>New Appointment</h2>
+            <p class="muted">Search by specialty, select a date, choose a doctor, then pick one available time slot.</p>
+          </div>
+        </div>
+
+        <form id="appointmentForm" class="booking-flow">
+          <div class="booking-filterbar" aria-label="Appointment search filters">
+            <label class="filter-field search-field">
+              Search specialty, specialist, or room
+              <input id="doctorRosterSearch" type="search" placeholder="Search specialty, specialist, or room...">
+            </label>
+            <label class="filter-field">
+              What date would be best?
+              <span class="custom-date-picker" data-date-picker>
+                <input name="preferred_date" type="text" inputmode="none" autocomplete="off" placeholder="YYYY-MM-DD" required aria-label="Preferred date" data-date-input>
+                <button type="button" class="picker-toggle" data-date-toggle aria-label="Open calendar">Calendar</button>
+                <div class="calendar-popover" data-calendar-popover hidden>
+                  <div class="calendar-header">
+                    <button type="button" class="calendar-nav" data-calendar-prev aria-label="Previous month">Prev</button>
+                    <strong data-calendar-title>Month Year</strong>
+                    <button type="button" class="calendar-nav" data-calendar-next aria-label="Next month">Next</button>
+                  </div>
+                  <div class="calendar-weekdays" aria-hidden="true">
+                    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+                  </div>
+                  <div class="calendar-grid" data-calendar-grid role="grid" aria-label="English appointment date picker"></div>
+                  <div class="calendar-footer">
+                    <button type="button" class="secondary" data-calendar-clear>Clear</button>
+                    <button type="button" data-calendar-today>Next Weekday</button>
+                  </div>
                 </div>
-                <div class="calendar-weekdays" aria-hidden="true">
-                  <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
-                </div>
-                <div class="calendar-grid" data-calendar-grid role="grid" aria-label="English appointment date picker"></div>
-                <div class="calendar-footer">
-                  <button type="button" class="secondary" data-calendar-clear>Clear</button>
-                  <button type="button" data-calendar-today>Today</button>
+              </span>
+            </label>
+            <label class="filter-field">
+              What time would be best?
+              <input name="preferred_time" type="time" lang="en" required aria-label="Preferred time">
+            </label>
+          </div>
+
+          <div class="booking-body">
+            <section class="doctor-results-area">
+              <div class="section-heading compact-heading">
+                <div>
+                  <h2>Today's Doctors and Selection</h2>
+                  <p class="muted">Select a date to refresh the fictional on-duty roster and doctor-specific capacity.</p>
                 </div>
               </div>
-            </span>
-          </label>
-          <label>
-            Preferred time
-            <input name="preferred_time" type="time" lang="en" required aria-label="Preferred time">
-          </label>
+              <div id="doctorRosterMessage" class="message" aria-live="polite">Select a date to load the doctor schedule.</div>
+              <div id="doctorRosterList" class="doctor-roster selectable-roster appointment-directory" aria-label="Doctor schedule for the selected date"></div>
+
+              <section class="slot-workbench">
+                <div class="section-heading compact-heading">
+                  <div>
+                    <h2>Available Slots</h2>
+                    <p class="muted">Weekdays, configured shifts, and 30-minute increments.</p>
+                  </div>
+                </div>
+                <div id="availabilityMessage" class="message" aria-live="polite">Select a future weekday to preview clinic slots.</div>
+                <div id="availabilitySlots" class="slot-grid" aria-label="Available appointment slots"></div>
+              </section>
+            </section>
+
+            <aside class="request-sidebar" aria-label="Appointment request details">
+              <h2>Appointment Request</h2>
+              <label>
+                Patient display name
+                <input name="patient_name" required value="{{ user.display_name }}">
+              </label>
+              <label>
+                Contact email
+                <input name="contact_email" type="email" placeholder="patient@example.com">
+              </label>
+              <label>
+                Doctor
+                <select id="doctorSelect" name="doctor_id" required aria-label="Select appointment doctor">
+                  <option value="">Select a date first</option>
+                </select>
+              </label>
+              <label>
+                Appointment type
+                <select name="appointment_type" required>
+                  <option value="">Select type</option>
+                  {% for item in appointment_types %}
+                  <option>{{ item }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label>
+                Administrative reason
+                <textarea name="reason" rows="4" placeholder="Keep this administrative. Do not enter real patient records."></textarea>
+              </label>
+              <div id="bookingSummary" class="booking-summary" aria-live="polite">Select a future weekday, doctor, and available slot.</div>
+              <button type="submit">Submit Request</button>
+              <div id="formMessage" class="message" aria-live="polite"></div>
+            </aside>
+          </div>
+        </form>
+      </section>
+
+      <section id="myAppointments" class="workspace-panel workspace-view" data-workspace-view="myAppointments" data-view-title="My Appointments" data-view-lead="Search, review, cancel, or reschedule your own administrative appointment requests.">
+        <div class="section-heading">
+          <div>
+            <h2>My Requests</h2>
+            <p class="muted">Only requests created by this demo patient account are shown.</p>
+          </div>
+          <button id="refreshButton" type="button" class="secondary">Refresh</button>
         </div>
-        <label>
-          Appointment type
-          <select name="appointment_type" required>
-            <option value="">Select type</option>
-            <option>General consultation booking</option>
-            <option>Vaccination appointment booking</option>
-            <option>Follow-up appointment booking</option>
-            <option>Administrative query booking</option>
+        <div class="toolbar compact-toolbar">
+          <input id="patientSearch" type="search" placeholder="Search my requests" aria-label="Search my appointment requests">
+          <select id="patientStatusFilter" aria-label="Filter my appointments by status">
+            <option value="">All statuses</option>
+            <option>Pending Review</option>
+            <option>Confirmed</option>
+            <option>Cancelled</option>
           </select>
-        </label>
-        <label>
-          Administrative reason
-          <textarea name="reason" rows="3" placeholder="Keep this administrative. Do not enter real patient records."></textarea>
-        </label>
-        <button type="submit">Submit Request</button>
-      </form>
-      <div id="formMessage" class="message" aria-live="polite"></div>
-    </section>
-
-    <section class="panel">
-      <div class="section-heading">
-        <h2>My Requests</h2>
-        <button id="refreshButton" type="button" class="secondary">Refresh</button>
-      </div>
-      <div id="patientAppointmentList" class="appointment-list"></div>
-    </section>
-
-    <section class="panel">
-      <h2>Review Process</h2>
-      <div class="process-list">
-        <div><span>1</span><p>Submit an administrative request.</p></div>
-        <div><span>2</span><p>Clinic staff check availability and conflict flags.</p></div>
-        <div><span>3</span><p>Status changes to Confirmed or Cancelled after review.</p></div>
-      </div>
-    </section>
-
-    <section class="panel wide">
-      <h2>Safety Boundary</h2>
-      <div class="safety-grid">
-        <div>
-          <strong>Scope</strong>
-          <p>{{ safety_boundary.scope }}</p>
         </div>
-        <div>
-          <strong>Human review</strong>
-          <p>{{ safety_boundary.human_review }}</p>
+        <div id="patientAppointmentList" class="appointment-list appointment-rail"></div>
+        <div class="pagination-bar">
+          <button id="patientPrevPage" type="button" class="secondary">Previous</button>
+          <span id="patientPageInfo" class="muted">Page 1</span>
+          <button id="patientNextPage" type="button" class="secondary">Next</button>
         </div>
-        <div>
-          <strong>Not allowed</strong>
-          <p>{{ safety_boundary.not_allowed | join(", ") }}</p>
+      </section>
+
+      <section id="reviewProcess" class="workspace-panel workspace-view process-panel" data-workspace-view="reviewProcess" data-view-title="Review Process" data-view-lead="Understand how the clinic handles appointment requests without giving medical advice.">
+        <h2>Review Process</h2>
+        <div class="process-list">
+          <div><span>1</span><p>Submit an administrative request.</p></div>
+          <div><span>2</span><p>Clinic staff check availability and conflict flags.</p></div>
+          <div><span>3</span><p>Status changes to Confirmed or Cancelled after review.</p></div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
+
+      <section id="safetyBoundary" class="workspace-panel workspace-view" data-workspace-view="safetyBoundary" data-view-title="Safety Boundary" data-view-lead="This prototype is limited to appointment administration and human review.">
+        <h2>Safety Boundary</h2>
+        <div class="safety-grid">
+          <div>
+            <strong>Scope</strong>
+            <p>{{ safety_boundary.scope }}</p>
+          </div>
+          <div>
+            <strong>Human review</strong>
+            <p>{{ safety_boundary.human_review }}</p>
+          </div>
+          <div>
+            <strong>Not allowed</strong>
+            <p>{{ safety_boundary.not_allowed | join(", ") }}</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>

@@ -1,66 +1,43 @@
 {
-  "product": "Clinic Appointment System",
+  "product": "Clinic Appointment System Generator",
   "methodology": "AI-DLC-informed iterative methodology",
+  "generator_variant": "general-clinic",
   "stories": [
     {
-      "id": "US-01",
+      "id": "US01",
       "actor": "Patient",
-      "story": "As a patient, I want to log in to a patient dashboard so that my booking workflow is separate from staff review.",
-      "acceptance_criteria": [
-        "The patient demo account can log in successfully.",
-        "The patient is redirected to /patient.",
-        "The patient cannot access staff review actions."
-      ]
+      "story": "As a patient, I want to log in or register for the Clinic Appointment System patient dashboard so that I can request an administrative appointment.",
+      "acceptance_criteria": "Valid demo login or successful patient registration redirects to the patient dashboard."
     },
     {
-      "id": "US-02",
-      "actor": "Patient",
-      "story": "As a patient, I want to submit an appointment request so that clinic staff can review it.",
-      "acceptance_criteria": [
-        "The request requires name, date, time, and appointment type.",
-        "The initial status is Pending Review.",
-        "The request appears in the patient's request list."
-      ]
-    },
-    {
-      "id": "US-03",
+      "id": "US02",
       "actor": "Doctor",
-      "story": "As a doctor, I want to review appointment requests so that I can confirm or cancel bookings safely.",
-      "acceptance_criteria": [
-        "The doctor demo account is redirected to /staff.",
-        "The doctor can see the shared appointment queue.",
-        "The doctor can confirm, cancel, or reopen a request."
-      ]
+      "story": "As a doctor, I want my account to be linked to one doctor profile so that I only see appointment requests assigned to me.",
+      "acceptance_criteria": "Doctor list/detail/review/audit/day-board APIs return only appointments and slots for the linked doctor_id."
     },
     {
-      "id": "US-04",
-      "actor": "Admin Staff",
-      "story": "As admin staff, I want conflict flags so that I can identify duplicate time slots before confirming appointments.",
-      "acceptance_criteria": [
-        "Two active requests for the same date and time create a conflict flag.",
-        "Cancelled requests do not block the slot.",
-        "The conflict flag is visible in the staff dashboard."
-      ]
+      "id": "US03",
+      "actor": "Doctor",
+      "story": "As a doctor, I want to update my department, room, focus, shift, capacity, and profile note so that patient booking uses current information.",
+      "acceptance_criteria": "PATCH /api/doctors/me updates the doctor profile and GET /api/doctors reflects the changed information."
     },
     {
-      "id": "US-05",
-      "actor": "Clinic System",
-      "story": "As the clinic system, I want to produce non-diagnostic summaries so that staff can review requests without medical advice generation.",
-      "acceptance_criteria": [
-        "The summary includes administrative booking details.",
-        "The summary states that it is non-diagnostic.",
-        "The summary does not provide treatment advice."
-      ]
+      "id": "US04",
+      "actor": "Admin",
+      "story": "As an admin, I want to create doctor accounts and matching doctor profiles so that new doctors appear in patient booking and admin management.",
+      "acceptance_criteria": "POST /api/admin/doctors creates a doctor user/profile and the new doctor appears in GET /api/doctors and GET /api/admin/doctors."
     },
     {
-      "id": "US-06",
-      "actor": "Developer",
-      "story": "As a developer, I want optional AI support to be configured through environment variables so that secrets are not committed.",
-      "acceptance_criteria": [
-        ".env is ignored by Git.",
-        ".env.example documents variable names only.",
-        "The application works without optional AI keys."
-      ]
+      "id": "US05",
+      "actor": "Patient",
+      "story": "As a patient, I want to choose a future weekday, fictional doctor, and available slot so that the request matches the configured clinic schedule.",
+      "acceptance_criteria": "Doctor roster and availability endpoints return configured doctors, shifts, rooms, capacity, and slot status."
+    },
+    {
+      "id": "US06",
+      "actor": "Developer/Marker",
+      "story": "As a marker, I want one notebook to regenerate code, website, image assets, SDLC artefacts, tests, CI/CD, Docker, and deployment files so that generation is verifiable.",
+      "acceptance_criteria": "Running the Task 1 notebook recreates Task 2 and the validation script passes."
     }
   ]
 }

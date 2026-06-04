@@ -4,7 +4,7 @@
   "model": "deepseek-v4-flash",
   "status": "generated",
   "reason": "DeepSeek API call completed successfully",
-  "generated_at_utc": "2026-06-02T16:10:08Z",
+  "generated_at_utc": "2026-06-04T18:13:05Z",
   "outputs": [
     "artifacts/generated_requirements.md",
     "artifacts/generated_user_stories.json",
@@ -14,14 +14,14 @@
     "artifacts/diagrams/activity_diagram.puml"
   ],
   "usage": {
-    "prompt_tokens": 787,
-    "completion_tokens": 1851,
-    "total_tokens": 2638,
+    "prompt_tokens": 1781,
+    "completion_tokens": 2509,
+    "total_tokens": 4290,
     "prompt_tokens_details": {
-      "cached_tokens": 768
+      "cached_tokens": 1664
     },
-    "prompt_cache_hit_tokens": 768,
-    "prompt_cache_miss_tokens": 19
+    "prompt_cache_hit_tokens": 1664,
+    "prompt_cache_miss_tokens": 117
   },
   "validation": {
     "postprocess_alignment": "Applied deterministic checks for endpoint names, evidence paths, and safety wording",

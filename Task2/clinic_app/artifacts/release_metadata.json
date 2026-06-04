@@ -1,0 +1,86 @@
+{
+  "app_version": "v1.3.0",
+  "generated_at": "2026-06-04T00:00:00Z",
+  "methodology": "AI-DLC-informed iterative methodology",
+  "business_problem": "Clinic staff need a safe appointment administration prototype that separates patient booking from doctor/admin review, lets patients choose a date, doctor, and available slot, keeps one shared SQLite workflow, and records testing, CI/CD, Docker, deployment, and AI generation evidence.",
+  "safety_boundary": {
+    "scope": "Appointment administration prototype only",
+    "not_allowed": [
+      "diagnosis",
+      "treatment advice",
+      "prescriptions",
+      "real patient records"
+    ],
+    "human_review": "Doctor or admin staff must confirm, cancel, or reschedule appointment requests with an administrative review note."
+  },
+  "storage": {
+    "engine": "SQLite",
+    "runtime_path": "Task2/clinic_app/data/clinic.sqlite3",
+    "git_policy": "Runtime database files are ignored and recreated automatically."
+  },
+  "features": [
+    "Role-based demo login and self-registration with hashed credentials and doctor-profile linking",
+    "Patient booking dashboard with selected-date doctor roster, doctor-specific availability, slot picker, and booking summary",
+    "Doctor dashboard scoped to the linked doctor queue, day-board, audit events, profile management, and own review decisions",
+    "Admin dashboard for all queues plus doctor account/profile creation and management",
+    "Weekday, future-date, doctor-shift, clinic-hours, slot-increment, capacity, and allowed-type validation",
+    "Patient cancellation endpoint, patient pending-request reschedule endpoint, scoped doctor review/reschedule endpoints, and admin-wide review/reschedule endpoints",
+    "Non-diagnostic administrative summary endpoint"
+  ],
+  "closed_loop_endpoints": [
+    "POST /api/auth/register",
+    "GET /api/doctors/me",
+    "PATCH /api/doctors/me",
+    "GET /api/admin/doctors",
+    "POST /api/admin/doctors",
+    "GET /api/doctors?date=YYYY-MM-DD",
+    "GET /api/doctors/<doctor_id>/availability?date=YYYY-MM-DD",
+    "GET /api/schedule/day?date=YYYY-MM-DD",
+    "PATCH /api/appointments/<id>/reschedule"
+  ],
+  "ai_tooling": {
+    "text_artefacts": "DeepSeek API with deterministic fallback",
+    "generated_image": "APIFREE hero image and fictional doctor roster photo generation with deterministic fallback",
+    "validation": "Structured metadata, test suite, and submission validation script"
+  },
+  "evidence_paths": {
+    "generator_notebook": "Task1/clinic_appointment_generator.ipynb",
+    "flask_app": "Task2/clinic_app/app.py",
+    "website_templates": "Task2/clinic_app/templates/",
+    "generated_image": "Task2/clinic_app/static/generated_clinic_image.png",
+    "doctor_photos": "Task2/clinic_app/static/doctors/",
+    "requirements": "Task2/clinic_app/artifacts/generated_requirements.md",
+    "uml": "Task2/clinic_app/artifacts/diagrams/",
+    "tests": "Task2/clinic_app/tests/test_app.py",
+    "ci": ".github/workflows/ci.yml",
+    "docker": "Task2/clinic_app/Dockerfile",
+    "deployment": "Task2/clinic_app/render.yaml"
+  },
+  "generator_variant": "general-clinic",
+  "configured_appointment_types": [
+    "General consultation booking",
+    "Vaccination appointment booking",
+    "Follow-up appointment booking",
+    "Administrative query booking"
+  ],
+  "configured_doctors": [
+    {
+      "id": "amelia-hart",
+      "name": "Dr Amelia Hart",
+      "department": "General Medicine",
+      "shift": "09:00-12:30"
+    },
+    {
+      "id": "noah-bennett",
+      "name": "Dr Noah Bennett",
+      "department": "Preventive Care",
+      "shift": "10:00-15:00"
+    },
+    {
+      "id": "priya-raman",
+      "name": "Dr Priya Raman",
+      "department": "Follow-up Coordination",
+      "shift": "13:00-17:00"
+    }
+  ]
+}

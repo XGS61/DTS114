@@ -4,5 +4,7 @@ __pycache__/
 .env
 *.env
 data/*.json
+data/*.sqlite3
+data/*.sqlite3-*
 !data/.gitkeep
 tests/__pycache__/

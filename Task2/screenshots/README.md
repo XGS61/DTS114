@@ -13,7 +13,7 @@ Capture GitHub commit history after pushing the repository. The history should s
 - add tests and CI workflow
 - add Render deployment config and documentation
 - normalize generated notebook and image state
-- add role-based backend and JSON appointment store
+- add role-based backend and SQLite appointment store
 - split website into patient and staff dashboards
 - add optional API hooks and updated CW artefacts
 

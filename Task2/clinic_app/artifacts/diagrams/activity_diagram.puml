@@ -1,34 +1,19 @@
 @startuml
-title Role-based Appointment Workflow
 start
-:Open login page;
-if (Valid demo credentials?) then (yes)
-  if (Role is patient?) then (patient)
-    :Open patient dashboard;
-    :Submit appointment request;
-    :Validate required fields and safety wording;
-    if (Valid administrative request?) then (yes)
-      :Store request as Pending Review;
-      :Recalculate conflict flags;
-      :Show own appointment status;
-    else (no)
-      :Show safe rejection message;
-    endif
-  else (staff)
-    :Open staff dashboard;
-    :View shared queue;
-    :Review conflict flags and request details;
-    if (Decision?) then (Confirm)
-      :Set status to Confirmed;
-    else (Cancel)
-      :Set status to Cancelled;
-    endif
-    :Save review note;
-    :Recalculate conflict flags;
+:Patient selects date;
+:Patient selects doctor;
+:Patient picks time slot;
+:Patient submits appointment request;
+if (Status = Pending Review) then (yes)
+  :Doctor or Admin reviews;
+  if (Confirmed) then (yes)
+    :Appointment Confirmed;
+  else (Cancelled)
+    :Appointment Cancelled;
   endif
 else (no)
-  :Return login error;
+  :Patient may cancel or reschedule if pending;
 endif
-:Run tests and CI validation;
+:Audit event recorded;
 stop
 @enduml

@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login | Clinic Appointment System</title>
+  <title>Sign In | Clinic Appointment System</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-  <main class="login-layout">
-    <section class="login-copy hero-card">
+<body data-page="login" class="auth-body">
+  <main class="login-layout auth-layout">
+    <section class="login-copy hero-card auth-hero">
       <p class="eyebrow">AI-DLC Generated Prototype</p>
       <h1>Clinic Appointment System</h1>
       <p class="lead">A role-based appointment workspace for patient requests, staff review, conflict visibility, and non-diagnostic administrative summaries.</p>
@@ -20,8 +20,14 @@
       </div>
     </section>
 
-    <section class="panel login-panel">
-      <h2>Demo Login</h2>
+    <section class="panel login-panel auth-panel">
+      <div class="section-heading">
+        <div>
+          <h2>Sign In</h2>
+          <p class="muted">Use a demo role or an account you created to enter the appointment workspace.</p>
+        </div>
+        <span class="version-pill">{{ app_version }}</span>
+      </div>
       <form id="loginForm">
         <label>
           Username
@@ -34,6 +40,11 @@
         <button type="submit">Sign In</button>
       </form>
       <div id="loginMessage" class="message" aria-live="polite"></div>
+
+      <div class="auth-switch">
+        <span>Do not have an account?</span>
+        <a href="{{ url_for('register_page') }}">Sign up</a>
+      </div>
 
       <div class="demo-accounts">
         <h3>Demo accounts</h3>

@@ -1,38 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="980" height="520" viewBox="0 0 980 520" role="img" aria-label="Sequence diagram for appointment booking and review">
-  <rect width="980" height="520" fill="#ffffff"/>
-  <g font-family="Arial" fill="#17202a">
-    <text x="80" y="50" font-size="18" font-weight="700">Patient</text>
-    <text x="240" y="50" font-size="18" font-weight="700">Patient UI</text>
-    <text x="430" y="50" font-size="18" font-weight="700">Flask API</text>
-    <text x="610" y="50" font-size="18" font-weight="700">JSON Store</text>
-    <text x="810" y="50" font-size="18" font-weight="700">Staff UI</text>
-  </g>
-  <g stroke="#d9e2ec" stroke-width="2">
-    <line x1="100" y1="70" x2="100" y2="470"/>
-    <line x1="280" y1="70" x2="280" y2="470"/>
-    <line x1="470" y1="70" x2="470" y2="470"/>
-    <line x1="660" y1="70" x2="660" y2="470"/>
-    <line x1="840" y1="70" x2="840" y2="470"/>
-  </g>
-  <g stroke="#18646f" stroke-width="2" marker-end="url(#arrow)" font-family="Arial" font-size="14" fill="#17202a">
-    <defs>
-      <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
-        <path d="M0,0 L8,3 L0,6 Z" fill="#18646f"/>
-      </marker>
-    </defs>
-    <line x1="100" y1="120" x2="280" y2="120"/>
-    <text x="130" y="110">Submit request</text>
-    <line x1="280" y1="170" x2="470" y2="170"/>
-    <text x="310" y="160">POST /api/appointments</text>
-    <line x1="470" y1="220" x2="660" y2="220"/>
-    <text x="500" y="210">Save Pending Review</text>
-    <line x1="840" y1="290" x2="470" y2="290"/>
-    <text x="585" y="280">GET /api/appointments</text>
-    <line x1="470" y1="350" x2="840" y2="350"/>
-    <text x="585" y="340">Shared queue</text>
-    <line x1="840" y1="410" x2="470" y2="410"/>
-    <text x="560" y="400">PATCH review status</text>
-    <line x1="470" y1="450" x2="660" y2="450"/>
-    <text x="505" y="440">Persist review</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="392" viewBox="0 0 1180 392" role="img" aria-label="Sequence Preview">
+<rect width="1180" height="392" fill="#ffffff"/>
+<rect x="36" y="32" width="1108" height="328" rx="10" fill="#ffffff" stroke="#cfdbe3" stroke-width="2"/>
+<text x="64" y="82" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#172a3a">Sequence Preview</text>
+<text x="64" y="112" font-family="Arial, sans-serif" font-size="16" fill="#5d6b7a">Clinic Appointment System scoped doctor/admin workflow</text>
+<rect x="64" y="96" width="1052" height="46" rx="8" fill="#f7fbfb" stroke="#d6e4e7"/><text x="86" y="125" font-family="Arial, sans-serif" font-size="18" fill="#172a3a"><tspan font-weight="700">1.</tspan> Patient creates appointment through doctor roster and availability APIs</text><rect x="64" y="154" width="1052" height="46" rx="8" fill="#f7fbfb" stroke="#d6e4e7"/><text x="86" y="183" font-family="Arial, sans-serif" font-size="18" fill="#172a3a"><tspan font-weight="700">2.</tspan> Doctor dashboard queries appointments WHERE doctor_id equals linked profile</text><rect x="64" y="212" width="1052" height="46" rx="8" fill="#f7fbfb" stroke="#d6e4e7"/><text x="86" y="241" font-family="Arial, sans-serif" font-size="18" fill="#172a3a"><tspan font-weight="700">3.</tspan> Doctor profile updates are saved to doctors and doctor_shifts tables</text><rect x="64" y="270" width="1052" height="46" rx="8" fill="#f7fbfb" stroke="#d6e4e7"/><text x="86" y="299" font-family="Arial, sans-serif" font-size="18" fill="#172a3a"><tspan font-weight="700">4.</tspan> Admin creates doctor user/profile and can query all appointment queues</text>
 </svg>
