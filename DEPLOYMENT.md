@@ -1,101 +1,161 @@
-# Deployment and Evidence Guide
+# Deployment And Evidence Guide
 
-## GitHub Repository
+This document explains how the generated Flask app is run locally, containerised with Docker, validated through GitHub Actions, and deployed online with Render Docker.
 
-Repository URL:
+## Deployment Evidence Summary
 
-https://github.com/XGS61/DTS114
+| Evidence type | Status | Location |
+|---|---|---|
+| GitHub repository | Available | https://github.com/XGS61/DTS114 |
+| Git commit evidence | Available | `Task2/screenshots/01_commit_records.png` |
+| GitHub Actions CI/CD | Passed | https://github.com/XGS61/DTS114/actions/runs/26996133341 |
+| CI/CD screenshot | Available | `Task2/screenshots/03_cicd_workflow.png` |
+| Render Docker website | Live | https://dts114-clinic-appointment-generator-g8md.onrender.com/ |
+| Render Docker health check | Live | https://dts114-clinic-appointment-generator-g8md.onrender.com/health |
+| Deployment screenshot | Available | `Task2/screenshots/02_deployed_website.png` |
+| Local Docker smoke test | Passed | Same Dockerfile as Render |
 
-Latest CI evidence should be captured from the GitHub Actions page after pushing the final commit.
+## Local Run Versus Deployment
 
-Primary Docker deployed website URL:
+Running `python app.py` starts a local development server. This proves the generated Flask code works on the local machine, but it is not public deployment.
 
-https://dts114-clinic-appointment-generator-g8md.onrender.com/
+Deployment is demonstrated by this chain:
 
-Primary Docker app login URL:
+```mermaid
+flowchart LR
+    A["Task 1 Notebook Generates Task 2"] --> B["Git Commit And Push"]
+    B --> C["GitHub Actions CI/CD"]
+    C --> D["Docker Build And Smoke Test"]
+    B --> E["Render Pulls GitHub Repository"]
+    E --> F["Render Builds Dockerfile"]
+    F --> G["Public Website And Health Endpoint"]
+```
 
-https://dts114-clinic-appointment-generator-g8md.onrender.com/app/login
+The deployed app is the same generated Task 2 code, built from the GitHub repository by Render.
 
-Fallback native Python Render deployment:
+## Render Docker Service
 
-https://dts114-clinic-appointment-generator.onrender.com/login
+Primary service:
 
-Primary Docker health check URL:
+| Setting | Value |
+|---|---|
+| Service type | Web Service |
+| Runtime | Docker |
+| Repository | `https://github.com/XGS61/DTS114` |
+| Branch | `main` |
+| Root directory | `Task2/clinic_app` |
+| Dockerfile path | `./Dockerfile` |
+| Docker context | `.` |
+| Health check path | `/health` |
+| Current version | `v1.3.1` |
 
-https://dts114-clinic-appointment-generator-g8md.onrender.com/health
+Primary URLs:
 
-Fallback native Python Render health check:
+| Page | URL |
+|---|---|
+| Public login page | https://dts114-clinic-appointment-generator-g8md.onrender.com/ |
+| App login page | https://dts114-clinic-appointment-generator-g8md.onrender.com/app/login |
+| Health check | https://dts114-clinic-appointment-generator-g8md.onrender.com/health |
 
-https://dts114-clinic-appointment-generator.onrender.com/health
+Expected health response:
 
-## Render Docker Deployment Steps
+```json
+{
+  "service": "clinic-appointment-generator",
+  "status": "ok",
+  "storage": "sqlite",
+  "version": "v1.3.1"
+}
+```
 
-1. Log in to Render.
-2. Create a new Blueprint from the root-level `render.yaml`, or create a new Web Service from the GitHub repository.
-3. Confirm Docker runtime is selected.
-4. Confirm the service uses:
-   - Root directory: `Task2/clinic_app`
-   - Dockerfile path: `./Dockerfile`
-   - Docker context: `.`
-   - Health check path: `/health`
-5. After deployment, open the deployed `/` page and `/health` endpoint.
+## Render Deployment Steps
+
+1. Open Render and connect the GitHub repository.
+2. Create a new Web Service.
+3. Select Docker runtime.
+4. Set the root directory to `Task2/clinic_app`.
+5. Confirm Dockerfile path `./Dockerfile`.
+6. Confirm Docker context `.`.
+7. Set health check path to `/health`.
+8. Add `FLASK_SECRET_KEY` as an environment variable or allow Render to generate it from `render.yaml`.
+9. Deploy from branch `main`.
+10. Open `/` and `/health` after the deployment becomes live.
 
 ## Local Docker Verification
 
-```bash
-cd Task2/clinic_app
-docker build -t dts114-clinic-app .
-docker run --rm -p 5000:5000 -e FLASK_SECRET_KEY=local-docker-secret dts114-clinic-app
-```
-
-The local container URL is `http://127.0.0.1:5000/`. This proves the Docker image works on the marking machine. Render uses the same Dockerfile to build and run the container in the cloud, then provides the public website URL.
-
-## Conda Environment Setup
-
-For local Python and notebook execution, create the environment from the repository root:
+Run from `Task2/clinic_app`:
 
 ```bash
-conda env create -f environment.yml
-conda activate dts114-clinic-generator
+docker build -t dts114-clinic-app:v1.3.1 .
+docker run --rm -p 5000:5000 -e FLASK_SECRET_KEY=local-docker-secret dts114-clinic-app:v1.3.1
 ```
 
-Use this environment for running the Task 1 notebook, `python scripts/validate_submission.py`, and `python -m pytest`.
+Then open:
 
-## Native Render Fallback
+```text
+http://127.0.0.1:5000/
+http://127.0.0.1:5000/health
+```
 
-The project also keeps `runtime.txt` for a native Python fallback. Use this fallback only if Docker service creation is blocked:
+This local Docker run proves the image works in a container. Render uses the same Dockerfile to build an online version.
 
-- Root directory: `Task2/clinic_app`
-- Build command: `pip install -r requirements.txt`
-- Start command: `gunicorn app:app`
-- Python runtime: `python-3.11.9`
+## GitHub Actions Workflow
 
-## Required Screenshot Evidence
+Workflow file:
 
-Place the final screenshots in `Task2/screenshots/`:
+```text
+.github/workflows/ci.yml
+```
 
-| Filename | Required evidence |
+The workflow runs on pushes to `main`, pull requests to `main`, and manual workflow dispatch.
+
+| CI step | Purpose |
 |---|---|
-| `01_commit_records.png` | GitHub commit history showing meaningful commits |
-| `02_deployed_website.png` | Render Docker deployed website, preferably the public login page with generated image |
-| `03_cicd_workflow.png` | GitHub Actions workflow run showing success |
+| Checkout repository | Use the pushed GitHub version |
+| Set up Python | Use Python 3.11 |
+| Install dependencies | Install `Task2/clinic_app/requirements.txt` |
+| Validate submission artefacts | Run `python scripts/validate_submission.py` |
+| Compile Flask app | Run `python -m py_compile app.py` |
+| Run tests | Run `python -m pytest` |
+| Build Docker image | Build the generated Docker image |
+| Smoke test Docker container | Start the container and call `/health` |
 
-## Final Packaging Check
+Latest successful run:
 
-Before creating the final zip, run:
+```text
+https://github.com/XGS61/DTS114/actions/runs/26996133341
+```
+
+## Screenshot Evidence
+
+| File | What it proves |
+|---|---|
+| `Task2/screenshots/01_commit_records.png` | GitHub commit records and version-control evidence |
+| `Task2/screenshots/02_deployed_website.png` | Render public website with generated hero image |
+| `Task2/screenshots/03_cicd_workflow.png` | GitHub Actions CI/CD success |
+
+## Native Python Render Fallback
+
+The project also keeps native Python deployment files as a fallback:
+
+| File | Purpose |
+|---|---|
+| `Task2/clinic_app/runtime.txt` | Python runtime hint |
+| `Task2/clinic_app/requirements.txt` | Flask, gunicorn, pytest dependencies |
+| `Task2/clinic_app/render.yaml` | Docker-first Render blueprint |
+
+Use the native Python fallback only if Docker service creation is blocked. The Docker deployment is stronger evidence for the containerisation chapter.
+
+## Final Deployment Validation
+
+Run these commands before final packaging:
 
 ```bash
 python scripts/validate_submission.py --require-screenshots
 ```
 
-The command should pass only after the three evidence screenshots exist.
-
-## Local Verification Commands
-
 ```bash
-cd Task2/clinic_app
-python -m py_compile app.py
-python -m pytest
+curl https://dts114-clinic-appointment-generator-g8md.onrender.com/health
 ```
 
-The current test suite verifies API health, login, appointment creation, role access control, conflict recalculation, non-diagnostic summaries, AI tooling metadata, and the custom English date picker.
+The health response should include `version: v1.3.1`.

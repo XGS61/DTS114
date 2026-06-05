@@ -1,50 +1,86 @@
 # Screenshot Evidence Guide
 
-Place the three required screenshots in this folder before submission. These screenshots must be real evidence from GitHub and the deployed website, not generated placeholders.
+This folder stores real evidence screenshots for the DTS114 Software Component. These images support the version control, deployment, and CI/CD marking areas.
+
+## Screenshot Set
+
+| File | Evidence type | What it proves |
+|---|---|---|
+| `01_commit_records.png` | Git and version control | The project was developed through meaningful commits instead of one final upload |
+| `02_deployed_website.png` | Online deployment | The generated Flask website is live on Render Docker and displays the generated image workflow |
+| `03_cicd_workflow.png` | CI/CD | GitHub Actions validated the repository with tests, submission checks, Docker build, and smoke test |
 
 ## 1. Commit Records
 
-Capture GitHub commit history after pushing the repository. The history should show meaningful commits such as:
+Capture the GitHub commit history page after pushing the repository.
 
-- scaffold CW structure and generator notebook
-- add requirements and UML generation
-- add Flask API and website generation
-- add generated image and validation checklist
-- add tests and CI workflow
-- add Render deployment config and documentation
-- normalize generated notebook and image state
-- add role-based backend and SQLite appointment store
-- split website into patient and staff dashboards
-- add optional API hooks and updated CW artefacts
+The screenshot should show evidence such as:
 
-Suggested filename:
+- Initial coursework scaffold and Task 1 notebook.
+- Requirements, UML, and generated artefact work.
+- Flask API and website generation.
+- Testing, CI/CD, Docker, and Render deployment files.
+- Role-based workflow, generated images, doctor schedule, and final polish.
+- Version-aware commit messages or tags such as `v1.3.1`.
 
-`01_commit_records.png`
+Suggested file:
 
-## 2. Website Deployment
+```text
+01_commit_records.png
+```
 
-Deploy the Flask website using Render Docker runtime. Capture the deployed public login page or staff dashboard showing the generated clinic image and role-based workflow.
+## 2. Deployed Website
 
-Suggested filename:
+Capture the public Render website, not only the local Flask server.
 
-`02_deployed_website.png`
+Primary URL:
+
+```text
+https://dts114-clinic-appointment-generator-g8md.onrender.com/
+```
+
+The screenshot should show:
+
+- The login page or role dashboard.
+- The generated clinic image or generated doctor imagery.
+- The public Render browser URL.
+- A professional view of the generated appointment system.
+
+Suggested file:
+
+```text
+02_deployed_website.png
+```
 
 ## 3. CI/CD Workflow
 
-Capture the GitHub Actions workflow run after tests pass.
+Capture the successful GitHub Actions workflow run.
 
-Suggested filename:
+The screenshot should show:
 
-`03_cicd_workflow.png`
+- The repository Actions page or workflow run detail.
+- A successful run status.
+- Evidence that tests and validation ran.
+- If visible, the Docker build or smoke test step.
 
-## Fallback Evidence
+Suggested file:
 
-If Render access is blocked, include a local deployment screenshot and state the limitation in your own report/reflection.
+```text
+03_cicd_workflow.png
+```
 
-## Validation
+## Validation Command
 
-After adding the three screenshots, run this command from the repository root:
+After adding or replacing screenshots, run from the repository root:
 
 ```bash
 python scripts/validate_submission.py --require-screenshots
 ```
+
+The validation script checks that all three screenshots exist and are non-empty.
+
+## Evidence Boundary
+
+Screenshots should not contain API keys, `.env` values, private tokens, or personal data. The software uses fictional demo data only.
+
+If a screenshot is refreshed after a documentation-only commit, it is acceptable for the commit history screenshot to show the documentation commit as the latest item. The important point is that the earlier development history remains visible.
