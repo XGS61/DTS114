@@ -829,6 +829,9 @@ def test_staff_page_includes_operational_dashboard_controls(client):
     assert "Your Appointment Queue" in page
     assert 'id="doctorProfileForm"' in page
     assert 'id="doctorPhotoForm"' in page
+    assert 'id="doctorPhotoChoose"' in page
+    assert "Choose photo" in page
+    assert "No file selected" in page
     assert 'id="staffSearch"' in page
     assert 'id="detailDrawer"' in page
     assert 'id="reviewModal"' in page
@@ -951,6 +954,6 @@ def test_apifree_doctor_photo_metadata_records_roster_images():
 def test_release_metadata_records_version_and_evidence_paths():
     metadata_path = Path(__file__).resolve().parents[1] / "artifacts" / "release_metadata.json"
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-    assert metadata["app_version"] == "v1.3.0"
+    assert metadata["app_version"] == "v1.3.1"
     assert metadata["methodology"] == "AI-DLC-informed iterative methodology"
     assert "Task1/clinic_appointment_generator.ipynb" in metadata["evidence_paths"]["generator_notebook"]

@@ -5,7 +5,7 @@
   "result_endpoint_template": "https://api.apifree.ai/v1/image/{request_id}/result",
   "model": "Qwen/Qwen-Image",
   "asset_type": "doctor_roster_photos",
-  "generated_at_utc": "2026-06-04T18:18:00Z",
+  "generated_at_utc": "2026-06-05T04:44:08Z",
   "summary": {
     "total": 3,
     "generated": 3,
@@ -20,9 +20,9 @@
       "prompt": "Professional AI-generated profile photo of a fictional clinic doctor named Dr Amelia Hart, General Medicine appointment setting, realistic healthcare portrait, clean clinic background, no logos, no text, no watermark, no patient data, not a real person.",
       "output": "static/doctors/dr_amelia_hart.png",
       "image_format": "png",
-      "request_id": "2062599629984505856",
+      "request_id": "2062757222484881408",
       "submit_attempts": 1,
-      "polls": 5,
+      "polls": 3,
       "asset_attempts": 1
     },
     {
@@ -33,9 +33,9 @@
       "prompt": "Professional AI-generated profile photo of a fictional clinic doctor named Dr Noah Bennett, Preventive Care appointment setting, realistic healthcare portrait, clean clinic background, no logos, no text, no watermark, no patient data, not a real person.",
       "output": "static/doctors/dr_noah_bennett.png",
       "image_format": "png",
-      "request_id": "2062599708959047680",
+      "request_id": "2062757273718304768",
       "submit_attempts": 1,
-      "polls": 2,
+      "polls": 3,
       "asset_attempts": 1
     },
     {
@@ -46,7 +46,7 @@
       "prompt": "Professional AI-generated profile photo of a fictional clinic doctor named Dr Priya Raman, Follow-up Coordination appointment setting, realistic healthcare portrait, clean clinic background, no logos, no text, no watermark, no patient data, not a real person.",
       "output": "static/doctors/dr_priya_raman.png",
       "image_format": "png",
-      "request_id": "2062599750822375424",
+      "request_id": "2062757323810881536",
       "submit_attempts": 1,
       "polls": 2,
       "asset_attempts": 1

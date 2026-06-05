@@ -7,6 +7,9 @@ const reviewForm = document.querySelector("#reviewForm");
 const rescheduleForm = document.querySelector("#rescheduleForm");
 const doctorProfileForm = document.querySelector("#doctorProfileForm");
 const doctorPhotoForm = document.querySelector("#doctorPhotoForm");
+const doctorPhotoInput = document.querySelector("#doctorPhotoInput");
+const doctorPhotoChoose = document.querySelector("#doctorPhotoChoose");
+const doctorPhotoFileName = document.querySelector("#doctorPhotoFileName");
 const adminDoctorForm = document.querySelector("#adminDoctorForm");
 const formMessage = document.querySelector("#formMessage");
 const loginMessage = document.querySelector("#loginMessage");
@@ -953,11 +956,22 @@ async function uploadDoctorPhoto(event) {
     const payload = await uploadApi("/api/doctors/me/photo", formData);
     fillDoctorProfileForm(payload.doctor);
     doctorPhotoForm.reset();
+    if (doctorPhotoFileName) {
+      doctorPhotoFileName.textContent = "No file selected";
+    }
     setMessage(doctorPhotoMessage, "Doctor photo uploaded. Patient booking and schedule views now use the new image.");
     await loadScheduleDay();
   } catch (error) {
     setMessage(doctorPhotoMessage, error.message, "error");
   }
+}
+
+function updateDoctorPhotoFileName() {
+  if (!doctorPhotoInput || !doctorPhotoFileName) {
+    return;
+  }
+  const file = doctorPhotoInput.files && doctorPhotoInput.files[0];
+  doctorPhotoFileName.textContent = file ? file.name : "No file selected";
 }
 
 function renderAdminDoctorCard(doctor) {
@@ -1260,6 +1274,14 @@ if (doctorProfileForm) {
 
 if (doctorPhotoForm) {
   doctorPhotoForm.addEventListener("submit", uploadDoctorPhoto);
+}
+
+if (doctorPhotoChoose && doctorPhotoInput) {
+  doctorPhotoChoose.addEventListener("click", () => doctorPhotoInput.click());
+}
+
+if (doctorPhotoInput) {
+  doctorPhotoInput.addEventListener("change", updateDoctorPhotoFileName);
 }
 
 if (adminDoctorForm) {

@@ -1,19 +1,17 @@
 @startuml
 start
 :Patient selects date;
+:Patient views doctor roster;
 :Patient selects doctor;
-:Patient picks time slot;
+:Patient picks available slot;
 :Patient submits appointment request;
-if (Status = Pending Review) then (yes)
-  :Doctor or Admin reviews;
-  if (Confirmed) then (yes)
-    :Appointment Confirmed;
-  else (Cancelled)
-    :Appointment Cancelled;
-  endif
-else (no)
-  :Patient may cancel or reschedule if pending;
+:Status: Pending Review;
+if (Doctor or Admin reviews) then (Confirmed)
+  :Status: Confirmed;
+else (Cancelled)
+  :Status: Cancelled;
 endif
-:Audit event recorded;
+:Patient may cancel own request;
+:Patient may reschedule if Pending Review;
 stop
 @enduml

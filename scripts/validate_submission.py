@@ -145,7 +145,7 @@ def assert_apifree_doctor_metadata():
 def assert_release_metadata():
     metadata_path = ROOT / "Task2/clinic_app/artifacts/release_metadata.json"
     metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
-    if metadata.get("app_version") != "v1.3.0":
+    if metadata.get("app_version") != "v1.3.1":
         raise AssertionError("Release metadata must record the current development version")
     if metadata.get("methodology") != "AI-DLC-informed iterative methodology":
         raise AssertionError("Release metadata must record the AI-DLC methodology")

@@ -5,62 +5,50 @@
     {
       "id": "US01",
       "actor": "Patient",
-      "story": "As a Patient, I want to register and log in so that I can use the appointment system.",
-      "acceptance_criteria": "['Registration requires email, password, role selection.', 'Login validates credentials; session created.', 'Logout clears session.']"
+      "story": "As a patient, I want to register an account and log in so that I can book appointments.",
+      "acceptance_criteria": "Registration with unique username, email, password; login and session management."
     },
     {
       "id": "US02",
       "actor": "Patient",
-      "story": "As a Patient, I want to view available doctors on a selected date so that I can choose one.",
-      "acceptance_criteria": "['GET /api/doctors?date= returns doctors working that day.', 'Doctors have names, departments, profile photos.']"
+      "story": "As a patient, I want to select a date, doctor, and available slot so that I can request an appointment.",
+      "acceptance_criteria": "Date picker, doctor roster with profiles, slot display based on shifts and capacity, appointment type selection."
     },
     {
       "id": "US03",
       "actor": "Patient",
-      "story": "As a Patient, I want to see a doctor's available slots and select one so that I can book an appointment.",
-      "acceptance_criteria": "['GET /api/doctors/<id>/availability?date= returns time slots.', 'Slots respect shifts, 30-min increments, capacity.']"
+      "story": "As a patient, I want to cancel my own appointment requests so that I can manage my bookings.",
+      "acceptance_criteria": "Cancel only own requests, status updated to Cancelled."
     },
     {
       "id": "US04",
       "actor": "Patient",
-      "story": "As a Patient, I want to request an appointment so that my request is sent for review.",
-      "acceptance_criteria": "['POST /api/appointments creates Pending Review appointment.', 'Validation: future weekday, allowed type, slot available.']"
+      "story": "As a patient, I want to reschedule a pending appointment request so that I can change the date/time.",
+      "acceptance_criteria": "Reschedule only Pending Review requests, choose new slot, same doctor."
     },
     {
       "id": "US05",
-      "actor": "Patient",
-      "story": "As a Patient, I want to cancel my own appointment request so that I can remove it.",
-      "acceptance_criteria": "['DELETE /api/appointments/<id> only by creator.', 'Status updated to Cancelled.']"
+      "actor": "Doctor",
+      "story": "As a doctor, I want to view my appointment queue and review requests so that I can confirm or cancel them.",
+      "acceptance_criteria": "Only own appointments, review modal with notes, status change."
     },
     {
       "id": "US06",
-      "actor": "Patient",
-      "story": "As a Patient, I want to reschedule a pending appointment so that I can choose a new slot.",
-      "acceptance_criteria": "['PATCH /api/appointments/<id>/reschedule with new date/time.', 'Only if status is Pending Review.']"
+      "actor": "Doctor",
+      "story": "As a doctor, I want to manage my profile and view day-board so that I can keep information up to date.",
+      "acceptance_criteria": "Edit own profile, see schedule for selected date."
     },
     {
       "id": "US07",
-      "actor": "Doctor",
-      "story": "As a Doctor, I want to view my appointment queue so that I can review requests.",
-      "acceptance_criteria": "['GET /api/appointments returns appointments for my linked doctor.', 'Filter by status, date.']"
+      "actor": "Admin Staff",
+      "story": "As an admin, I want to manage all appointment queues and doctor accounts so that I can oversee the system.",
+      "acceptance_criteria": "View all appointments, create/edit doctors, review any appointment."
     },
     {
       "id": "US08",
-      "actor": "Doctor",
-      "story": "As a Doctor, I want to confirm or cancel an appointment with a note so that the patient knows the outcome.",
-      "acceptance_criteria": "['PATCH /api/appointments/<id>/review with note.', 'Only for my own appointments.']"
-    },
-    {
-      "id": "US09",
-      "actor": "Admin",
-      "story": "As an Admin, I want to view all appointment queues so that I can manage the system.",
-      "acceptance_criteria": "['Admin sees all appointments, not scoped to one doctor.']"
-    },
-    {
-      "id": "US10",
-      "actor": "Admin",
-      "story": "As an Admin, I want to create a doctor account and profile so that new doctors can be added.",
-      "acceptance_criteria": "['POST /api/admin/doctors creates user and doctor record.', 'Profile includes department, photo.']"
+      "actor": "Clinic System",
+      "story": "As the system, I want to enforce scheduling rules and audit changes so that the process is reliable.",
+      "acceptance_criteria": "Future weekdays, 30-min slots, capacity, conflict detection, audit log."
     },
     {
       "id": "US07",

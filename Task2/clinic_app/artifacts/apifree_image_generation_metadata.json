@@ -6,14 +6,14 @@
   "model": "Qwen/Qwen-Image",
   "status": "generated",
   "reason": "APIFREE image generation completed successfully",
-  "generated_at_utc": "2026-06-04T18:17:22Z",
-  "prompt": "Use case: ui-mockup\nAsset type: website hero image for Clinic Appointment System coursework prototype\nPrimary request: a polished modern healthcare appointment scheduling interface mockup for general clinic appointment administration shown on a laptop/tablet screen in a clean clinic reception environment\nConstraints: no logos, no brand names, no medical diagnosis content, no real patient names, no watermark, no readable private data.",
+  "generated_at_utc": "2026-06-05T04:43:34Z",
+  "prompt": "Use case: wordless clinic hero image\nAsset type: generated website hero image for Clinic Appointment System coursework prototype\nPrimary request: a polished modern clinic reception interior for general clinic appointment administration, with a clean appointment desk, chairs, plants, soft daylight, and subtle abstract coloured appointment cards on the counter\nConstraints: no large title, no headline, no header banner, no navigation bar, no readable wall label, no text-heavy screen, no letters, no numbers, no signage, no posters, no logos, no brand names, no watermark, no medical diagnosis content, no real patient names, and no private data. Any abstract appointment cards must be plain shapes without words.",
   "output": "static/generated_clinic_image.png",
   "fallback_policy": "If ENABLE_IMAGE_API_GENERATION is 0, APIFREE_API_KEY is missing, or the API call fails, the notebook writes deterministic image fallbacks.",
   "safety_boundary": "The image supports appointment administration only and must not include diagnosis, treatment advice, or real patient information.",
-  "request_id": "2062598553029836800",
+  "request_id": "2062756357317410816",
   "submit_attempts": 1,
-  "polls": 76,
+  "polls": 61,
   "image_format": "png",
   "asset_attempts": 1
 }

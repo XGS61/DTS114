@@ -4,7 +4,7 @@
   "model": "deepseek-v4-flash",
   "status": "generated",
   "reason": "DeepSeek API call completed successfully",
-  "generated_at_utc": "2026-06-04T18:13:05Z",
+  "generated_at_utc": "2026-06-05T04:40:07Z",
   "outputs": [
     "artifacts/generated_requirements.md",
     "artifacts/generated_user_stories.json",
@@ -15,8 +15,8 @@
   ],
   "usage": {
     "prompt_tokens": 1781,
-    "completion_tokens": 2509,
-    "total_tokens": 4290,
+    "completion_tokens": 1853,
+    "total_tokens": 3634,
     "prompt_tokens_details": {
       "cached_tokens": 1664
     },

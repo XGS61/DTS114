@@ -1,5 +1,5 @@
 {
-  "app_version": "v1.3.0",
+  "app_version": "v1.3.1",
   "generated_at": "2026-06-04T00:00:00Z",
   "methodology": "AI-DLC-informed iterative methodology",
   "business_problem": "Clinic staff need a safe appointment administration prototype that separates patient booking from doctor/admin review, lets patients choose a date, doctor, and available slot, keeps one shared SQLite workflow, and records testing, CI/CD, Docker, deployment, and AI generation evidence.",

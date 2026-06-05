@@ -171,9 +171,13 @@
             <h3>Profile Photo</h3>
             <p class="muted">Upload a fictional profile photo for the patient roster and staff schedule. PNG, JPG, JPEG, and WEBP files up to 2 MB are accepted.</p>
             <form id="doctorPhotoForm" class="photo-upload-form" enctype="multipart/form-data">
-              <label>
+              <label class="custom-file-field">
                 Photo file
-                <input name="photo" type="file" accept="image/png,image/jpeg,image/webp" required>
+                <input id="doctorPhotoInput" class="sr-only-file" name="photo" type="file" accept="image/png,image/jpeg,image/webp" required>
+                <span class="custom-file-control">
+                  <button id="doctorPhotoChoose" type="button" class="secondary">Choose photo</button>
+                  <span id="doctorPhotoFileName" class="file-name" aria-live="polite">No file selected</span>
+                </span>
               </label>
               <button type="submit" class="secondary">Upload Photo</button>
             </form>

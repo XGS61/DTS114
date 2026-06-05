@@ -1,37 +1,23 @@
 @startuml
 actor Patient
-participant "Web App" as Web
-participant "API" as API
-participant "Database" as DB
-Patient -> Web: Select date
-Web -> API: GET /api/doctors?date=
-API -> DB: Query doctors working
-DB --> API: list of doctors
-API --> Web: doctors with profiles
-Patient -> Web: Select doctor
-Web -> API: GET /api/doctors/<id>/availability?date=
-API -> DB: Query shifts and appointments
-DB --> API: available slots
-API --> Web: slots
-Patient -> Web: Select slot and request
-Web -> API: POST /api/appointments
-API -> DB: Create appointment (Pending Review)
-DB --> API: success
-API --> Web: confirmation
-...
+entity "Clinic System" as CS
 actor Doctor
-Doctor -> Web: View queue
-Web -> API: GET /api/appointments (scoped)
-API --> Web: appointment list
-Doctor -> Web: Review (confirm/cancel with note)
-Web -> API: PATCH /api/appointments/<id>/review
-API -> DB: Update status
-DB --> API: success
-API --> Web: updated
-...
-Patient -> Web: Reschedule pending
-Web -> API: PATCH /api/appointments/<id>/reschedule
-API -> DB: Update date/time
-DB --> API: success
-API --> Web: confirmation
+actor "Admin Staff" as Admin
+
+Patient -> CS: Select date
+CS -> Patient: Return doctor roster
+Patient -> CS: Select doctor
+CS -> Patient: Return available slots
+Patient -> CS: Select slot and type
+CS -> Patient: Confirm appointment (Pending Review)
+Doctor -> CS: View queue
+CS -> Doctor: Show appointments
+Doctor -> CS: Review appointment with note
+CS -> Doctor: Confirm/Cancel
+Patient -> CS: Request reschedule
+CS -> Patient: New slot selection
+Patient -> CS: Submit new slot
+CS -> Patient: Updated appointment
+Admin -> CS: View all queues
+Admin -> CS: Review/reschedule any
 @enduml
